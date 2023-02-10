@@ -11,7 +11,7 @@ const tokenErrorHandler = require('./handlerError/tokenHandler');
 const multerErrorHandler = require('./handlerError/multerHandler');
 const { FILES_PATH } = require('./constants');
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 const app = express();
 
 app.use(cors());
