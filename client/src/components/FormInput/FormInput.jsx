@@ -16,17 +16,17 @@ const FormInput = ({ classes, label, name, ...rest }) => (
       });
       return (
         <div className={classes.container}>
+          <ErrorMessage
+            name={name}
+            component='span'
+            className={classes.warning}
+          />
           <input
             type='text'
             {...field}
             placeholder={label}
             className={inputClassName}
             {...rest}
-          />
-          <ErrorMessage
-            name={name}
-            component='span'
-            className={classes.warning}
           />
         </div>
       );

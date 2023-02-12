@@ -17,8 +17,7 @@
     align-items: stretch
     align-self: stretch
     min-width: 260px
-    margin-left: 20px
-    margin-right: 20px
+    margin-right: 10px
     @media(max-width: 850px)
       align-self: auto
 
@@ -31,14 +30,12 @@
     align-items: center
     background-color: #28d2d0
     height: 64px
-    margin-left: 20px
     padding: 0
     border: 0
     width: fill-available
-    margin-right: 20px
+    margin-right: 10px
     @media(max-width: 850px)
       align-self: auto
-
 
   .inscription
     font-size: 16px
@@ -53,7 +50,6 @@
     margin-right: 20px
     margin-left: 20px
     margin-bottom: 10px
-
 
     .fieldWarning
       font-size: 15px
@@ -74,7 +70,6 @@
     a
       color: white
       font-size: 16px
-
 
   .error
     text-align: center
@@ -105,37 +100,28 @@
       width: auto
 
     .inputContainer
-      display: flex
-      flex-direction: column
-      justify-content: center
-      align-self: flex-start
-      margin-right: 20px
-      margin-left: 20px
-      flex: 1 1
+      position: relative
 
       .fieldWarning
+        position: absolute
+        top: 0.2em
+        left: 0.4em
+        width: fit-content
         font-size: 15px
-        display: flex
-        flex-direction: row
-        justify-content: center
-        align-items: center
-        color: white
-        border: 1px solid #b72522
-        margin-bottom: 15px
-        padding-bottom: 5px
-        padding-top: 5px
-        text-align: center
+        color: #b72522
+        text-align: left
 
     .input
+      margin: 0px 10px 10px 0px
+      width: fill-available
       background-color: white
       border: none
       border-radius: 4px
       color: #9ca8b7
       font-size: 18px
-      padding: 23px 20px 23px 20px
+      padding: 25px 25px 25px 25px
       outline: none
-      margin-bottom: 15px
-      flex: 1
+
       @media(max-width: 1400px)
         align-self: normal
 
@@ -145,7 +131,6 @@
     .valid
       border: 2px solid green
 
-
   .headerFormContainer
     display: flex
     flex-direction: column
@@ -153,7 +138,6 @@
     align-items: center
     margin-bottom: 18px
     text-align: center
-
 
     h2
       color: white
