@@ -6,7 +6,7 @@ import CONSTANTS from './constants';
 import ChatContainer from './components/Chat/ChatComponents/ChatContainer/ChatContainer';
 import { refresh } from './store/slices/userSlice';
 import 'react-toastify/dist/ReactToastify.css';
-import MainSwitcher from './routesComponents/MainSwitcher';
+import MainRouter from './appRouter/MainRouter';
 
 class App extends Component {
   componentDidMount() {
@@ -32,7 +32,7 @@ class App extends Component {
           draggable
           pauseOnHover
         />
-        <MainSwitcher />
+        <MainRouter />
         <ChatContainer />
       </>
     );
