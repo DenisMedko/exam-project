@@ -5,7 +5,7 @@ import ContestCreationPage from '../pages/ContestCreation/ContestCreationPage';
 import NotFound from '../components/NotFound/NotFound';
 import CONSTANTS from '../constants';
 
-const StartContestSwitcher = () => {
+const StartContestRouter = () => {
   return (
     <Switch>
       <Route
@@ -41,4 +41,4 @@ const StartContestSwitcher = () => {
     </Switch>
   );
 };
-export default StartContestSwitcher;
+export default StartContestRouter;
