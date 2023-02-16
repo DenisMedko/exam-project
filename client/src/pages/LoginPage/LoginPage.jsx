@@ -2,22 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import LoginForm from '../../components/LoginForm/LoginForm';
-import Logo from '../../components/Logo';
 import styles from './LoginPage.module.sass';
 import { clearAuthError } from '../../store/slices/authSlice';
-import CONSTANTS from '../../constants';
+import HeaderSignUp from '../../components/HeaderSignUp/HeaderSignUp';
 
 const LoginPage = props => (
   <div className={styles.mainContainer}>
     <div className={styles.loginContainer}>
-      <div className={styles.headerSignUpPage}>
-        <Logo src={`${CONSTANTS.STATIC_IMAGES_PATH}logo.png`} alt='logo' /> 
-        <Link to='/registration' style={{ textDecoration: 'none' }}> 
-          <div className={styles.linkLoginContainer}> 
-            <span>Signup</span>
-          </div>
-        </Link>  
-      </div>
+      <HeaderSignUp {...props} page={'registration'}/>
       <div className={styles.loginFormContainer}>
         <LoginForm history={props.history} />
       </div>
