@@ -25,7 +25,7 @@ const Home = props => {
     };
   });
 
-  const { isFetching } = props;
+  const { isFetching, role } = props;
   const text =
     CONSTANTS.HEADER_ANIMATION_TEXT[
       index % CONSTANTS.HEADER_ANIMATION_TEXT.length
@@ -49,11 +49,13 @@ const Home = props => {
                 explore our hand-picked collection of premium names available
                 for immediate purchase
               </p>
+              {role && (
               <div className={styles.button}>
                 <Link className={styles.button__link} to='/dashboard'>
                   DASHBOARD
                 </Link>
               </div>
+              )}
             </div>
             <div className={styles.greyContainer}>
               <SlideBar
@@ -245,11 +247,13 @@ const Home = props => {
               images={carouselConstants.exampleSliderImages}
               carouselType={carouselConstants.EXAMPLE_SLIDER}
             />
+            {role && (
             <div className={styles.button}>
               <Link className={styles.button__link} to='/dashboard'>
                 DASHBOARD
               </Link>
             </div>
+            )}
             <div className={styles.blueContainer}>
               <h2 className={styles.whiteUnderline}>What our customers say</h2>
               <SlideBar
@@ -266,8 +270,8 @@ const Home = props => {
 };
 
 const mapStateToProps = state => {
-  const { isFetching } = state.userStore;
-  return { isFetching };
+  const { isFetching, data } = state.userStore;
+  return { isFetching, role : data?.role || undefined };
 };
 
 export default connect(mapStateToProps, null)(Home);
