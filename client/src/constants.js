@@ -1,6 +1,6 @@
-const env = process.env.NODE_ENV || 'development';
-const serverIP = 'localhost';
-const serverPort = 5000;
+const env = process.env.REACT_APP_NODE_ENV || 'development';
+const serverIP = process.env.REACT_APP_SERVER_IP || 'localhost';
+const serverPort = process.env.REACT_APP_SERVER_PORT || 5000;
 export default {
   CUSTOMER: 'customer',
   CREATOR: 'creator',
