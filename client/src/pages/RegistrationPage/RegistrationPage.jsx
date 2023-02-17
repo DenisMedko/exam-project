@@ -5,13 +5,11 @@ import styles from './RegistrationPage.module.sass';
 import { clearAuthError } from '../../store/slices/authSlice';
 import HeaderSignUp from '../../components/HeaderSignUp/HeaderSignUp';
 
-const RegistrationPage = props => {
-  props.clearError();
-
+const RegistrationPage = (props) => {
   return (
     <div className={styles.signUpPage}>
       <div className={styles.signUpContainer}>
-        <HeaderSignUp {...props} page={'login'}/>
+        <HeaderSignUp {...props} page={'login'} />
         <RegistrationForm history={props.history} />
       </div>
       <div className={styles.footer}>
@@ -110,7 +108,7 @@ const RegistrationPage = props => {
   );
 };
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   clearError: () => dispatch(clearAuthError()),
 });
 

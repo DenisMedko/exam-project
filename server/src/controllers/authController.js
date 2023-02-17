@@ -1,6 +1,9 @@
 const AuthService = require('../services/authService');
 const { User } = require('../models');
 const UserNotFoundError = require('../errors/UserNotFoundError');
+const NotUniqueEmail = require('../errors/NotUniqueEmail');
+const { UniqueConstraintError } = require('sequelize');
+const ServerError = require('../errors/ServerError');
 
 module.exports.login = async (req, res, next) => {
   try {
@@ -23,7 +26,15 @@ module.exports.login = async (req, res, next) => {
 
 module.exports.registration = async (req, res, next) => {
   try {
-    const { body } = req;
+    const {
+      body,
+      body: { email },
+    } = req;
+
+    const foundUser = await User.findOne({ where: { email } });
+    if (foundUser) {
+      return next(new NotUniqueEmail('User with this e-mail already exists'));
+    }
 
     const user = await User.create(body);
 
@@ -31,6 +42,9 @@ module.exports.registration = async (req, res, next) => {
 
     res.status(201).send(responseData);
   } catch (error) {
+    if (error instanceof UniqueConstraintError) {
+      return next(new ServerError('Not unique user data'));
+    }
     next(error);
   }
 };
