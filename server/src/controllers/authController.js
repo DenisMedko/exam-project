@@ -9,8 +9,7 @@ module.exports.login = async (req, res, next) => {
     } = req;
 
     const user = await User.findOne({ where: { email } });
-
-    if (!user || !user.comparePassword(password)) {
+    if (!user || !(await user.comparePassword(password))) {
       return next(new UserNotFoundError('Invalid login data'));
     }
 
