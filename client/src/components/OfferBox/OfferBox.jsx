@@ -55,7 +55,7 @@ const OfferBox = (props) => {
 
   const rejectOffer = () => {
     confirmAlert({
-      title: 'confirm',
+      title: 'reject',
       message: 'Are u sure?',
       buttons: [
         {
