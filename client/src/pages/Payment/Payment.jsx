@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import isEmpty from 'lodash/isEmpty';
 import { pay, clearPaymentStore } from '../../store/slices/paymentSlice';
 import PayForm from '../../components/PayForm/PayForm';
@@ -46,10 +47,12 @@ const Payment = (props) => {
   return (
     <div>
       <div className={styles.header}>
-        <img
-          src={`${CONSTANTS.STATIC_IMAGES_PATH}blue-logo.png`}
-          alt="blue-logo"
-        />
+        <Link to="/">
+          <img
+            src={`${CONSTANTS.STATIC_IMAGES_PATH}blue-logo.png`}
+            alt="blue-logo"
+          />
+        </Link>
       </div>
       <div className={styles.mainContainer}>
         <div className={styles.paymentContainer}>
