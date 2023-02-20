@@ -119,7 +119,7 @@ const Home = (props) => {
             </div>
             <h2>{mocks.contestSteps.title}</h2>
             {mocks.contestSteps.contestStepsItems.map((step) => (
-              <div className={styles[step.containerStyle]}>
+              <div className={styles[step.containerStyle]} key={step.id}>
                 <div className={styles[step.stepStyle]}>
                   <img
                     src={`${CONSTANTS.STATIC_IMAGES_PATH}gif/${step.stepImg}`}
@@ -128,7 +128,7 @@ const Home = (props) => {
                   <div className={styles[step.stepSubStyle]}>
                     <h3>{step.stepTitle}</h3>
                     {step.texts.map((stepText) => (
-                      <p>
+                      <p key={stepText.id}>
                         <i className="fas fa-check" />
                         <span>{stepText.text}</span>
                       </p>

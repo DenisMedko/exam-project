@@ -1,15 +1,14 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import LoginForm from '../../components/LoginForm/LoginForm';
 import styles from './LoginPage.module.sass';
 import { clearAuthError } from '../../store/slices/authSlice';
 import HeaderSignUp from '../../components/HeaderSignUp/HeaderSignUp';
 
-const LoginPage = props => (
+const LoginPage = (props) => (
   <div className={styles.mainContainer}>
     <div className={styles.loginContainer}>
-      <HeaderSignUp {...props} page={'registration'}/>
+      <HeaderSignUp {...props} page={'registration'} />
       <div className={styles.loginFormContainer}>
         <LoginForm history={props.history} />
       </div>
@@ -17,7 +16,7 @@ const LoginPage = props => (
   </div>
 );
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   clearError: () => dispatch(clearAuthError()),
 });
 

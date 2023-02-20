@@ -145,15 +145,17 @@ class ContestPage extends React.Component {
           />
         )}
         <Header />
-        {error ? (
+        {error && (
           <div className={styles.tryContainer}>
             <TryAgain getData={getData} />
           </div>
-        ) : isFetching ? (
+        )}
+        {!error && isFetching && (
           <div className={styles.containerSpinner}>
             <Spinner />
           </div>
-        ) : (
+        )}
+        {!error && !isFetching && (
           <div className={styles.mainInfoContainer}>
             <div className={styles.infoContainer}>
               <div className={styles.buttonsContainer}>
@@ -174,13 +176,14 @@ class ContestPage extends React.Component {
                   Offer
                 </span>
               </div>
-              {isBrief ? (
+              {isBrief && (
                 <Brief
                   contestData={contestData}
                   role={role}
                   goChat={this.goChat}
                 />
-              ) : (
+              )}
+              {!isBrief && (
                 <div className={styles.offersContainer}>
                   {role === CONSTANTS.CREATOR &&
                     contestData.status === CONSTANTS.CONTEST_STATUS_ACTIVE && (

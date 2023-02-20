@@ -52,6 +52,7 @@ const mocks = {
     title: `How Do Name Contest Work?`,
     contestStepsItems: [
       {
+        id: 1,
         stepImg: `1-compressed.gif`,
         containerStyle: `whiteContainer`,
         stepStyle: `stepReverse`,
@@ -59,36 +60,44 @@ const mocks = {
         stepTitle: `Step 1: Launch a Naming Contest`,
         texts: [
           {
+            id: 1,
             text: `Start your project right with our proven Naming Brief
                 template`,
           },
           {
+            id: 2,
             text: `We’ll walk you through exactly what you need to share
                 about your project in order to get an awesome Name`,
           },
         ],
       },
       {
+        id: 2,
         stepImg: `2-compressed-new.gif`,
         containerStyle: `greenContainer`,
         stepStyle: `step`,
         stepSubStyle: `greenStep`,
         stepTitle: `Step 2: Ideas start pouring in within minutes`,
         texts: [
-          { text: `100s of naming experts start submitting name ideas` },
-          { text: `Names automatically checked for URL availability` },
+          { id: 1, text: `100s of naming experts start submitting name ideas` },
+          { id: 2, text: `Names automatically checked for URL availability` },
         ],
       },
       {
+        id: 3,
         stepImg: '3-compressed.gif',
         containerStyle: `greyContainer`,
         stepStyle: `stepReverse`,
         stepSubStyle: ``,
         stepTitle: `Step 3: Rate Entries & Brainstorm with Creatives`,
         texts: [
-          { text: `Provide instant feedback on Names` },
-          { text: `Send private feedback or public messages to all creatives` },
+          { id: 1, text: `Provide instant feedback on Names` },
           {
+            id: 2,
+            text: `Send private feedback or public messages to all creatives`,
+          },
+          {
+            id: 3,
             text: `The more entries you rate - the submissions get better and
                 better.`,
           },
