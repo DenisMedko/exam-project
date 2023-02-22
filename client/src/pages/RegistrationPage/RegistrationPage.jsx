@@ -7,6 +7,24 @@ import HeaderSignUp from '../../components/HeaderSignUp/HeaderSignUp';
 import mocks from '../../utils/mocks/registrationPageMocks';
 
 const RegistrationPage = (props) => {
+  const renderArticles = (column) => {
+    return column.articles.map((article) => (
+      <Fragment key={article.id}>
+        <div className={styles.headerArticle}>{article.headerArticle}</div>
+        <div
+          className={styles.article}
+          dangerouslySetInnerHTML={{ __html: article.htmlArticle }}
+        />
+      </Fragment>
+    ));
+  };
+  const renderArticlesContainer = () => {
+    return mocks.columns.map((column) => (
+      <div className={styles.ColumnContainer} key={column.id}>
+        {renderArticles(column)}
+      </div>
+    ));
+  };
   return (
     <div className={styles.signUpPage}>
       <div className={styles.signUpContainer}>
@@ -15,21 +33,7 @@ const RegistrationPage = (props) => {
       </div>
       <div className={styles.footer}>
         <div className={styles.articlesMainContainer}>
-          {mocks.columns.map((column) => (
-            <div className={styles.ColumnContainer} key={column.id}>
-              {column.articles.map((article) => (
-                <Fragment key={article.id}>
-                  <div className={styles.headerArticle}>
-                    {article.headerArticle}
-                  </div>
-                  <div
-                    className={styles.article}
-                    dangerouslySetInnerHTML={{ __html: article.htmlArticle }}
-                  />
-                </Fragment>
-              ))}
-            </div>
-          ))}
+          {renderArticlesContainer()}
         </div>
       </div>
     </div>

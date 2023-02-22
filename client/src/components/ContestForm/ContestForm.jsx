@@ -18,37 +18,28 @@ const variableOptions = {
   [CONSTANTS.NAME_CONTEST]: {
     styleName: '',
     typeOfName: '',
+    characteristics: {
+      characteristic1: 'nameStyle',
+      characteristic2: 'typeOfName',
+    },
   },
   [CONSTANTS.LOGO_CONTEST]: {
     nameVenture: '',
     brandStyle: '',
+    characteristics: { characteristic1: 'brandStyle' },
   },
   [CONSTANTS.TAGLINE_CONTEST]: {
     nameVenture: '',
     typeOfTagline: '',
+    characteristics: { characteristic1: 'typeOfTagline' },
   },
 };
 
 class ContestForm extends React.Component {
   getPreference = () => {
     const { contestType } = this.props;
-    switch (contestType) {
-      case CONSTANTS.NAME_CONTEST: {
-        this.props.getData({
-          characteristic1: 'nameStyle',
-          characteristic2: 'typeOfName',
-        });
-        break;
-      }
-      case CONSTANTS.TAGLINE_CONTEST: {
-        this.props.getData({ characteristic1: 'typeOfTagline' });
-        break;
-      }
-      case CONSTANTS.LOGO_CONTEST: {
-        this.props.getData({ characteristic1: 'brandStyle' });
-        break;
-      }
-    }
+    const options = variableOptions[contestType].characteristics;
+    this.props.getData(options);
   };
 
   componentDidMount() {
