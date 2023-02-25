@@ -1,4 +1,4 @@
-const mocks = {
+const homePageMocks = {
   header: {
     title: `Find the Perfect Name for`,
     text: `Launch a naming contest to engage hundreds of naming experts as
@@ -106,4 +106,4 @@ const mocks = {
     ],
   },
 };
-export default mocks;
+export default homePageMocks;

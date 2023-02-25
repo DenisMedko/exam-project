@@ -1,4 +1,4 @@
-const mocks = {
+const registrationPageMocks = {
   columns: [
     {
       id: 1,
@@ -87,4 +87,4 @@ const mocks = {
     },
   ],
 };
-export default mocks;
+export default registrationPageMocks;

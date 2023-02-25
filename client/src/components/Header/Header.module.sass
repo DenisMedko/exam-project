@@ -1,3 +1,6 @@
+$li-height: 45px
+a
+  text-decoration: none
 
 .headerContainer
   display: flex
@@ -19,11 +22,13 @@
 
     .logo
       align-self: flex-end
-      margin-bottom: 10px
+      margin: 10px
       @media(max-width: 920px)
         display: none
 
     .startContestBtn
+      display: flex
+      align-items: center
       text-align: center
       max-width: 340px
       padding: 10px 22px
@@ -32,7 +37,8 @@
       border-radius: 5px
       font-size: 14px
       font-weight: 400
-      margin-bottom: 10px
+      margin: 10px
+      cursor: pointer
 
       &:hover
         color: white
@@ -46,6 +52,8 @@
 
       .nav
         display: flex
+        cursor: pointer
+        margin: 10px
 
         ul
           margin: 0
@@ -69,20 +77,21 @@
             align-items: center
             justify-content: flex-start
             margin-right: 30px
+            position: relative
+            height: $li-height
+
             @media(max-width: 700px)
               width: 100%
               padding: 0 15px
 
             &:hover
-              span
-                color: #f27e51
 
               ul
                 display: block
                 position: absolute
                 border: 1px solid #eee
                 z-index: 1000
-                top: 130px
+                top: $li-height
                 background-color: white
                 @media(max-width: 700px)
                   top: auto
@@ -114,15 +123,16 @@
                   font-size: 12px
                   text-decoration: none
                   color: #333
-
-                  &:hover
-                    color: #f27e51
+                  width: 100%
 
             span
               color: #495d8b
               font-size: 15px
               font-weight: 300
               padding: 15px 0
+
+              &:hover
+                color: #f27e51
 
   .loginSignUpHeaders
     margin-top: 30px
@@ -131,14 +141,13 @@
     align-items: center
     justify-content: space-around
     border: 1px solid #ebebeb
-    margin-bottom: 13px
 
     .userButtonsContainer
-      margin-left: 100px
       align-items: center
       justify-content: center
       display: flex
       border-left: 1px solid #ebebeb
+      border-right: 1px solid #ebebeb
       height: 40px
       @media(max-width: 600px)
         margin-left: 60px
@@ -149,20 +158,23 @@
 
       .emailIcon
         padding: 0 15px
-        border-right: 1px solid #ebebeb
+        border-left: 1px solid #ebebeb
 
       .userInfo
         display: flex
         justify-content: center
         align-items: center
         padding: 0 15px
-        border-right: 1px solid #ebebeb
+        position: relative
+        height: 25px
+        cursor: pointer
 
         &:hover
           ul
             display: block
             position: absolute
-            top: 45px
+            top: 25px
+            color: #f27e51
 
         ul
           border: 1px solid #eee
@@ -181,9 +193,13 @@
 
             span
               display: inline-block
-              padding: 5px 15px
+              padding: 10px 15px
               color: #333
               font-size: 16px
+              width: 100%
+
+              &:hover
+                color: #f27e51
 
         img
           width: 20px
@@ -214,7 +230,6 @@
       padding: 0 15px
       border-right: 1px solid #ebebeb
       border-left: 1px solid #ebebeb
-      margin-left: 120px
       height: 40px
       @media(max-width: 600px)
         margin-left: 10px

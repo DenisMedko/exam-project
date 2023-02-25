@@ -8,7 +8,6 @@ import styles from './Home.module.sass';
 import carouselConstants from '../../carouselConstants';
 import Spinner from '../../components/Spinner/Spinner';
 import HeadlineText from './HeadlineText.jsx';
-import mocks from '../../utils/mocks/homePageMocks';
 
 const Home = (props) => {
   const { isFetching, role } = props;
@@ -22,10 +21,10 @@ const Home = (props) => {
           <div className={styles.container}>
             <div className={styles.headerBar}>
               <div className={styles.headline}>
-                <span>{mocks.header.title}</span>
+                <span>{CONSTANTS.HOME_PAGE_ITEMS.header.title}</span>
                 <HeadlineText />
               </div>
-              <p>{mocks.header.text}</p>
+              <p>{CONSTANTS.HOME_PAGE_ITEMS.header.text}</p>
               {role && (
                 <div className={styles.button}>
                   <Link className={styles.button__link} to="/dashboard">
@@ -48,24 +47,30 @@ const Home = (props) => {
                     src={`${CONSTANTS.STATIC_IMAGES_PATH}more-benifits-world-icon.png`}
                     alt="globe"
                   />
-                  <h3>{mocks.largestNamingCommunity.title}</h3>
-                  <p>{mocks.largestNamingCommunity.text}</p>
+                  <h3>
+                    {CONSTANTS.HOME_PAGE_ITEMS.largestNamingCommunity.title}
+                  </h3>
+                  <p>{CONSTANTS.HOME_PAGE_ITEMS.largestNamingCommunity.text}</p>
                 </div>
                 <div className={styles.card}>
                   <img
                     src={`${CONSTANTS.STATIC_IMAGES_PATH}more-benifits-high-quality-icon.png`}
                     alt="desktop"
                   />
-                  <h3>{mocks.highQualityCollaboration.title}</h3>
-                  <p>{mocks.highQualityCollaboration.text}</p>
+                  <h3>
+                    {CONSTANTS.HOME_PAGE_ITEMS.highQualityCollaboration.title}
+                  </h3>
+                  <p>
+                    {CONSTANTS.HOME_PAGE_ITEMS.highQualityCollaboration.text}
+                  </p>
                 </div>
                 <div className={styles.card}>
                   <img
                     src={`${CONSTANTS.STATIC_IMAGES_PATH}more-benifits-trademark-icon.png`}
                     alt="cards"
                   />
-                  <h3>{mocks.agencyLevelFeatures.title}</h3>
-                  <p>{mocks.agencyLevelFeatures.text}</p>
+                  <h3>{CONSTANTS.HOME_PAGE_ITEMS.agencyLevelFeatures.title}</h3>
+                  <p>{CONSTANTS.HOME_PAGE_ITEMS.agencyLevelFeatures.text}</p>
                 </div>
               </div>
             </div>
@@ -104,42 +109,46 @@ const Home = (props) => {
               </div>
               <div className={styles.stats}>
                 <div>
-                  <p>{mocks.creatives.count}</p>
-                  <span>{mocks.creatives.title}</span>
+                  <p>{CONSTANTS.HOME_PAGE_ITEMS.creatives.count}</p>
+                  <span>{CONSTANTS.HOME_PAGE_ITEMS.creatives.title}</span>
                 </div>
                 <div>
-                  <p>{mocks.customers.count}</p>
-                  <span>{mocks.customers.title}</span>
+                  <p>{CONSTANTS.HOME_PAGE_ITEMS.customers.count}</p>
+                  <span>{CONSTANTS.HOME_PAGE_ITEMS.customers.title}</span>
                 </div>
                 <div>
-                  <p>{mocks.industries.count}</p>
-                  <span>{mocks.industries.title}</span>
+                  <p>{CONSTANTS.HOME_PAGE_ITEMS.industries.count}</p>
+                  <span>{CONSTANTS.HOME_PAGE_ITEMS.industries.title}</span>
                 </div>
               </div>
             </div>
-            <h2>{mocks.contestSteps.title}</h2>
-            {mocks.contestSteps.contestStepsItems.map((step) => (
-              <div className={styles[step.containerStyle]} key={step.id}>
-                <div className={styles[step.stepStyle]}>
-                  <img
-                    src={`${CONSTANTS.STATIC_IMAGES_PATH}gif/${step.stepImg}`}
-                    alt="compressed"
-                  />
-                  <div className={styles[step.stepSubStyle]}>
-                    <h3>{step.stepTitle}</h3>
-                    {step.texts.map((stepText) => (
-                      <p key={stepText.id}>
-                        <i className="fas fa-check" />
-                        <span>{stepText.text}</span>
-                      </p>
-                    ))}
+            <h2>{CONSTANTS.HOME_PAGE_ITEMS.contestSteps.title}</h2>
+            {CONSTANTS.HOME_PAGE_ITEMS.contestSteps.contestStepsItems.map(
+              (step) => (
+                <div className={styles[step.containerStyle]} key={step.id}>
+                  <div className={styles[step.stepStyle]}>
+                    <img
+                      src={`${CONSTANTS.STATIC_IMAGES_PATH}gif/${step.stepImg}`}
+                      alt="compressed"
+                    />
+                    <div className={styles[step.stepSubStyle]}>
+                      <h3>{step.stepTitle}</h3>
+                      {step.texts.map((stepText) => (
+                        <p key={stepText.id}>
+                          <i className="fas fa-check" />
+                          <span>{stepText.text}</span>
+                        </p>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              )
+            )}
             <div className={styles.headerBar}>
-              <h3>{mocks.namesForSale.title}</h3>
-              <p className={styles.blueUnderline}>{mocks.namesForSale.text}</p>
+              <h3>{CONSTANTS.HOME_PAGE_ITEMS.namesForSale.title}</h3>
+              <p className={styles.blueUnderline}>
+                {CONSTANTS.HOME_PAGE_ITEMS.namesForSale.text}
+              </p>
             </div>
             <SlideBar
               images={carouselConstants.exampleSliderImages}

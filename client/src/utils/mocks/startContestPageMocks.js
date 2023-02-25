@@ -1,4 +1,4 @@
-const mocks = {
+const startContestPageMocks = {
   baseBundles: [
     {
       id: 1,
@@ -49,4 +49,4 @@ const mocks = {
     },
   ],
 };
-export default mocks;
+export default startContestPageMocks;

@@ -8,6 +8,7 @@ const PayInput = (props) => {
   const [field, meta] = useField(props.name);
   const { touched, error } = meta;
   const InputTag = isInputMask ? InputMask : 'input';
+  const maskCharProp = isInputMask ? { maskChar: null } : {};
   const onFocus =
     field.name === 'sum' ? () => {} : () => changeFocus(field.name);
   const className = classNames(classes.input, {
@@ -17,7 +18,7 @@ const PayInput = (props) => {
     <div className={classes.container}>
       <InputTag
         mask={mask}
-        maskChar={null}
+        {...maskCharProp}
         {...field}
         placeholder={label}
         className={className}

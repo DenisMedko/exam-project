@@ -4,7 +4,7 @@ import RegistrationForm from '../../components/RegistrationForm/RegistrationForm
 import styles from './RegistrationPage.module.sass';
 import { clearAuthError } from '../../store/slices/authSlice';
 import HeaderSignUp from '../../components/HeaderSignUp/HeaderSignUp';
-import mocks from '../../utils/mocks/registrationPageMocks';
+import CONSTANTS from '../../constants';
 
 const RegistrationPage = (props) => {
   const renderArticles = (column) => {
@@ -19,7 +19,7 @@ const RegistrationPage = (props) => {
     ));
   };
   const renderArticlesContainer = () => {
-    return mocks.columns.map((column) => (
+    return CONSTANTS.REGISTRATION_PAGE_ITEMS.columns.map((column) => (
       <div className={styles.ColumnContainer} key={column.id}>
         {renderArticles(column)}
       </div>

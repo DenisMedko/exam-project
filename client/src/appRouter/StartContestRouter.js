@@ -17,7 +17,7 @@ const StartContestRouter = () => {
         exact
         path="/startContest/nameContest"
         component={PrivateHoc(ContestCreationPage, {
-          contestType: CONSTANTS.NAME_CONTEST,
+          contestType: CONSTANTS.CONTESTS.nameContest.type,
           title: 'Company Name',
         })}
       />
@@ -25,7 +25,7 @@ const StartContestRouter = () => {
         exact
         path="/startContest/taglineContest"
         component={PrivateHoc(ContestCreationPage, {
-          contestType: CONSTANTS.TAGLINE_CONTEST,
+          contestType: CONSTANTS.CONTESTS.taglineContest.type,
           title: 'TAGLINE',
         })}
       />
@@ -33,7 +33,7 @@ const StartContestRouter = () => {
         exact
         path="/startContest/logoContest"
         component={PrivateHoc(ContestCreationPage, {
-          contestType: CONSTANTS.LOGO_CONTEST,
+          contestType: CONSTANTS.CONTESTS.logoContest.type,
           title: 'LOGO',
         })}
       />

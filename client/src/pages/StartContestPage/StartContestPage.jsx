@@ -7,10 +7,9 @@ import styles from './StartContestPage.module.sass';
 import Footer from '../../components/Footer/Footer';
 import ProgressBar from '../../components/ProgressBar/ProgressBar';
 import Header from '../../components/Header/Header';
-import mocks from '../../utils/mocks/startContestPageMocks';
 
 const StartContestPage = (props) => {
-  if (props.userStore.data.role !== CONSTANTS.CUSTOMER) {
+  if (props.userStore.data?.role !== CONSTANTS.CUSTOMER) {
     props.history.replace('/');
   }
 
@@ -53,7 +52,7 @@ const StartContestPage = (props) => {
           <hr />
         </div>
         <div className={styles.baseBundles}>
-          {mocks.baseBundles.map((bundle) => (
+          {CONSTANTS.START_CONTEST_PAGE_ITEMS.baseBundles.map((bundle) => (
             <BundleBox
               path={bundle.path}
               header={bundle.header}
@@ -75,7 +74,7 @@ const StartContestPage = (props) => {
           <hr />
         </div>
         <div className={styles.baseBundles}>
-          {mocks.combinedBundles.map((bundle) => (
+          {CONSTANTS.START_CONTEST_PAGE_ITEMS.combinedBundles.map((bundle) => (
             <BundleBox
               path={bundle.path}
               header={bundle.header}

@@ -4,7 +4,6 @@ import { Link, withRouter } from 'react-router-dom';
 import styles from './Header.module.sass';
 import CONSTANTS from '../../constants';
 import { clearUserStore } from '../../store/slices/userSlice';
-import mocks from '../../utils/mocks/headerMocks';
 
 const Header = (props) => {
   const logOut = () => {
@@ -18,63 +17,88 @@ const Header = (props) => {
   };
 
   const renderLinksList = () => {
-    return mocks.authLinksList.map((link) => (
-      <li>
-        <Link to={link.path} style={{ textDecoration: 'none' }}>
+    return CONSTANTS.HEADER_ITEMS.userLinks.map((link) => (
+      <li key={link.id}>
+        <Link to={link.path}>
           <span>{link.title}</span>
         </Link>
       </li>
     ));
   };
 
-  const renderLoginButtons = () => {
-    if (props.data) {
-      return (
-        <>
-          <div className={styles.userInfo}>
-            <img
-              src={
-                props.data.avatar === 'anon.png'
-                  ? CONSTANTS.ANONYM_IMAGE_PATH
-                  : `${CONSTANTS.publicURL}${props.data.avatar}`
-              }
-              alt="user"
-            />
-            <span>{`Hi, ${props.data.displayName}`}</span>
-            <img
-              src={`${CONSTANTS.STATIC_IMAGES_PATH}menu-down.png`}
-              alt="menu"
-            />
-            <ul>
-              {renderLinksList()}
-              <li>
-                <span onClick={logOut}>Logout</span>
-              </li>
-            </ul>
-          </div>
-          <img
-            src={`${CONSTANTS.STATIC_IMAGES_PATH}email.png`}
-            className={styles.emailIcon}
-            alt="email"
-          />
-        </>
-      );
-    }
+  const renderUserMenu = () => {
     return (
       <>
-        <Link to="/login" style={{ textDecoration: 'none' }}>
+        <div className={styles.userInfo}>
+          <img
+            src={
+              props.data.avatar === 'anon.png'
+                ? CONSTANTS.ANONYM_IMAGE_PATH
+                : `${CONSTANTS.publicURL}${props.data.avatar}`
+            }
+            alt="user"
+          />
+          <span>{`Hi, ${props.data.displayName}`}</span>
+          <img
+            src={`${CONSTANTS.STATIC_IMAGES_PATH}menu-down.png`}
+            alt="menu"
+          />
+          <ul>
+            {renderLinksList()}
+            <li>
+              <span onClick={logOut}>Logout</span>
+            </li>
+          </ul>
+        </div>
+        <img
+          src={`${CONSTANTS.STATIC_IMAGES_PATH}email.png`}
+          className={styles.emailIcon}
+          alt="email"
+        />
+      </>
+    );
+  };
+  const renderLoginButtons = () => {
+    return (
+      <>
+        <Link to="/login">
           <span className={styles.btn}>LOGIN</span>
         </Link>
-        <Link to="/registration" style={{ textDecoration: 'none' }}>
+        <Link to="/registration">
           <span className={styles.btn}>SIGN UP</span>
         </Link>
       </>
     );
   };
-
-  if (props.isFetching) {
-    return null;
-  }
+  const renderLinks = (column) => {
+    return column.navLinks.map((link) => (
+      <li key={link.id}>
+        <a href={link.path}>
+          <span>{link.title}</span>
+        </a>
+      </li>
+    ));
+  };
+  const renderNavContainer = () => {
+    return (
+      <div className={styles.nav}>
+        <ul>
+          {CONSTANTS.HEADER_ITEMS.columns.map((column) => (
+            <ul key={column.id}>
+              <li>
+                <span>{column.title}</span>
+                <img
+                  src={`${CONSTANTS.STATIC_IMAGES_PATH}menu-down.png`}
+                  alt="menu"
+                />
+                <ul>{renderLinks(column)}</ul>
+              </li>
+            </ul>
+          ))}
+        </ul>
+      </div>
+    );
+  };
   return (
     <div className={styles.headerContainer}>
       <div className={styles.fixedHeader}>
@@ -92,7 +116,8 @@ const Header = (props) => {
           </div>
         </a>
         <div className={styles.userButtonsContainer}>
-          {renderLoginButtons()}
+          {!props.isFetching && !props.data && renderLoginButtons()}
+          {!props.isFetching && props.data && renderUserMenu()}
         </div>
       </div>
       <div className={styles.navContainer}>
@@ -104,147 +129,10 @@ const Header = (props) => {
           />
         </Link>
         <div className={styles.leftNav}>
-          <div className={styles.nav}>
-            <ul>
-              <li>
-                <span>NAME IDEAS</span>
-                <img
-                  src={`${CONSTANTS.STATIC_IMAGES_PATH}menu-down.png`}
-                  alt="menu"
-                />
-                <ul>
-                  <li>
-                    <a href="http://www.google.com">Beauty</a>
-                  </li>
-                  <li>
-                    <a href="http://www.google.com">Consulting</a>
-                  </li>
-                  <li>
-                    <a href="http://www.google.com">E-Commerce</a>
-                  </li>
-                  <li>
-                    <a href="http://www.google.com">Fashion & Clothing</a>
-                  </li>
-                  <li>
-                    <a href="http://www.google.com">Finance</a>
-                  </li>
-                  <li>
-                    <a href="http://www.google.com">Real Estate</a>
-                  </li>
-                  <li>
-                    <a href="http://www.google.com">Tech</a>
-                  </li>
-                  <li className={styles.last}>
-                    <a href="http://www.google.com">More Categories</a>
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <span>CONTESTS</span>
-                <img
-                  src={`${CONSTANTS.STATIC_IMAGES_PATH}menu-down.png`}
-                  alt="menu"
-                />
-                <ul>
-                  <li>
-                    <a href="http://www.google.com">HOW IT WORKS</a>
-                  </li>
-                  <li>
-                    <a href="http://www.google.com">PRICING</a>
-                  </li>
-                  <li>
-                    <a href="http://www.google.com">AGENCY SERVICE</a>
-                  </li>
-                  <li>
-                    <a href="http://www.google.com">ACTIVE CONTESTS</a>
-                  </li>
-                  <li>
-                    <a href="http://www.google.com">WINNERS</a>
-                  </li>
-                  <li>
-                    <a href="http://www.google.com">LEADERBOARD</a>
-                  </li>
-                  <li className={styles.last}>
-                    <a href="http://www.google.com">BECOME A CREATIVE</a>
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <span>Our Work</span>
-                <img
-                  src={`${CONSTANTS.STATIC_IMAGES_PATH}menu-down.png`}
-                  alt="menu"
-                />
-                <ul>
-                  <li>
-                    <a href="http://www.google.com">NAMES</a>
-                  </li>
-                  <li>
-                    <a href="http://www.google.com">TAGLINES</a>
-                  </li>
-                  <li>
-                    <a href="http://www.google.com">LOGOS</a>
-                  </li>
-                  <li className={styles.last}>
-                    <a href="http://www.google.com">TESTIMONIALS</a>
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <span>Names For Sale</span>
-                <img
-                  src={`${CONSTANTS.STATIC_IMAGES_PATH}menu-down.png`}
-                  alt="menu"
-                />
-                <ul>
-                  <li>
-                    <a href="http://www.google.com">POPULAR NAMES</a>
-                  </li>
-                  <li>
-                    <a href="http://www.google.com">SHORT NAMES</a>
-                  </li>
-                  <li>
-                    <a href="http://www.google.com">INTRIGUING NAMES</a>
-                  </li>
-                  <li>
-                    <a href="http://www.google.com">NAMES BY CATEGORY</a>
-                  </li>
-                  <li>
-                    <a href="http://www.google.com">VISUAL NAME SEARCH</a>
-                  </li>
-                  <li className={styles.last}>
-                    <a href="http://www.google.com">SELL YOUR DOMAINS</a>
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <span>Blog</span>
-                <img
-                  src={`${CONSTANTS.STATIC_IMAGES_PATH}menu-down.png`}
-                  alt="menu"
-                />
-                <ul>
-                  <li>
-                    <a href="http://www.google.com">ULTIMATE NAMING GUIDE</a>
-                  </li>
-                  <li>
-                    <a href="http://www.google.com">
-                      POETIC DEVICES IN BUSINESS NAMING
-                    </a>
-                  </li>
-                  <li>
-                    <a href="http://www.google.com">CROWDED BAR THEORY</a>
-                  </li>
-                  <li className={styles.last}>
-                    <a href="http://www.google.com">ALL ARTICLES</a>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-          {props.data && props.data.role !== CONSTANTS.CREATOR && (
+          {renderNavContainer()}
+          {props.data && props.data.role === CONSTANTS.CUSTOMER && (
             <div className={styles.startContestBtn} onClick={startContests}>
-              START CONTEST
+              <span>START CONTEST</span>
             </div>
           )}
         </div>

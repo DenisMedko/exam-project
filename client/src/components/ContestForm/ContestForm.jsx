@@ -15,7 +15,7 @@ import Schems from '../../utils/validators/validationSchems';
 import OptionalSelects from '../OptionalSelects/OptionalSelects';
 
 const variableOptions = {
-  [CONSTANTS.NAME_CONTEST]: {
+  [CONSTANTS.CONTESTS.nameContest.type]: {
     styleName: '',
     typeOfName: '',
     characteristics: {
@@ -23,12 +23,12 @@ const variableOptions = {
       characteristic2: 'typeOfName',
     },
   },
-  [CONSTANTS.LOGO_CONTEST]: {
+  [CONSTANTS.CONTESTS.logoContest.type]: {
     nameVenture: '',
     brandStyle: '',
     characteristics: { characteristic1: 'brandStyle' },
   },
-  [CONSTANTS.TAGLINE_CONTEST]: {
+  [CONSTANTS.CONTESTS.taglineContest.type]: {
     nameVenture: '',
     typeOfTagline: '',
     characteristics: { characteristic1: 'typeOfTagline' },

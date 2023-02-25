@@ -155,7 +155,7 @@ const OfferBox = (props) => {
           </div>
         </div>
         <div className={styles.responseConainer}>
-          {contestType === CONSTANTS.LOGO_CONTEST ? (
+          {contestType === CONSTANTS.CONTESTS.logoContest.type ? (
             <img
               onClick={() =>
                 props.changeShowImage({
