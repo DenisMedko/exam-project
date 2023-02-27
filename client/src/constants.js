@@ -11,6 +11,12 @@ const serverPort = process.env.REACT_APP_SERVER_PORT || 5000;
 export default {
   CUSTOMER: 'customer',
   CREATOR: 'creator',
+  CONTEST_STATUSES: [
+    { id: 1, name: 'active', title: 'Active Contests' },
+    { id: 2, name: 'finished', title: 'Completed contests' },
+    { id: 3, name: 'pending', title: 'Inactive contests' },
+  ],
+  CONTEST_DISPLAY_LIMIT: 8,
   CONTEST_STATUS_ACTIVE: 'active',
   CONTEST_STATUS_FINISHED: 'finished',
   CONTEST_STATUS_PENDING: 'pending',
