@@ -65,13 +65,14 @@ class CreatorDashboard extends React.Component {
         Choose industry
       </option>
     );
-    industry && industry.forEach((industry, i) =>
-      array.push(
-        <option key={i + 1} value={industry}>
-          {industry}
-        </option>
-      )
-    );
+    industry &&
+      industry.forEach((industry, i) =>
+        array.push(
+          <option key={i + 1} value={industry}>
+            {industry}
+          </option>
+        )
+      );
     return (
       <select
         onChange={({ target }) =>

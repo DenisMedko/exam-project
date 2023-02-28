@@ -256,32 +256,29 @@ module.exports.setOfferStatus = async (req, res, next) => {
   }
 };
 
-module.exports.getCustomersContests = (req, res, next) => {
-  Contest.findAll({
-    where: { status: req.headers.status, userId: req.tokenData.userId },
-    limit: req.body.limit,
-    offset: req.body.offset ? req.body.offset : 0,
-    order: [['id', 'DESC']],
-    include: [
-      {
-        model: Offer,
-        required: false,
-        attributes: ['id'],
+module.exports.getCustomersContests = async (req, res, next) => {
+  try {
+    const { count, rows } = await Contest.findAndCountAll({
+      distinct: true,
+      where: {
+        status: req.headers.status,
+        userId: req.tokenData.userId,
       },
-    ],
-  })
-    .then((contests) => {
-      contests.forEach(
-        (contest) =>
-          (contest.dataValues.count = contest.dataValues.Offers.length)
-      );
-      let haveMore = true;
-      if (contests.length === 0) {
-        haveMore = false;
-      }
-      res.send({ contests, haveMore });
-    })
-    .catch((err) => next(new ServerError(err)));
+      limit: req.body.limit,
+      offset: req.body.offset ? req.body.offset : 0,
+      order: [['id', 'DESC']],
+      include: [
+        {
+          model: Offer,
+          required: false,
+          attributes: ['id'],
+        },
+      ],
+    });
+    res.send({ contests: rows, count });
+  } catch (err) {
+    next(new ServerError(err));
+  }
 };
 
 module.exports.getContests = (req, res, next) => {
@@ -317,6 +314,6 @@ module.exports.getContests = (req, res, next) => {
       res.send({ contests, haveMore });
     })
     .catch((err) => {
-      next(new ServerError());
+      next(new ServerError(err));
     });
 };

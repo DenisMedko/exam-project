@@ -3,18 +3,17 @@ import styles from './ContestContainer.module.sass';
 import Spinner from '../Spinner/Spinner';
 
 const ContestsContainer = (props) => {
-  const { isFetching, haveMore, loadMore, children } = props;
+  const { isFetching, loadMore, children, count } = props;
   const offset = children.length;
+
   useEffect(() => {
-    window.addEventListener('scroll', scrollHandler);
+    count > children.length && window.addEventListener('scroll', scrollHandler);
     return () => window.removeEventListener('scroll', scrollHandler);
   }, [offset]);
 
   const scrollHandler = () => {
     window.innerHeight + document.documentElement.scrollTop ===
-      document.documentElement.offsetHeight &&
-      haveMore &&
-      loadMore(offset);
+      document.documentElement.offsetHeight && loadMore(offset);
   };
 
   return (
