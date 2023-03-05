@@ -16,7 +16,7 @@ export default {
     { id: 2, name: 'finished', title: 'Completed contests' },
     { id: 3, name: 'pending', title: 'Inactive contests' },
   ],
-  CONTEST_DISPLAY_LIMIT: 8,
+  CONTEST_DISPLAY_LIMIT: 5,
   CONTEST_STATUS_ACTIVE: 'active',
   CONTEST_STATUS_FINISHED: 'finished',
   CONTEST_STATUS_PENDING: 'pending',

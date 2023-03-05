@@ -1,4 +1,5 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { withRouter } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from '@reduxjs/toolkit';
 import * as contestsActionCreators from '../../store/slices/contestsSlice';
@@ -13,32 +14,35 @@ const CustomerDashboard = ({ history }) => {
   const { isFetching, error, contests, customerFilter, count } = useSelector(
     (state) => state.contestsList
   );
+
   const dispatch = useDispatch();
-  const { getContests, clearContestsList, setNewCustomerFilter } =
-    bindActionCreators({ ...contestsActionCreators }, dispatch);
+  const {
+    getContests,
+    clearContestsList,
+    setNewCustomerFilter: newFilter,
+  } = bindActionCreators({ ...contestsActionCreators }, dispatch);
 
-  const getContestsOptions = {
-    offset: 0,
-    limit: CONSTANTS.CONTEST_DISPLAY_LIMIT,
-    contestStatus: customerFilter,
-  };
+  const [prevCustomerFilter, setPrevCustomerFilter] = useState(customerFilter);
 
-  const loadMore = (offset) => {
-    getContests({
-      requestData: { ...getContestsOptions, offset },
+  const setNewOptions = (startFrom = 0) => {
+    return {
+      requestData: {
+        offset: startFrom,
+        limit: CONSTANTS.CONTEST_DISPLAY_LIMIT,
+        contestStatus: customerFilter,
+      },
       role: CONSTANTS.CUSTOMER,
-    });
+    };
   };
 
   useEffect(() => {
-    getContests({
-      requestData: getContestsOptions,
-      role: CONSTANTS.CUSTOMER,
-    });
-    clearContestsList();
-    setNewCustomerFilter(customerFilter);
+    getContests(setNewOptions());
     return () => clearContestsList();
-  }, [customerFilter]);
+  }, [prevCustomerFilter]);
+
+  const loadMore = (startFrom) => {
+    getContests(setNewOptions(startFrom));
+  };
 
   const goToExtended = (contest_id) => {
     history.push(`/contest/${contest_id}`);
@@ -61,11 +65,7 @@ const CustomerDashboard = ({ history }) => {
 
   const tryToGetContest = () => {
     clearContestsList();
-
-    getContests({
-      requestData: getContestsOptions,
-      role: CONSTANTS.CUSTOMER,
-    });
+    getContests(setNewOptions());
   };
 
   const renderFilterContainer = () => {
@@ -74,7 +74,10 @@ const CustomerDashboard = ({ history }) => {
         key={status.id}
         onClick={
           status.name !== customerFilter
-            ? () => setNewCustomerFilter(status.name)
+            ? () => {
+                newFilter(status.name);
+                setPrevCustomerFilter(status.name);
+              }
             : () => {}
         }
         className={classNames({
@@ -107,4 +110,4 @@ const CustomerDashboard = ({ history }) => {
   );
 };
 
-export default CustomerDashboard;
+export default withRouter(CustomerDashboard);
