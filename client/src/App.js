@@ -1,46 +1,43 @@
-import React, { Component } from 'react';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { bindActionCreators } from '@reduxjs/toolkit';
+import * as refreshActionCreator from './store/slices/userSlice';
+import MainRouter from './appRouter/MainRouter';
 import { ToastContainer } from 'react-toastify';
-import { connect } from 'react-redux';
-import './App.css';
 import CONSTANTS from './constants';
 import ChatContainer from './components/Chat/ChatComponents/ChatContainer/ChatContainer';
-import { refresh } from './store/slices/userSlice';
+import './App.css';
 import 'react-toastify/dist/ReactToastify.css';
-import MainRouter from './appRouter/MainRouter';
 
-class App extends Component {
-  componentDidMount() {
-    const { refresh } = this.props;
+const App = () => {
+  const { refresh } = bindActionCreators(
+    { ...refreshActionCreator },
+    useDispatch()
+  );
+  useEffect(() => {
     const refreshToken = localStorage.getItem(CONSTANTS.REFRESH_TOKEN);
-
     if (refreshToken) {
       refresh(refreshToken);
     }
-  }
+  }, []);
 
-  render() {
-    return (
-      <>
-        <ToastContainer
-          position="top-center"
-          autoClose={5000}
-          hideProgressBar
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnVisibilityChange
-          draggable
-          pauseOnHover
-        />
-        <MainRouter />
-        <ChatContainer />
-      </>
-    );
-  }
-}
+  return (
+    <>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnVisibilityChange
+        draggable
+        pauseOnHover
+      />
+      <MainRouter />
+      <ChatContainer />
+    </>
+  );
+};
 
-const mapDispatchToProps = (dispatch) => ({
-  refresh: (refreshToken) => dispatch(refresh(refreshToken)),
-});
-
-export default connect(null, mapDispatchToProps)(App);
+export default App;
