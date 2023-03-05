@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Header from '../../components/Header/Header';
 import CONSTANTS from '../../constants';
 import SlideBar from '../../components/SlideBar/SlideBar';
@@ -9,8 +9,9 @@ import carouselConstants from '../../carouselConstants';
 import Spinner from '../../components/Spinner/Spinner';
 import HeadlineText from './HeadlineText.jsx';
 
-const Home = (props) => {
-  const { isFetching, role } = props;
+const Home = () => {
+  const { isFetching, data } = useSelector((state) => state.userStore);
+  const role = data?.role || undefined;
 
   return (
     <>
@@ -176,9 +177,4 @@ const Home = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  const { isFetching, data } = state.userStore;
-  return { isFetching, role: data?.role || undefined };
-};
-
-export default connect(mapStateToProps, null)(Home);
+export default Home;

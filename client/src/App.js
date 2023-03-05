@@ -19,7 +19,7 @@ const App = () => {
     if (refreshToken) {
       refresh(refreshToken);
     }
-  }, []);
+  }, [refresh]);
 
   return (
     <>
