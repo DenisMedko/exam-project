@@ -34,6 +34,7 @@ const ContestPage = ({ match }) => {
     { ...contestByIdActionCreators, ...goToExpandedDialogActionCreators },
     useDispatch()
   );
+
   useEffect(() => {
     wrapGetData();
     return () => {

@@ -43,6 +43,7 @@ const CreatorDashboard = ({ location, history }) => {
     dispatch
   );
   const [prevParams, setPrevParams] = useState();
+
   useEffect(() => {
     getDataForContest();
     if (parseUrlForParams(location.search) && !contests.length)
