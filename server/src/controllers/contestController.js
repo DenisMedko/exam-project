@@ -281,39 +281,31 @@ module.exports.getCustomersContests = async (req, res, next) => {
   }
 };
 
-module.exports.getContests = (req, res, next) => {
+module.exports.getContests = async (req, res, next) => {
   const predicates = UtilFunctions.createWhereForAllContests(
     req.body.typeIndex,
     req.body.contestId,
     req.body.industry,
     req.body.awardSort
   );
-  Contest.findAll({
-    where: predicates.where,
-    order: predicates.order,
-    limit: req.body.limit,
-    offset: req.body.offset ? req.body.offset : 0,
-    include: [
-      {
-        model: Offer,
-        required: req.body.ownEntries,
-        where: req.body.ownEntries ? { userId: req.tokenData.userId } : {},
-        attributes: ['id'],
-      },
-    ],
-  })
-    .then((contests) => {
-      contests.forEach(
-        (contest) =>
-          (contest.dataValues.count = contest.dataValues.Offers.length)
-      );
-      let haveMore = true;
-      if (contests.length === 0) {
-        haveMore = false;
-      }
-      res.send({ contests, haveMore });
-    })
-    .catch((err) => {
-      next(new ServerError(err));
+  try {
+    const { count, rows } = await Contest.findAndCountAll({
+      distinct: true,
+      where: predicates.where,
+      order: predicates.order,
+      limit: req.body.limit,
+      offset: req.body.offset ? req.body.offset : 0,
+      include: [
+        {
+          model: Offer,
+          required: req.body.ownEntries,
+          where: req.body.ownEntries ? { userId: req.tokenData.userId } : {},
+          attributes: ['id'],
+        },
+      ],
     });
+    res.send({ contests: rows, count });
+  } catch (err) {
+    next(new ServerError(err));
+  }
 };
