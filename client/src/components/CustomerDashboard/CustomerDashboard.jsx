@@ -34,7 +34,6 @@ const CustomerDashboard = ({ history }) => {
       role: CONSTANTS.CUSTOMER,
     };
   };
-
   useEffect(() => {
     getContests(setNewOptions());
     return () => clearContestsList();

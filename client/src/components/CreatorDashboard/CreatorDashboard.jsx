@@ -47,12 +47,14 @@ const CreatorDashboard = ({ location, history }) => {
     getDataForContest();
     if (parseUrlForParams(location.search) && !contests.length)
       renderContests(creatorFilter);
+    return () => clearContestsList();
   }, []);
   useEffect(() => {
     clearContestsList();
     if (prevParams && prevParams !== location.search) {
       parseUrlForParams(location.search);
     }
+    return () => clearContestsList();
   }, [location.search]);
 
   const renderContests = (filter) => {
@@ -185,6 +187,7 @@ const CreatorDashboard = ({ location, history }) => {
         <ContestBox
           data={contests[i]}
           key={contests[i].id}
+          count={contests[i].Offers.length}
           goToExtended={goToExtended}
         />
       );
