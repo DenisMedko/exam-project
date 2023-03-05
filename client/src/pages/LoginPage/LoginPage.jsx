@@ -1,23 +1,26 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import LoginForm from '../../components/LoginForm/LoginForm';
-import styles from './LoginPage.module.sass';
-import { clearAuthError } from '../../store/slices/authSlice';
+import { bindActionCreators } from '@reduxjs/toolkit';
+import * as authActionCreators from '../../store/slices/authSlice';
 import HeaderSignUp from '../../components/HeaderSignUp/HeaderSignUp';
+import styles from './LoginPage.module.sass';
 
-const LoginPage = (props) => (
-  <div className={styles.mainContainer}>
-    <div className={styles.loginContainer}>
-      <HeaderSignUp {...props} page={'registration'} />
-      <div className={styles.loginFormContainer}>
-        <LoginForm history={props.history} />
+const LoginPage = ({ history }) => {
+  const { clearAuthError } = bindActionCreators(
+    { ...authActionCreators },
+    useDispatch()
+  );
+  return (
+    <div className={styles.mainContainer}>
+      <div className={styles.loginContainer}>
+        <HeaderSignUp {...clearAuthError} page={'registration'} />
+        <div className={styles.loginFormContainer}>
+          <LoginForm history={history} />
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
-const mapDispatchToProps = (dispatch) => ({
-  clearError: () => dispatch(clearAuthError()),
-});
-
-export default connect(null, mapDispatchToProps)(LoginPage);
+export default LoginPage;
