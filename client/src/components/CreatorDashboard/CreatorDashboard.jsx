@@ -46,16 +46,18 @@ const CreatorDashboard = ({ location, history }) => {
   useEffect(() => {
     getDataForContest();
     if (parseUrlForParams(location.search) && !contests.length)
-      renderContests(creatorFilter);
+      wrapGetContests(creatorFilter);
+    return () => clearContestsList();
   }, []);
   useEffect(() => {
     clearContestsList();
     if (prevParams && prevParams !== location.search) {
       parseUrlForParams(location.search);
     }
+    return () => clearContestsList();
   }, [location.search]);
 
-  const renderContests = (filter) => {
+  const wrapGetContests = (filter) => {
     getContests({
       requestData: {
         ...filter,
@@ -154,7 +156,7 @@ const CreatorDashboard = ({ location, history }) => {
     if (!isEqual(filter, location.search)) {
       newFilter(filter);
       clearContestsList();
-      renderContests(filter);
+      wrapGetContests(filter);
       return false;
     }
     return true;
@@ -172,7 +174,7 @@ const CreatorDashboard = ({ location, history }) => {
   };
 
   const loadMore = (startFrom) => {
-    renderContests({
+    wrapGetContests({
       offset: startFrom,
       ...getPredicateOfRequest(),
     });
@@ -185,6 +187,7 @@ const CreatorDashboard = ({ location, history }) => {
         <ContestBox
           data={contests[i]}
           key={contests[i].id}
+          count={contests[i].Offers.length}
           goToExtended={goToExtended}
         />
       );
@@ -198,7 +201,7 @@ const CreatorDashboard = ({ location, history }) => {
 
   const tryLoadAgain = () => {
     clearContestsList();
-    renderContests({
+    wrapGetContests({
       ...getPredicateOfRequest(),
     });
   };

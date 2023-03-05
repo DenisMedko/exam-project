@@ -5,16 +5,15 @@ import CustomerDashboard from '../../components/CustomerDashboard/CustomerDashbo
 import CreatorDashboard from '../../components/CreatorDashboard/CreatorDashboard';
 import Header from '../../components/Header/Header';
 
-const Dashboard = (props) => {
-  const { role, history } = props;
+const Dashboard = ({ role, history, match }) => {
   return (
     <div>
       <Header />
       {role === CONSTANTS.CUSTOMER && (
-        <CustomerDashboard history={history} match={props.match} />
+        <CustomerDashboard history={history} match={match} />
       )}
       {role === CONSTANTS.CREATOR && (
-        <CreatorDashboard history={history} match={props.match} />
+        <CreatorDashboard history={history} match={match} />
       )}
     </div>
   );
