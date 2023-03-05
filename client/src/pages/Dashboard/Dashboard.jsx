@@ -1,11 +1,12 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import CONSTANTS from '../../constants';
 import CustomerDashboard from '../../components/CustomerDashboard/CustomerDashboard';
 import CreatorDashboard from '../../components/CreatorDashboard/CreatorDashboard';
 import Header from '../../components/Header/Header';
 
-const Dashboard = ({ role, history, match }) => {
+const Dashboard = ({ history, match }) => {
+  const { role } = useSelector((state) => state.userStore.data);
   return (
     <div>
       <Header />
@@ -19,6 +20,4 @@ const Dashboard = ({ role, history, match }) => {
   );
 };
 
-const mapStateToProps = (state) => state.userStore.data;
-
-export default connect(mapStateToProps)(Dashboard);
+export default Dashboard;
