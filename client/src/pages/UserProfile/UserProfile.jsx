@@ -1,19 +1,32 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { bindActionCreators } from '@reduxjs/toolkit';
+import * as paymentActionCreators from '../../store/slices/paymentSlice';
+import * as userProfileActionCreators from '../../store/slices/userProfileSlice';
 import classNames from 'classnames';
 import Header from '../../components/Header/Header';
 import styles from './UserProfile.module.sass';
 import CONSTANTS from '../../constants';
 import UserInfo from '../../components/UserInfo/UserInfo';
 import PayForm from '../../components/PayForm/PayForm';
-import { cashOut, clearPaymentStore } from '../../store/slices/paymentSlice';
-import { changeProfileViewMode } from '../../store/slices/userProfileSlice';
 import Error from '../../components/Error/Error';
 
-const UserProfile = (props) => {
+const UserProfile = () => {
+  const role = useSelector((state) => state.userStore.data?.role);
+  const balance = useSelector((state) => state.userStore.data?.balance);
+  const profileViewMode = useSelector(
+    (state) => state.userProfile.profileViewMode
+  );
+  const error = useSelector((state) => state.payment.error);
+  const { cashOut, clearPaymentStore, changeProfileViewMode } =
+    bindActionCreators(
+      { ...paymentActionCreators, ...userProfileActionCreators },
+      useDispatch()
+    );
+
   const pay = (values) => {
     const { number, expiry, cvc, sum } = values;
-    props.cashOut({
+    cashOut({
       number,
       expiry,
       cvc,
@@ -21,14 +34,6 @@ const UserProfile = (props) => {
     });
   };
 
-  const {
-    balance,
-    role,
-    profileViewMode,
-    changeProfileViewMode,
-    error,
-    clearPaymentStore,
-  } = props;
   return (
     <div>
       <Header />
@@ -85,22 +90,4 @@ const UserProfile = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  const { balance, role } = state.userStore.data || {};
-  const { profileViewMode } = state.userProfile;
-  const { error } = state.payment;
-  return {
-    balance,
-    role,
-    profileViewMode,
-    error,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  cashOut: (data) => dispatch(cashOut(data)),
-  changeProfileViewMode: (data) => dispatch(changeProfileViewMode(data)),
-  clearPaymentStore: () => dispatch(clearPaymentStore()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(UserProfile);
+export default UserProfile;
