@@ -1,5 +1,6 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { bindActionCreators } from '@reduxjs/toolkit';
 import { updateBundle } from '../../store/slices/bundleSlice';
 import BundleBox from '../../components/BundleBox/BundleBox';
 import CONSTANTS from '../../constants';
@@ -8,11 +9,12 @@ import Footer from '../../components/Footer/Footer';
 import ProgressBar from '../../components/ProgressBar/ProgressBar';
 import Header from '../../components/Header/Header';
 
-const StartContestPage = (props) => {
-  if (props.userStore.data?.role !== CONSTANTS.CUSTOMER) {
-    props.history.replace('/');
+const StartContestPage = ({ history }) => {
+  const role = useSelector((state) => state.userStore.data?.role);
+  const choseBundle = bindActionCreators(updateBundle, useDispatch());
+  if (role !== CONSTANTS.CUSTOMER) {
+    history.replace('/');
   }
-
   const setBundle = (bundleStr) => {
     const array = bundleStr.toLowerCase().split('+');
     const bundleList = {};
@@ -20,8 +22,8 @@ const StartContestPage = (props) => {
     for (let i = 0; i < array.length; i++) {
       bundleList[array[i]] = i === array.length - 1 ? 'payment' : array[i + 1];
     }
-    props.choseBundle(bundleList);
-    props.history.push(`/startContest/${bundleList.first}Contest`);
+    choseBundle(bundleList);
+    history.push(`/startContest/${bundleList.first}Contest`);
   };
 
   return (
@@ -90,13 +92,4 @@ const StartContestPage = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  const { bundleStore, userStore } = state;
-  return { bundleStore, userStore };
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  choseBundle: (bundle) => dispatch(updateBundle(bundle)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(StartContestPage);
+export default StartContestPage;
