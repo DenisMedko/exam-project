@@ -1,11 +1,11 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 import isEqual from 'lodash/isEqual';
 import LightBox from 'react-image-lightbox';
 import * as goToExpandedDialogActionCreators from '../../store/slices/chatSlice';
-import { bindActionCreators } from '@reduxjs/toolkit';
 import * as contestByIdActionCreators from '../../store/slices/contestByIdSlice';
+import { bindActionCreators } from '@reduxjs/toolkit';
 import Header from '../../components/Header/Header';
 import ContestSideBar from '../../components/ContestSideBar/ContestSideBar';
 import styles from './ContestPage.module.sass';
@@ -30,13 +30,14 @@ const ContestPage = ({ match }) => {
     setOfferStatusError,
   } = useSelector((state) => state.contestByIdStore);
 
-  const { id: userId, role } = useSelector((state) => state.userStore.data);
-  const messagesPreview = useSelector(
-    (state) => state.chatStore.messagesPreview
-  );
+  const { userStore } = useSelector((state) => state);
+  const role = userStore.data?.role || undefined;
+
+  const { messagesPreview } = useSelector((state) => state.chatStore);
+
   const {
-    getContestById: getData,
-    setOfferStatus: setStatus,
+    getContestById,
+    setOfferStatus,
     clearSetOfferStatusError,
     changeEditContest,
     changeContestViewMode,
@@ -48,15 +49,15 @@ const ContestPage = ({ match }) => {
   );
 
   useEffect(() => {
-    wrapGetData();
+    getData();
     return () => {
       changeEditContest(false);
     };
   }, []);
 
-  const wrapGetData = () => {
+  const getData = () => {
     const { params } = match;
-    getData({ contestId: params.id });
+    getContestById({ contestId: params.id });
   };
 
   const setOffersList = () => {
@@ -67,7 +68,7 @@ const ContestPage = ({ match }) => {
           data={offers[i]}
           key={offers[i].id}
           needButtons={needButtons}
-          setOfferStatus={setOfferStatus}
+          setOfferStatus={wrapSetOfferStatus}
           contestType={contestData.contestType}
           date={new Date()}
         />
@@ -76,12 +77,15 @@ const ContestPage = ({ match }) => {
     return array.length !== 0 ? (
       array
     ) : (
-      <div className={styles.notFound}>There is no suggestion at moment</div>
+      <div className={styles.notFound}>
+        There is no suggestion at this moment
+      </div>
     );
   };
 
   const needButtons = (offerStatus) => {
     const contestCreatorId = contestData.User.id;
+    const userId = userStore.data.id;
     const contestStatus = contestData.status;
     return (
       contestCreatorId === userId &&
@@ -90,7 +94,7 @@ const ContestPage = ({ match }) => {
     );
   };
 
-  const setOfferStatus = (creatorId, offerId, command) => {
+  const wrapSetOfferStatus = (creatorId, offerId, command) => {
     clearSetOfferStatusError();
     const { id, orderId, priority } = contestData;
     const obj = {
@@ -101,11 +105,12 @@ const ContestPage = ({ match }) => {
       priority,
       contestId: id,
     };
-    setStatus(obj);
+    setOfferStatus(obj);
   };
 
   const findConversationInfo = (interlocutorId) => {
-    const participants = [userId, interlocutorId];
+    const { id } = userStore.data;
+    const participants = [id, interlocutorId];
     participants.sort(
       (participant1, participant2) => participant1 - participant2
     );
@@ -142,17 +147,15 @@ const ContestPage = ({ match }) => {
         />
       )}
       <Header />
-      {error && (
+      {error ? (
         <div className={styles.tryContainer}>
           <TryAgain getData={getData} />
         </div>
-      )}
-      {!error && isFetching && (
+      ) : isFetching ? (
         <div className={styles.containerSpinner}>
           <Spinner />
         </div>
-      )}
-      {!error && !isFetching && (
+      ) : (
         <div className={styles.mainInfoContainer}>
           <div className={styles.infoContainer}>
             <div className={styles.buttonsContainer}>
@@ -173,10 +176,9 @@ const ContestPage = ({ match }) => {
                 Offer
               </span>
             </div>
-            {isBrief && (
+            {isBrief ? (
               <Brief contestData={contestData} role={role} goChat={goChat} />
-            )}
-            {!isBrief && (
+            ) : (
               <div className={styles.offersContainer}>
                 {role === CONSTANTS.CREATOR &&
                   contestData.status === CONSTANTS.CONTEST_STATUS_ACTIVE && (
