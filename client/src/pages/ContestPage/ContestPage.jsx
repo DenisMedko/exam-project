@@ -65,7 +65,7 @@ const ContestPage = ({ match }) => {
     for (let i = 0; i < offers.length; i++) {
       array.push(
         <OfferBox
-          data={offers[i]}
+          offer={offers[i]}
           key={offers[i].id}
           needButtons={needButtons}
           setOfferStatus={wrapSetOfferStatus}
