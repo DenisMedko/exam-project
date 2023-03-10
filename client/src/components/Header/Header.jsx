@@ -1,19 +1,27 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
+import * as userSliceActionCreator from '../../store/slices/userSlice';
+import { bindActionCreators } from '@reduxjs/toolkit';
 import styles from './Header.module.sass';
 import CONSTANTS from '../../constants';
-import { clearUserStore } from '../../store/slices/userSlice';
 
-const Header = (props) => {
+const Header = ({ history }) => {
+  const { data: userData, isFetching } = useSelector(
+    (state) => state.userStore
+  );
+  const { clearUserStore } = bindActionCreators(
+    { ...userSliceActionCreator },
+    useDispatch()
+  );
   const logOut = () => {
     localStorage.clear();
-    props.clearUserStore();
-    props.history.replace('/login');
+    clearUserStore();
+    history.replace('/login');
   };
 
   const startContests = () => {
-    props.history.push('/startContest');
+    history.push('/startContest');
   };
 
   const renderLinksList = () => {
@@ -32,13 +40,13 @@ const Header = (props) => {
         <div className={styles.userInfo}>
           <img
             src={
-              props.data.avatar === 'anon.png'
+              userData.avatar === 'anon.png'
                 ? CONSTANTS.ANONYM_IMAGE_PATH
-                : `${CONSTANTS.publicURL}${props.data.avatar}`
+                : `${CONSTANTS.publicURL}${userData.avatar}`
             }
             alt="user"
           />
-          <span>{`Hi, ${props.data.displayName}`}</span>
+          <span>{`Hi, ${userData.displayName}`}</span>
           <img
             src={`${CONSTANTS.STATIC_IMAGES_PATH}menu-down.png`}
             alt="menu"
@@ -116,8 +124,8 @@ const Header = (props) => {
           </div>
         </a>
         <div className={styles.userButtonsContainer}>
-          {!props.isFetching && !props.data && renderLoginButtons()}
-          {!props.isFetching && props.data && renderUserMenu()}
+          {!isFetching && !userData && renderLoginButtons()}
+          {!isFetching && userData && renderUserMenu()}
         </div>
       </div>
       <div className={styles.navContainer}>
@@ -130,7 +138,7 @@ const Header = (props) => {
         </Link>
         <div className={styles.leftNav}>
           {renderNavContainer()}
-          {props.data && props.data.role === CONSTANTS.CUSTOMER && (
+          {userData && userData.role === CONSTANTS.CUSTOMER && (
             <div className={styles.startContestBtn} onClick={startContests}>
               <span>START CONTEST</span>
             </div>
@@ -141,9 +149,4 @@ const Header = (props) => {
   );
 };
 
-const mapStateToProps = (state) => state.userStore;
-const mapDispatchToProps = (dispatch) => ({
-  clearUserStore: () => dispatch(clearUserStore()),
-});
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));
+export default withRouter(Header);
