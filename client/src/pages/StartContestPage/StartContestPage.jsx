@@ -10,7 +10,7 @@ import ProgressBar from '../../components/ProgressBar/ProgressBar';
 import Header from '../../components/Header/Header';
 
 const StartContestPage = ({ history }) => {
-  const role = useSelector((state) => state.userStore.data?.role);
+  const { role } = useSelector((state) => state.userStore.data);
   const choseBundle = bindActionCreators(updateBundle, useDispatch());
   if (role !== CONSTANTS.CUSTOMER) {
     history.replace('/');

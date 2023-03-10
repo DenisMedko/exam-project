@@ -19,8 +19,20 @@ import 'react-image-lightbox/style.css';
 import Error from '../../components/Error/Error';
 
 const ContestPage = ({ match }) => {
-  const { contestByIdStore, userStore, chatStore } = useSelector(
-    (state) => state
+  const {
+    isShowOnFull,
+    imagePath,
+    error,
+    isFetching,
+    isBrief,
+    contestData,
+    offers,
+    setOfferStatusError,
+  } = useSelector((state) => state.contestByIdStore);
+
+  const { id: userId, role } = useSelector((state) => state.userStore.data);
+  const messagesPreview = useSelector(
+    (state) => state.chatStore.messagesPreview
   );
   const {
     getContestById: getData,
@@ -49,14 +61,14 @@ const ContestPage = ({ match }) => {
 
   const setOffersList = () => {
     const array = [];
-    for (let i = 0; i < contestByIdStore.offers.length; i++) {
+    for (let i = 0; i < offers.length; i++) {
       array.push(
         <OfferBox
-          data={contestByIdStore.offers[i]}
-          key={contestByIdStore.offers[i].id}
+          data={offers[i]}
+          key={offers[i].id}
           needButtons={needButtons}
           setOfferStatus={setOfferStatus}
-          contestType={contestByIdStore.contestData.contestType}
+          contestType={contestData.contestType}
           date={new Date()}
         />
       );
@@ -69,9 +81,8 @@ const ContestPage = ({ match }) => {
   };
 
   const needButtons = (offerStatus) => {
-    const contestCreatorId = contestByIdStore.contestData.User.id;
-    const userId = userStore.data.id;
-    const contestStatus = contestByIdStore.contestData.status;
+    const contestCreatorId = contestData.User.id;
+    const contestStatus = contestData.status;
     return (
       contestCreatorId === userId &&
       contestStatus === CONSTANTS.CONTEST_STATUS_ACTIVE &&
@@ -81,7 +92,7 @@ const ContestPage = ({ match }) => {
 
   const setOfferStatus = (creatorId, offerId, command) => {
     clearSetOfferStatusError();
-    const { id, orderId, priority } = contestByIdStore.contestData;
+    const { id, orderId, priority } = contestData;
     const obj = {
       command,
       offerId,
@@ -94,9 +105,7 @@ const ContestPage = ({ match }) => {
   };
 
   const findConversationInfo = (interlocutorId) => {
-    const { messagesPreview } = chatStore;
-    const { id } = userStore.data;
-    const participants = [id, interlocutorId];
+    const participants = [userId, interlocutorId];
     participants.sort(
       (participant1, participant2) => participant1 - participant2
     );
@@ -114,24 +123,13 @@ const ContestPage = ({ match }) => {
   };
 
   const goChat = () => {
-    const { User } = contestByIdStore.contestData;
+    const { User } = contestData;
     goToExpandedDialog({
       interlocutor: User,
       conversationData: findConversationInfo(User.id),
     });
   };
 
-  const { role } = userStore.data || {};
-  const {
-    isShowOnFull,
-    imagePath,
-    error,
-    isFetching,
-    isBrief,
-    contestData,
-    offers,
-    setOfferStatusError,
-  } = contestByIdStore;
   return (
     <div>
       {/* <Chat/> */}

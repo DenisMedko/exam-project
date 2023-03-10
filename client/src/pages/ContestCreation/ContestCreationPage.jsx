@@ -11,7 +11,8 @@ import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
 
 const ContestCreationPage = ({ contestType, history, title }) => {
-  const { contestCreationStore, bundleStore } = useSelector((state) => state);
+  const contests = useSelector((state) => state.contestCreationStore.contests);
+  const bundle = useSelector((state) => state.bundleStore.bundle);
 
   const { saveContestToStore: saveContest } = bindActionCreators(
     { ...contestCreationActionCreators },
@@ -19,16 +20,16 @@ const ContestCreationPage = ({ contestType, history, title }) => {
   );
 
   const formRef = useRef();
-  const contestData = contestCreationStore.contests[contestType]
-    ? contestCreationStore.contests[contestType]
+  const contestData = contests[contestType]
+    ? contests[contestType]
     : { contestType: contestType };
 
   const handleSubmit = (values) => {
     saveContest({ type: contestType, info: values });
     const route =
-      bundleStore.bundle[contestType] === 'payment'
+      bundle[contestType] === 'payment'
         ? '/payment'
-        : `${bundleStore.bundle[contestType]}Contest`;
+        : `${bundle[contestType]}Contest`;
     history.push(route);
   };
 
@@ -38,7 +39,7 @@ const ContestCreationPage = ({ contestType, history, title }) => {
     }
   };
 
-  !bundleStore.bundle && history.replace('/startContest');
+  !bundle && history.replace('/startContest');
 
   return (
     <div>

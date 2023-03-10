@@ -6,7 +6,7 @@ import CreatorDashboard from '../../components/CreatorDashboard/CreatorDashboard
 import Header from '../../components/Header/Header';
 
 const Dashboard = ({ history, match }) => {
-  const { role } = useSelector((state) => state.userStore.data);
+  const role = useSelector((state) => state.userStore.data?.role);
   return (
     <div>
       <Header />

@@ -10,7 +10,7 @@ import CONSTANTS from '../../constants';
 import Error from '../../components/Error/Error';
 
 const Payment = ({ history }) => {
-  const { payment } = useSelector((state) => state.payment);
+  const { error } = useSelector((state) => state.payment);
   const { contests } = useSelector((state) => state.contestCreationStore);
   const { pay, clearPaymentStore } = bindActionCreators(
     { ...paymentActionCreators },
@@ -44,7 +44,6 @@ const Payment = ({ history }) => {
     history.goBack();
   };
 
-  const error = payment?.error;
   if (isEmpty(contests)) {
     history.replace('startContest');
   }

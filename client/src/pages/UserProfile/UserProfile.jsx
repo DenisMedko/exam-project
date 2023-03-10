@@ -12,11 +12,8 @@ import PayForm from '../../components/PayForm/PayForm';
 import Error from '../../components/Error/Error';
 
 const UserProfile = () => {
-  const role = useSelector((state) => state.userStore.data?.role);
-  const balance = useSelector((state) => state.userStore.data?.balance);
-  const profileViewMode = useSelector(
-    (state) => state.userProfile.profileViewMode
-  );
+  const { role, balance } = useSelector((state) => state.userStore.data);
+  const { profileViewMode } = useSelector((state) => state.userProfile);
   const error = useSelector((state) => state.payment.error);
   const { cashOut, clearPaymentStore, changeProfileViewMode } =
     bindActionCreators(
