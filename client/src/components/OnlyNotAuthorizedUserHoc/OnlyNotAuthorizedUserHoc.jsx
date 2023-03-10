@@ -1,10 +1,10 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Spinner from '../Spinner/Spinner';
 
 const OnlyNotAuthorizedUserHoc = (Component) => {
-  const HocForLoginSignUp = (props) => {
-    const { isFetching, data, history } = props;
+  const HocForLoginSignUp = ({ history }) => {
+    const { isFetching, data } = useSelector((state) => state.userStore);
     return (
       <>
         {isFetching && <Spinner />}
@@ -12,10 +12,7 @@ const OnlyNotAuthorizedUserHoc = (Component) => {
       </>
     );
   };
-
-  const mapStateToProps = (state) => state.userStore;
-
-  return connect(mapStateToProps)(HocForLoginSignUp);
+  return HocForLoginSignUp;
 };
 
 export default OnlyNotAuthorizedUserHoc;
