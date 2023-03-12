@@ -81,12 +81,12 @@ const UpdateUserInfoForm = ({ onSubmit, submitting }) => {
         </div>
         <ImageUpload
           name="file"
-          avatar={avatar}
           classes={{
             uploadContainer: styles.imageUploadContainer,
             inputContainer: styles.uploadInputContainer,
             imgStyle: styles.imgStyle,
           }}
+          avatar={avatar}
         />
         <button type="submit" disabled={submitting}>
           Submit
