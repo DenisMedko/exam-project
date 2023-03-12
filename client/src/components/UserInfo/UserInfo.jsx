@@ -1,24 +1,30 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import * as userActionCreators from '../../store/slices/userSlice';
+import * as userProfileActionCreators from '../../store/slices/userProfileSlice';
+import { bindActionCreators } from '@reduxjs/toolkit';
 import UpdateUserInfoForm from '../UpdateUserInfoForm/UpdateUserInfoForm';
-import { updateUser } from '../../store/slices/userSlice';
-import { changeEditModeOnUserProfile } from '../../store/slices/userProfileSlice';
 import CONSTANTS from '../../constants';
 import styles from './UserInfo.module.sass';
 
-const UserInfo = (props) => {
+const UserInfo = () => {
+  const { avatar, firstName, lastName, displayName, email, role, balance } =
+    useSelector((state) => state.userStore.data || {});
+  const { isEdit } = useSelector((state) => state.userProfile);
+  const { updateUser, changeEditModeOnUserProfile: changeEditMode } =
+    bindActionCreators(
+      { ...userActionCreators, ...userProfileActionCreators },
+      useDispatch()
+    );
   const updateUserData = (values) => {
     const formData = new FormData();
     formData.append('file', values.file);
     formData.append('firstName', values.firstName);
     formData.append('lastName', values.lastName);
     formData.append('displayName', values.displayName);
-    props.updateUser(formData);
+    updateUser(formData);
   };
 
-  const { isEdit, changeEditMode, data } = props;
-  const { avatar, firstName, lastName, displayName, email, role, balance } =
-    data || {};
   return (
     <div className={styles.mainContainer}>
       {isEdit ? (
@@ -74,15 +80,4 @@ const UserInfo = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  const { data } = state.userStore;
-  const { isEdit } = state.userProfile;
-  return { data, isEdit };
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  updateUser: (data) => dispatch(updateUser(data)),
-  changeEditMode: (data) => dispatch(changeEditModeOnUserProfile(data)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(UserInfo);
+export default UserInfo;
