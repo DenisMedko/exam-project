@@ -1,9 +1,11 @@
 import React from 'react';
 import classNames from 'classnames';
 import { useField } from 'formik';
+import CONSTANTS from '../../../constants';
 
 const ImageUpload = (props) => {
-  const [{ value, ...restField }, meta, helpers] = useField(props.name);
+  const { avatar } = props;
+  const [{ value, ...restField }, helpers] = useField(props.name);
   const { uploadContainer, inputContainer, imgStyle } = props.classes;
   const onChange = (e) => {
     const node = window.document.getElementById('imagePreview');
@@ -35,7 +37,12 @@ const ImageUpload = (props) => {
       </div>
       <img
         id="imagePreview"
-        className={classNames({ [imgStyle]: !!value })}
+        className={classNames({ [imgStyle]: !!avatar })}
+        src={
+          avatar === 'anon.png'
+            ? CONSTANTS.ANONYM_IMAGE_PATH
+            : `${CONSTANTS.publicURL}${avatar}`
+        }
         alt="user"
       />
     </div>

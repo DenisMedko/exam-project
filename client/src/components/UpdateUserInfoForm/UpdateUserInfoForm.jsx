@@ -15,7 +15,7 @@ const UpdateUserInfoForm = ({ onSubmit, submitting }) => {
     useDispatch()
   );
   const {
-    data: { firstName, lastName, displayName },
+    data: { firstName, lastName, displayName, avatar },
     error,
   } = useSelector((state) => state.userStore);
   const initialValues = {
@@ -81,6 +81,7 @@ const UpdateUserInfoForm = ({ onSubmit, submitting }) => {
         </div>
         <ImageUpload
           name="file"
+          avatar={avatar}
           classes={{
             uploadContainer: styles.imageUploadContainer,
             inputContainer: styles.uploadInputContainer,

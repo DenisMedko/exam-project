@@ -12,7 +12,7 @@ import PayForm from '../../components/PayForm/PayForm';
 import Error from '../../components/Error/Error';
 
 const UserProfile = () => {
-  const { role, balance } = useSelector((state) => state.userStore.data);
+  const { role, balance } = useSelector((state) => state.userStore.data || {});
   const { profileViewMode } = useSelector((state) => state.userProfile);
   const error = useSelector((state) => state.payment.error);
   const { cashOut, clearPaymentStore, changeProfileViewMode } =
