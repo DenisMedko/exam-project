@@ -4,7 +4,6 @@ import { useField } from 'formik';
 import CONSTANTS from '../../../constants';
 
 const ImageUpload = (props) => {
-  console.log(props);
   const { avatar } = props;
   const [{ value, ...restField }, meta, helpers] = useField(props.name);
   const { uploadContainer, inputContainer, imgStyle } = props.classes;
