@@ -1,21 +1,19 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import * as paymentActionCreators from '../../store/slices/paymentSlice';
+import { bindActionCreators } from '@reduxjs/toolkit';
 import Cards from 'react-credit-cards';
 import { Form, Formik } from 'formik';
 import 'react-credit-cards/es/styles-compiled.css';
-import { connect } from 'react-redux';
 import styles from './PayForm.module.sass';
-import { changeFocusOnCard } from '../../store/slices/paymentSlice';
 import PayInput from '../InputComponents/PayInput/PayInput';
-import Schems from '../../utils/validators/validationSchems';
+import Schemes from '../../utils/validators/validationSchems';
 
-const PayForm = (props) => {
-  const {
-    changeFocusOnCard,
-    sendRequest,
-    back,
-    focusOnElement,
-    isPayForOrder,
-  } = props;
+const PayForm = ({ sendRequest, back, focusOnElement, isPayForOrder }) => {
+  const { changeFocusOnCard } = bindActionCreators(
+    { ...paymentActionCreators },
+    useDispatch()
+  );
   const changeFocus = (name) => {
     changeFocusOnCard(name);
   };
@@ -36,7 +34,7 @@ const PayForm = (props) => {
           expiry: '',
         }}
         onSubmit={pay}
-        validationSchema={Schems.PaymentSchema}
+        validationSchema={Schemes.PaymentSchema}
       >
         {({ values }) => {
           const { name, number, expiry, cvc } = values;
@@ -161,8 +159,4 @@ const PayForm = (props) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  changeFocusOnCard: (data) => dispatch(changeFocusOnCard(data)),
-});
-
-export default connect(null, mapDispatchToProps)(PayForm);
+export default PayForm;
