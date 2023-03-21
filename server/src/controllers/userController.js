@@ -1,19 +1,12 @@
 const jwt = require('jsonwebtoken');
 const CONSTANTS = require('../constants');
-const {
-  sequelize,
-  Sequelize,
-  Rating,
-  Offer,
-  Contest,
-} = require('../models');
+const { sequelize, Sequelize, Rating, Offer, Contest } = require('../models');
 const moment = require('moment');
 const { v4: uuid } = require('uuid');
 const controller = require('../socketInit');
 const userQueries = require('./queries/userQueries');
 const bankQueries = require('./queries/bankQueries');
 const ratingQueries = require('./queries/ratingQueries');
-
 
 function getQuery(offerId, userId, mark, isFirst, transaction) {
   const getCreateQuery = () =>
