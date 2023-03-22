@@ -1,12 +1,20 @@
 const jwt = require('jsonwebtoken');
 const CONSTANTS = require('../constants');
-const { sequelize, Sequelize, Rating, Offer, Contest } = require('../models');
+const {
+  sequelize,
+  Sequelize,
+  Rating,
+  Offer,
+  Contest,
+  User,
+} = require('../models');
 const moment = require('moment');
 const { v4: uuid } = require('uuid');
 const controller = require('../socketInit');
 const userQueries = require('./queries/userQueries');
 const bankQueries = require('./queries/bankQueries');
 const ratingQueries = require('./queries/ratingQueries');
+const NotEnoughMoney = require('../errors/NotEnoughMoney');
 
 function getQuery(offerId, userId, mark, isFirst, transaction) {
   const getCreateQuery = () =>
@@ -141,10 +149,25 @@ module.exports.cashout = async (req, res, next) => {
   let transaction;
   try {
     transaction = await sequelize.transaction();
+    const { balance } = await User.findByPk(req.tokenData.userId);
+    if (+balance < +req.body.sum) {
+      throw new NotEnoughMoney(`Not enough money. Your balance is ${balance}`);
+    }
+
     const updatedUser = await userQueries.updateUser(
-      { balance: sequelize.literal('balance - ' + req.body.sum) },
+      {
+        balance: sequelize.literal('balance - ' + req.body.sum),
+      },
       req.tokenData.userId,
       transaction
+    );
+    await bankQueries.findOrCreateBankCard(
+      {
+        name: req.body.name,
+        expiry: req.body.expiry,
+        cvc: req.body.cvc,
+      },
+      { cardNumber: req.body.number.replace(/ /g, '') }
     );
     await bankQueries.updateBankBalance(
       {

@@ -15,6 +15,8 @@ const Error = (props) => {
         return data;
       case 406:
         return data;
+      case 417:
+        return data;
       default:
         return 'Server Error';
     }
