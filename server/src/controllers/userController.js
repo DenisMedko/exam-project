@@ -70,29 +70,39 @@ module.exports.changeMark = async (req, res, next) => {
 
 module.exports.payment = async (req, res, next) => {
   let transaction;
+  const {
+    number,
+    cvc: buyerCardCVC,
+    expiry: buyerCardExpiry,
+    price,
+  } = req.body;
+  const buyerCardNumber = number.replace(/ /g, '');
+  const squadCardNumber = CONSTANTS.SQUADHELP_BANK_NUMBER;
+  const squadCardCVC = CONSTANTS.SQUADHELP_BANK_CVC;
+  const squadCardExpiry = CONSTANTS.SQUADHELP_BANK_EXPIRY;
+  const caseLiteral = `CASE 
+                        WHEN 
+                          "cardNumber"='${buyerCardNumber}' 
+                          AND "cvc"='${buyerCardCVC}' 
+                          AND "expiry"='${buyerCardExpiry}'
+                        THEN 
+                          "balance"-${price}
+                        WHEN 
+                          "cardNumber"='${squadCardNumber}' 
+                          AND "cvc"='${squadCardCVC}' 
+                          AND "expiry"='${squadCardExpiry}'
+                        THEN 
+                          "balance"+${price} 
+                      END`;
   try {
     transaction = await sequelize.transaction();
     await bankQueries.updateBankBalance(
       {
-        balance: sequelize.literal(`
-                CASE
-            WHEN "cardNumber"='${req.body.number.replace(
-              / /g,
-              ''
-            )}' AND "cvc"='${req.body.cvc}' AND "expiry"='${req.body.expiry}'
-                THEN "balance"-${req.body.price}
-            WHEN "cardNumber"='${CONSTANTS.SQUADHELP_BANK_NUMBER}' AND "cvc"='${
-          CONSTANTS.SQUADHELP_BANK_CVC
-        }' AND "expiry"='${CONSTANTS.SQUADHELP_BANK_EXPIRY}'
-                THEN "balance"+${req.body.price} END
-        `),
+        balance: sequelize.literal(caseLiteral),
       },
       {
         cardNumber: {
-          [Sequelize.Op.in]: [
-            CONSTANTS.SQUADHELP_BANK_NUMBER,
-            req.body.number.replace(/ /g, ''),
-          ],
+          [Sequelize.Op.in]: [squadCardNumber, buyerCardNumber],
         },
       },
       transaction
@@ -147,53 +157,61 @@ module.exports.updateUser = async (req, res, next) => {
 
 module.exports.cashout = async (req, res, next) => {
   let transaction;
+  const { userId } = req.tokenData;
+  const {
+    number,
+    name: creatorName,
+    expiry: creatorCardExpiry,
+    cvc: creatorCardCVC,
+    sum,
+  } = req.body;
+  const creatorCardNumber = number.replace(/ /g, '');
+  const squadCardNumber = CONSTANTS.SQUADHELP_BANK_NUMBER;
+  const squadCardCVC = CONSTANTS.SQUADHELP_BANK_CVC;
+  const squadCardExpiry = CONSTANTS.SQUADHELP_BANK_EXPIRY;
+  const caseLiteral = `CASE 
+                        WHEN 
+                          "cardNumber"='${creatorCardNumber}' 
+                          AND "expiry"='${creatorCardExpiry}' 
+                          AND "cvc"='${creatorCardCVC}'
+                        THEN 
+                          "balance"+${sum}
+                        WHEN 
+                          "cardNumber"='${squadCardNumber}' 
+                          AND "expiry"='${squadCardExpiry}' 
+                          AND "cvc"='${squadCardCVC}'
+                        THEN 
+                          "balance"-${sum}
+                      END`;
   try {
     transaction = await sequelize.transaction();
-    const { balance } = await User.findByPk(req.tokenData.userId);
-    if (+balance < +req.body.sum) {
+    const { balance } = await User.findByPk(userId);
+    if (+balance < +sum) {
       throw new NotEnoughMoney(`Not enough money. Your balance is ${balance}`);
     }
 
     const updatedUser = await userQueries.updateUser(
       {
-        balance: sequelize.literal('balance - ' + req.body.sum),
+        balance: sequelize.literal('balance - ' + sum),
       },
-      req.tokenData.userId,
+      userId,
       transaction
     );
     await bankQueries.findOrCreateBankCard(
       {
-        name: req.body.name,
-        expiry: req.body.expiry,
-        cvc: req.body.cvc,
+        creatorName,
+        creatorCardExpiry,
+        creatorCardCVC,
       },
-      { cardNumber: req.body.number.replace(/ /g, '') }
+      { cardNumber: creatorCardNumber }
     );
     await bankQueries.updateBankBalance(
       {
-        balance: sequelize.literal(`CASE 
-                WHEN "cardNumber"='${req.body.number.replace(
-                  / /g,
-                  ''
-                )}' AND "expiry"='${req.body.expiry}' AND "cvc"='${
-          req.body.cvc
-        }'
-                    THEN "balance"+${req.body.sum}
-                WHEN "cardNumber"='${
-                  CONSTANTS.SQUADHELP_BANK_NUMBER
-                }' AND "expiry"='${
-          CONSTANTS.SQUADHELP_BANK_EXPIRY
-        }' AND "cvc"='${CONSTANTS.SQUADHELP_BANK_CVC}'
-                    THEN "balance"-${req.body.sum}
-                 END
-                `),
+        balance: sequelize.literal(caseLiteral),
       },
       {
         cardNumber: {
-          [Sequelize.Op.in]: [
-            CONSTANTS.SQUADHELP_BANK_NUMBER,
-            req.body.number.replace(/ /g, ''),
-          ],
+          [Sequelize.Op.in]: [squadCardNumber, creatorCardNumber],
         },
       },
       transaction
