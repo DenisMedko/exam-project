@@ -35,7 +35,7 @@ const headerMocks = {
       id: 2,
       title: `CONTESTS`,
       navLinks: [
-        { id: 1, path: `http://www.google.com`, title: `HOW IT WORKS` },
+        { id: 1, path: `/how-it-works`, title: `HOW IT WORKS` },
         { id: 2, path: `http://www.google.com`, title: `PRICING` },
         { id: 3, path: `http://www.google.com`, title: `AGENCY SERVICE` },
         { id: 4, path: `http://www.google.com`, title: `ACTIVE CONTESTS` },

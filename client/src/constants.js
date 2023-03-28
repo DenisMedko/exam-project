@@ -4,6 +4,7 @@ import headerMocks from './utils/mocks/headerMocks';
 import homePageMocks from './utils/mocks/homePageMocks';
 import registrationPageMocks from './utils/mocks/registrationPageMocks';
 import startContestPageMocks from './utils/mocks/startContestPageMocks';
+import howItWorksPageMocks from './utils/mocks/howItWorksPageMocks';
 
 const env = process.env.REACT_APP_NODE_ENV || 'development';
 const serverIP = process.env.REACT_APP_SERVER_IP || 'localhost';
@@ -51,4 +52,5 @@ export default {
   HOME_PAGE_ITEMS: homePageMocks,
   REGISTRATION_PAGE_ITEMS: registrationPageMocks,
   START_CONTEST_PAGE_ITEMS: startContestPageMocks,
+  HOW_IT_WORKS_PAGE_ITEMS: howItWorksPageMocks,
 };
