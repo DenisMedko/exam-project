@@ -32,14 +32,26 @@ const howItWorksPageMocks = {
     ],
   },
   features: {
-    icon: '',
-    title: '',
-    pic: '',
-    items: [
-      { id: 1, text: '' },
-      { id: 2, text: '' },
-      { id: 3, text: '' },
-      { id: 4, text: '' },
+    icon: 'howItWorksImages/cup.svg',
+    title: 'How Do Naming Contests Work?',
+    pic: 'howItWorksImages/feature-user.svg',
+    featuresList: [
+      {
+        id: 1,
+        text: 'Fill out your Naming Brief and begin receiving name ideas in minutes.',
+      },
+      {
+        id: 2,
+        text: 'Rate the submissions and provide feedback to creatives. Creatives submit even more names based on your feedback. ',
+      },
+      {
+        id: 3,
+        text: 'Our team helps you test your favorite names with your target audience. We also assist with Trademark screening.',
+      },
+      {
+        id: 4,
+        text: 'Pick a Winner. The winner gets paid for their submission.',
+      },
     ],
   },
 };
