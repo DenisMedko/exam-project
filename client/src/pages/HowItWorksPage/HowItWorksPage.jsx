@@ -2,30 +2,31 @@ import Header from '../../components/Header/Header';
 import HeroSection from './HeroSection/HeroSection';
 import ServicesSection from './ServicesSection/ServicesSection';
 import FeaturesSection from './FeaturesSection/FeaturesSection';
+import FAQTopicsSection from './FAQTopicsSection/FAQTopicsSection';
 import Footer from '../../components/Footer/Footer';
 import styles from './HowItWorksPage.module.sass';
 import howItWorksPageMocks from '../../utils/mocks/howItWorksPageMocks';
 
 const HowItWorksPage = () => {
-  const { hero, services, features } = howItWorksPageMocks;
+  const { hero, services, features, topics } = howItWorksPageMocks;
   return (
     <>
       <Header />
       <main className={styles.content}>
         <section>
-          <div className={styles.container}>
-            <HeroSection content={hero} />
-          </div>
+          <HeroSection content={hero} />
         </section>
+        <hr />
         <section>
-          <div className={styles.container}>
-            <ServicesSection content={services} />
-          </div>
+          <ServicesSection content={services} />
         </section>
+        <hr />
         <section>
-          <div className={styles.container}>
-            <FeaturesSection content={features} />
-          </div>
+          <FeaturesSection content={features} />
+        </section>
+        <hr />
+        <section>
+          <FAQTopicsSection content={topics} />
         </section>
       </main>
       <Footer />

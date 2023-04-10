@@ -7,7 +7,7 @@ const ServicesSection = ({ content }) => {
   const { title, text, cards } = content;
 
   return (
-    <>
+    <div className={pageStyles.container}>
       <div className={styles.title}>
         <small
           className={classNames(
@@ -26,7 +26,7 @@ const ServicesSection = ({ content }) => {
       <div className={styles.cardDeck}>
         <CardDeck cards={cards} />
       </div>
-    </>
+    </div>
   );
 };
 export default ServicesSection;
