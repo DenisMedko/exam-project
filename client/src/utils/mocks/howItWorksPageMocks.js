@@ -181,5 +181,11 @@ const howItWorksPageMocks = {
       ],
     },
   ],
+  cta: {
+    title: 'Ready to get started?',
+    text: 'Fill out your contest brief and begin receiving custom name suggestions within minutes.',
+    picStart: 'howItWorksImages/cta-img-start.svg',
+    picEnd: 'howItWorksImages/cta-img-end.svg',
+  },
 };
 export default howItWorksPageMocks;
