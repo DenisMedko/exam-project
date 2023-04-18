@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import classNames from 'classnames';
 import styles from './Accordion.module.sass';
-import CONSTANTS from '../../../../constants';
+import CONSTANTS from '../../constants';
 
 const Accordion = (props) => {
   const { header, text } = props;

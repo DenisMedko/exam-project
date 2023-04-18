@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import Accordion from './Accordion/Accordion';
+import Accordion from '../../../components/Accordion/Accordion';
 import pageStyles from '../HowItWorksPage.module.sass';
 import styles from './FAQTopicsSection.module.sass';
 
