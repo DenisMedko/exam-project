@@ -7,6 +7,7 @@ import CTASection from './CTASection/CTASection';
 import Footer from '../../components/Footer/Footer';
 import styles from './HowItWorksPage.module.sass';
 import howItWorksPageMocks from '../../utils/mocks/howItWorksPageMocks';
+import AdvertisementContainer from '../../components/AdvertisementContainer/AdvertisementContainer';
 
 const HowItWorksPage = () => {
   const { hero, services, features, topics, cta } = howItWorksPageMocks;
@@ -32,6 +33,7 @@ const HowItWorksPage = () => {
         <section>
           <CTASection content={cta} />
         </section>
+        <AdvertisementContainer />
       </main>
       <Footer />
     </>
