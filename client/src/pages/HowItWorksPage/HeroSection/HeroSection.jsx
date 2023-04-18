@@ -8,7 +8,7 @@ const HeroSection = ({ content }) => {
   return (
     <div className={pageStyles.container}>
       <div className={styles.row}>
-        <div className={classNames(styles.col, styles.colText)}>
+        <div className={classNames(pageStyles.col, pageStyles.colText)}>
           <span
             className={classNames(
               pageStyles.btn,
@@ -43,7 +43,7 @@ const HeroSection = ({ content }) => {
             </a>
           </div>
         </div>
-        <div className={classNames(styles.col, styles.colFigure)}>
+        <div className={classNames(pageStyles.col, pageStyles.colFigure)}>
           <img
             className={styles.appUserImg}
             src={`${CONSTANTS.STATIC_IMAGES_PATH}${pic}`}
