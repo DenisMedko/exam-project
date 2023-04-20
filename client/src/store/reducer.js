@@ -1,5 +1,5 @@
 import authReducer from './slices/authSlice';
-import userReducer from './slices/userSlice';
+import userReducer from './slices/userEventSlice';
 import dataForContestReducer from './slices/dataForContestSlice';
 import paymentReducer from './slices/paymentSlice';
 import contestsReducer from './slices/contestsSlice';
@@ -9,6 +9,7 @@ import contestByIdReducer from './slices/contestByIdSlice';
 import contestUpdationReducer from './slices/contestUpdationSlice';
 import chatReducer from './slices/chatSlice';
 import userProfileReducer from './slices/userProfileSlice';
+import userEventReducer from './slices/userEventSlice';
 
 const rootReducer = {
   userStore: userReducer,
@@ -22,6 +23,7 @@ const rootReducer = {
   contestUpdationStore: contestUpdationReducer,
   chatStore: chatReducer,
   userProfile: userProfileReducer,
+  userEventStore: userEventReducer,
 };
 
 export default rootReducer;
