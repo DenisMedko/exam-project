@@ -10,6 +10,7 @@ import Home from '../pages/Home/Home';
 import OnlyNotAuthorizedUserHoc from '../components/OnlyNotAuthorizedUserHoc/OnlyNotAuthorizedUserHoc';
 import ContestPage from '../pages/ContestPage/ContestPage';
 import UserProfile from '../pages/UserProfile/UserProfile';
+import UserEventsPage from '../pages/UserEventsPage/UserEventsPage';
 import StartContestRouter from './StartContestRouter';
 
 const MainRouter = () => {
@@ -32,6 +33,7 @@ const MainRouter = () => {
       <Route exact path="/contest/:id" component={PrivateHoc(ContestPage)} />
       <Route exact path="/account" component={PrivateHoc(UserProfile)} />
       <Route exact path="/how-it-works" component={HowItWorksPage} />
+      <Route exact path="/events" component={PrivateHoc(UserEventsPage)} />
       <Route component={NotFound} />
     </Switch>
   );
