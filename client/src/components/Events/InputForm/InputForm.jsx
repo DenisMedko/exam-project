@@ -1,7 +1,7 @@
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
 import * as yup from 'yup';
-import * as eventActionCreators from '../../../store/slices/userEventSlice';
+import * as eventActionCreators from '../../../store/slices/eventSlice';
 import { Field, Form, Formik } from 'formik';
 import classNames from 'classnames';
 import styles from './InputForm.module.sass';
