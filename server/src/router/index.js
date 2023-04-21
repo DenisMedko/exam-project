@@ -95,4 +95,11 @@ router.post('/deleteCatalog', chatController.deleteCatalog);
 
 router.post('/getCatalogs', chatController.getCatalogs);
 
+router.post(
+  '/addEvent',
+  basicMiddlewares.onlyForCustomer,
+  validators.validateEvent,
+  userController.addEvent
+);
+
 module.exports = router;

@@ -40,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       eventDate: {
-        type: DataTypes.DATA,
+        type: DataTypes.DATE,
         allowNull: false,
         validate: {
           notNull: true,
@@ -48,7 +48,7 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       remainingDate: {
-        type: DataTypes.DATA,
+        type: DataTypes.DATE,
         allowNull: false,
         validate: {
           notNull: true,

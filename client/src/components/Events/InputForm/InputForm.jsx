@@ -8,12 +8,14 @@ import styles from './InputForm.module.sass';
 const InputForm = () => {
   const initialState = {
     title: '',
-    date: '',
+    eventDate: '',
+    remainingDate: '',
     isDone: false,
   };
   const EVENT_ITEM_SCHEMA = yup.object({
     title: yup.string().required('You must enter the title'),
-    date: yup.date().required('You must enter the date'),
+    eventDate: yup.date().required('You must enter the date'),
+    remainingDate: yup.date().required('You must enter the remaining date'),
   });
   const dispatch = useDispatch();
 
@@ -43,9 +45,17 @@ const InputForm = () => {
             />
             <Field
               type="date"
-              name="date"
+              name="eventDate"
               className={inputClassName}
               placeholder={errors.eventDate ? errors.eventDate : 'Event date'}
+            />
+            <Field
+              type="date"
+              name="remainingDate"
+              className={inputClassName}
+              placeholder={
+                errors.remainingDate ? errors.remainingDate : 'Remaining date'
+              }
             />
             <button type="submit" className={styles.eventAddBtn}>
               Add

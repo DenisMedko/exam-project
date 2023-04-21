@@ -27,3 +27,9 @@ module.exports.contestSchem = yup.object().shape({
   focusOfWork: yup.string().required().min(1),
   targetCustomer: yup.string().required().min(1),
 });
+
+module.exports.EventSchem = yup.object().shape({
+  title: yup.string().required().min(1),
+  eventDate: yup.date().required(),
+  remainingDate: yup.date().required(),
+});
