@@ -100,7 +100,6 @@ const eventSlice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     });
-
     builder.addCase(addEvent.pending, (state, action) => {
       state.isLoading = true;
     });
@@ -113,7 +112,6 @@ const eventSlice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     });
-
     builder.addCase(removeEvent.pending, (state, action) => {
       state.isLoading = true;
     });
