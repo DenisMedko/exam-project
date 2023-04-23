@@ -15,7 +15,7 @@ const headerMocks = {
     { id: 2, path: `/account`, title: `My Account` },
     { id: 3, path: `http:/www.google.com`, title: `Messages` },
     { id: 4, path: `http:/www.google.com`, title: `Affiliate Dashboard` },
-    { id: 5, path: `/events`, title: `Events` },
+    { id: 5, path: `/events`, title: `Events`, showCounter: true },
   ],
   columns: [
     {
