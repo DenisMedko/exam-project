@@ -41,6 +41,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       eventDate: {
         type: DataTypes.DATE,
+        time: true,
         allowNull: false,
         validate: {
           notNull: true,
@@ -49,15 +50,12 @@ module.exports = (sequelize, DataTypes) => {
       },
       remainingDate: {
         type: DataTypes.DATE,
+        time: true,
         allowNull: false,
         validate: {
           notNull: true,
           notEmpty: true,
         },
-      },
-      isDone: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false,
       },
     },
     {

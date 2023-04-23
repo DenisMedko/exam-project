@@ -14,8 +14,14 @@ const InputForm = () => {
   };
   const EVENT_ITEM_SCHEMA = yup.object({
     title: yup.string().required('You must enter the title'),
-    eventDate: yup.date().required('You must enter the date'),
-    remainingDate: yup.date().required('You must enter the remaining date'),
+    eventDate: yup
+      .date()
+      .min(new Date(), 'Event date is less than current date')
+      .required('You must enter the date'),
+    remainingDate: yup
+      .date()
+      .min(new Date(), 'Remaining date is less than current date')
+      .required('You must enter the remaining date'),
   });
 
   const { addEvent } = bindActionCreators(
@@ -47,13 +53,13 @@ const InputForm = () => {
                 placeholder={errors.title ? errors.title : 'Event title'}
               />
               <Field
-                type="date"
+                type="datetime-local"
                 name="eventDate"
                 className={inputClassName}
                 placeholder={errors.eventDate ? errors.eventDate : 'Event date'}
               />
               <Field
-                type="date"
+                type="datetime-local"
                 name="remainingDate"
                 className={inputClassName}
                 placeholder={

@@ -25,15 +25,12 @@ module.exports = {
       eventDate: {
         allowNull: false,
         type: Sequelize.DATE,
+        time: true,
       },
       remainingDate: {
         allowNull: false,
         type: Sequelize.DATE,
-      },
-      isDone: {
-        allowNull: false,
-        type: Sequelize.BOOLEAN,
-        defaultValue: false,
+        time: true,
       },
     });
   },

@@ -1,21 +1,14 @@
 const EventItem = (props) => {
   const {
-    event: { id, title, eventDate, remainingDate, isDone },
+    event: { id, title, eventDate, remainingDate },
   } = props;
   return (
     <div className="">
       <div className="">{title}</div>
       <div className="">{eventDate}</div>
       <div className="">{remainingDate}</div>
-      <input
-        type="checkbox"
-        name={id}
-        checked={isDone}
-        onChange={() => {}}
-        className=""
-      />
       <button type="button" name={id} onClick={() => {}} className="">
-        X
+        Done
       </button>
     </div>
   );

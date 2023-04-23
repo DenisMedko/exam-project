@@ -79,10 +79,6 @@ const eventSlice = createSlice({
       state.error = null;
       state.data = null;
     },
-    setIsDone: (state, action) => {
-      const event = state.data[action.payload];
-      event.isDone = !event.isDone;
-    },
     remove: (state, action) => {
       state.data = state.data.filter((event) => event.id !== action.payload);
     },
