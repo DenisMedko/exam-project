@@ -105,7 +105,7 @@ const eventSlice = createSlice({
     });
     builder.addCase(addEvent.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.data = [...state.data, action.payload.data];
+      state.data.push(action.payload);
       state.error = null;
     });
     builder.addCase(addEvent.rejected, (state, action) => {
