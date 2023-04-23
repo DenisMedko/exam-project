@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import * as userSliceActionCreator from '../../store/slices/userSlice';
+import * as eventSliceActionCreator from '../../store/slices/eventSlice';
 import { bindActionCreators } from '@reduxjs/toolkit';
 import styles from './Header.module.sass';
 import CONSTANTS from '../../constants';
@@ -10,13 +11,20 @@ const Header = ({ history }) => {
   const { data: userData, isFetching } = useSelector(
     (state) => state.userStore
   );
-  const { clearUserStore } = bindActionCreators(
-    { ...userSliceActionCreator },
+  const { data: events } = useSelector((state) => state.eventStore);
+  const { clearUserStore, getEvents, clearEventStore } = bindActionCreators(
+    { ...userSliceActionCreator, ...eventSliceActionCreator },
     useDispatch()
   );
+
+  useEffect(() => {
+    getEvents();
+  }, []);
+
   const logOut = () => {
     localStorage.clear();
     clearUserStore();
+    clearEventStore();
     history.replace('/login');
   };
 
@@ -25,10 +33,16 @@ const Header = ({ history }) => {
   };
 
   const renderLinksList = () => {
+    const getCounter = (link) => {
+      if (link.showCounter) {
+        return events.length || '';
+      }
+      return '';
+    };
     return CONSTANTS.HEADER_ITEMS.userLinks.map((link) => (
       <li key={link.id}>
         <Link to={link.path}>
-          <span>{link.title}</span>
+          <span>{`${link.title} ${getCounter(link)}`}</span>
         </Link>
       </li>
     ));
@@ -47,6 +61,7 @@ const Header = ({ history }) => {
             alt="user"
           />
           <span>{`Hi, ${userData.displayName}`}</span>
+          {/* <span>{`Events, ${eventsData.eventsCount}`}</span> */}
           <img
             src={`${CONSTANTS.STATIC_IMAGES_PATH}menu-down.png`}
             alt="menu"

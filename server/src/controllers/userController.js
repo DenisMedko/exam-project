@@ -234,3 +234,13 @@ module.exports.addEvent = async (req, res, next) => {
     next(err);
   }
 };
+
+module.exports.getEvents = async (req, res, next) => {
+  try {
+    const { userId } = req.tokenData;
+    const events = await eventQueries.getEvents(userId);
+    res.status(200).send({ data: events });
+  } catch (err) {
+    next(err);
+  }
+};

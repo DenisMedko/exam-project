@@ -1,9 +1,12 @@
+import EventsList from './EventsList/EventsList';
 import InputForm from './InputForm/InputForm';
 
-const Events = (props) => {
+const Events = () => {
   return (
     <>
-      Events component <InputForm />
+      <div>Events component</div>
+      <InputForm />
+      <EventsList />
     </>
   );
 };

@@ -7,10 +7,15 @@ const getEvents = createAsyncThunk(
   `${SLICE_NAME}/getEvents`,
   async (arg, thunkAPI) => {
     try {
-      const { data } = await restController.getEvents(arg);
+      const {
+        data: { data },
+      } = await restController.getEvents(arg);
       return data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+    } catch (err) {
+      return thunkAPI.rejectWithValue({
+        data: err?.response?.data ?? 'Gateway Timeout',
+        status: err?.response?.status ?? 504,
+      });
     }
   }
 );
@@ -21,8 +26,11 @@ const addEvent = createAsyncThunk(
     try {
       const { data } = await restController.addEvent(arg);
       return data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data.error);
+    } catch (err) {
+      return thunkAPI.rejectWithValue({
+        data: err?.response?.data ?? 'Gateway Timeout',
+        status: err?.response?.status ?? 504,
+      });
     }
   }
 );
@@ -33,8 +41,11 @@ const removeEvent = createAsyncThunk(
     try {
       const { data } = await restController.removeEvent(arg);
       return data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data.error);
+    } catch (err) {
+      return thunkAPI.rejectWithValue({
+        data: err?.response?.data ?? 'Gateway Timeout',
+        status: err?.response?.status ?? 504,
+      });
     }
   }
 );
@@ -45,29 +56,35 @@ const changeEvent = createAsyncThunk(
     try {
       const { data } = await restController.changeEvent(arg);
       return data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data.error);
+    } catch (err) {
+      return thunkAPI.rejectWithValue({
+        data: err?.response?.data ?? 'Gateway Timeout',
+        status: err?.response?.status ?? 504,
+      });
     }
   }
 );
 
 const initialState = {
-  eventsArr: [],
+  data: [],
   isLoading: false,
   error: null,
 };
+
 const eventSlice = createSlice({
   name: SLICE_NAME,
   initialState,
   reducers: {
+    clearUserStore: (state) => {
+      state.error = null;
+      state.data = null;
+    },
     setIsDone: (state, action) => {
-      const event = state.eventsArr[action.payload];
+      const event = state.data[action.payload];
       event.isDone = !event.isDone;
     },
     remove: (state, action) => {
-      state.eventsArr = state.eventsArr.filter(
-        (event) => event.id !== action.payload
-      );
+      state.data = state.data.filter((event) => event.id !== action.payload);
     },
   },
   extraReducers: (builder) => {
@@ -76,7 +93,8 @@ const eventSlice = createSlice({
     });
     builder.addCase(getEvents.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.eventsArr = action.payload;
+      state.data = action.payload;
+      state.error = null;
     });
     builder.addCase(getEvents.rejected, (state, action) => {
       state.isLoading = false;
@@ -88,7 +106,8 @@ const eventSlice = createSlice({
     });
     builder.addCase(addEvent.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.eventsArr.push(action.payload);
+      state.data.push(action.payload);
+      state.error = null;
     });
     builder.addCase(addEvent.rejected, (state, action) => {
       state.isLoading = false;
@@ -100,6 +119,7 @@ const eventSlice = createSlice({
     });
     builder.addCase(removeEvent.fulfilled, (state, action) => {
       state.isLoading = false;
+      state.error = null;
     });
     builder.addCase(removeEvent.rejected, (state, action) => {
       state.isLoading = false;
@@ -111,6 +131,7 @@ const eventSlice = createSlice({
     });
     builder.addCase(changeEvent.fulfilled, (state, action) => {
       state.isLoading = false;
+      state.error = null;
     });
     builder.addCase(changeEvent.rejected, (state, action) => {
       state.isLoading = false;

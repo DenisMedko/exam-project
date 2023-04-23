@@ -102,4 +102,10 @@ router.post(
   userController.addEvent
 );
 
+router.get(
+  '/getEvents',
+  basicMiddlewares.onlyForCustomer,
+  userController.getEvents
+);
+
 module.exports = router;

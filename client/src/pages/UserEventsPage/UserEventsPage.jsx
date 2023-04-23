@@ -8,13 +8,13 @@ const UserEventsPage = ({ history }) => {
   const { role, id: userId } = useSelector(
     (state) => state.userStore.data || {}
   );
-  if (role !== CONSTANTS.CUSTOMER) {
+  if (role && role !== CONSTANTS.CUSTOMER) {
     history.replace('/');
   }
   return (
     <>
       <Header />
-      <Events props={userId} />
+      <Events />
       <Footer />
     </>
   );
