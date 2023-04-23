@@ -50,21 +50,6 @@ const removeEvent = createAsyncThunk(
   }
 );
 
-const changeEvent = createAsyncThunk(
-  `${SLICE_NAME}/changeEvent`,
-  async (arg, thunkAPI) => {
-    try {
-      const { data } = await restController.changeEvent(arg);
-      return data;
-    } catch (err) {
-      return thunkAPI.rejectWithValue({
-        data: err?.response?.data ?? 'Gateway Timeout',
-        status: err?.response?.status ?? 504,
-      });
-    }
-  }
-);
-
 const initialState = {
   data: [],
   isLoading: false,
@@ -75,12 +60,9 @@ const eventSlice = createSlice({
   name: SLICE_NAME,
   initialState,
   reducers: {
-    clearUserStore: (state) => {
+    clearEventStore: (state) => {
       state.error = null;
       state.data = null;
-    },
-    remove: (state, action) => {
-      state.data = state.data.filter((event) => event.id !== action.payload);
     },
   },
   extraReducers: (builder) => {
@@ -113,31 +95,21 @@ const eventSlice = createSlice({
     });
     builder.addCase(removeEvent.fulfilled, (state, action) => {
       state.isLoading = false;
+      state.data = state.data.filter(
+        (event) => event.id !== +action.payload.data
+      );
       state.error = null;
     });
     builder.addCase(removeEvent.rejected, (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
     });
-
-    builder.addCase(changeEvent.pending, (state, action) => {
-      state.isLoading = true;
-    });
-    builder.addCase(changeEvent.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.error = null;
-    });
-    builder.addCase(changeEvent.rejected, (state, action) => {
-      state.isLoading = false;
-      state.error = action.payload;
-    });
   },
 });
 
-const {
-  reducer,
-  actions: { setIsDone, remove },
-} = eventSlice;
+const { actions, reducer } = eventSlice;
 
-export { getEvents, setIsDone, remove, addEvent, changeEvent, removeEvent };
+export const { clearEventStore } = actions;
+
+export { getEvents, addEvent, removeEvent };
 export default reducer;

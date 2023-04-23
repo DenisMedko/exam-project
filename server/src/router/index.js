@@ -108,4 +108,10 @@ router.get(
   userController.getEvents
 );
 
+router.delete(
+  '/removeEvent',
+  basicMiddlewares.onlyForCustomer,
+  userController.removeEvent
+);
+
 module.exports = router;

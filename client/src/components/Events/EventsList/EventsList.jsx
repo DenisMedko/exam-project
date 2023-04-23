@@ -5,7 +5,7 @@ const EventsList = () => {
   const { data: events } = useSelector((state) => state.eventStore);
   return (
     <div className="">
-      {events.map((event) => (
+      {events?.map((event) => (
         <EventItem key={event.id} event={event} />
       ))}
     </div>

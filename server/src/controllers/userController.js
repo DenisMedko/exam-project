@@ -244,3 +244,14 @@ module.exports.getEvents = async (req, res, next) => {
     next(err);
   }
 };
+
+module.exports.removeEvent = async (req, res, next) => {
+  try {
+    const { userId } = req.tokenData;
+    const eventId = req.headers.eventid;
+    const deletedId = await eventQueries.removeEvent(eventId, userId);
+    res.status(200).send({ data: deletedId });
+  } catch (err) {
+    next(err);
+  }
+};

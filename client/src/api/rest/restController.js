@@ -65,5 +65,9 @@ export const getContestById = (data) =>
 
 export const getEvents = () => http.get('getEvents');
 export const addEvent = (data) => http.post('addEvent', data);
-export const removeEvent = (data) => http.delete('remove', data);
-export const changeEvent = (data) => http.put(`update`, data);
+export const removeEvent = (data) =>
+  http.delete('removeEvent', {
+    headers: {
+      eventId: data,
+    },
+  });

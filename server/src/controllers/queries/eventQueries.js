@@ -12,3 +12,9 @@ module.exports.getEvents = async (userId) => {
   const events = Event.findAll({ where: { userId } });
   return events;
 };
+module.exports.removeEvent = async (data, userId) => {
+  Event.destroy({
+    where: { id: data, userId },
+  });
+  return data;
+};

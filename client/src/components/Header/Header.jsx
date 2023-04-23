@@ -35,7 +35,7 @@ const Header = ({ history }) => {
   const renderLinksList = () => {
     const getCounter = (link) => {
       if (link.showCounter) {
-        return events.length || '';
+        return events?.length || '';
       }
       return '';
     };
