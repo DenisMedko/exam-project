@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import * as userSliceActionCreator from '../../store/slices/userSlice';
@@ -6,20 +6,16 @@ import * as eventSliceActionCreator from '../../store/slices/eventSlice';
 import { bindActionCreators } from '@reduxjs/toolkit';
 import styles from './Header.module.sass';
 import CONSTANTS from '../../constants';
+import EventRemainder from '../Events/EventRemainder/EventRemainder';
 
 const Header = ({ history }) => {
   const { data: userData, isFetching } = useSelector(
     (state) => state.userStore
   );
-  const { data: events } = useSelector((state) => state.eventStore);
-  const { clearUserStore, getEvents, clearEventStore } = bindActionCreators(
+  const { clearUserStore, clearEventStore } = bindActionCreators(
     { ...userSliceActionCreator, ...eventSliceActionCreator },
     useDispatch()
   );
-
-  useEffect(() => {
-    getEvents();
-  }, []);
 
   const logOut = () => {
     localStorage.clear();
@@ -33,17 +29,14 @@ const Header = ({ history }) => {
   };
 
   const renderLinksList = () => {
-    const getCounter = (link) => {
-      if (link.showCounter) {
-        return events?.length || '';
-      }
-      return '';
-    };
     return CONSTANTS.HEADER_ITEMS.userLinks.map((link) => (
       <li key={link.id}>
-        <Link to={link.path}>
-          <span>{`${link.title} ${getCounter(link)}`}</span>
-        </Link>
+        {!link.showCounter && (
+          <Link to={link.path}>
+            <span>{link.title}</span>
+          </Link>
+        )}
+        {link.showCounter && <EventRemainder />}
       </li>
     ));
   };
@@ -61,7 +54,6 @@ const Header = ({ history }) => {
             alt="user"
           />
           <span>{`Hi, ${userData.displayName}`}</span>
-          {/* <span>{`Events, ${eventsData.eventsCount}`}</span> */}
           <img
             src={`${CONSTANTS.STATIC_IMAGES_PATH}menu-down.png`}
             alt="menu"
@@ -73,11 +65,16 @@ const Header = ({ history }) => {
             </li>
           </ul>
         </div>
-        <img
-          src={`${CONSTANTS.STATIC_IMAGES_PATH}email.png`}
-          className={styles.emailIcon}
-          alt="email"
-        />
+        <div className={styles.userMenuItem}>
+          <img
+            src={`${CONSTANTS.STATIC_IMAGES_PATH}email.png`}
+            className={styles.emailIcon}
+            alt="email"
+          />
+        </div>
+        <div className={styles.userMenuItem}>
+          <EventRemainder />
+        </div>
       </>
     );
   };

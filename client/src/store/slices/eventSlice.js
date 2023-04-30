@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import * as restController from '../../api/rest/restController';
+import { pushAndSortArr } from '../../utils/functions';
 
 const SLICE_NAME = 'events';
 
@@ -83,7 +84,10 @@ const eventSlice = createSlice({
     });
     builder.addCase(addEvent.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.data = [...state.data, action.payload.data];
+      state.data = pushAndSortArr(state.data, action.payload.data, [
+        'remainingDate',
+        'eventDate',
+      ]);
       state.error = null;
     });
     builder.addCase(addEvent.rejected, (state, action) => {

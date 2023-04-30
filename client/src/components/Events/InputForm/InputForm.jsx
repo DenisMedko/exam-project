@@ -34,7 +34,7 @@ const InputForm = () => {
     formikBag.resetForm();
   };
   return (
-    <>
+    <div>
       <Formik
         initialValues={initialState}
         onSubmit={handleAddBtn}
@@ -73,7 +73,7 @@ const InputForm = () => {
           );
         }}
       </Formik>
-    </>
+    </div>
   );
 };
 

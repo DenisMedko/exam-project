@@ -1,4 +1,4 @@
-const { User, Event } = require('../../models');
+const { User, Event, Sequelize } = require('../../models');
 const NotFound = require('../../errors/UserNotFoundError');
 
 module.exports.createEvent = async (data, userId) => {
@@ -9,9 +9,16 @@ module.exports.createEvent = async (data, userId) => {
   return user.createEvent(data);
 };
 module.exports.getEvents = async (userId) => {
-  const events = Event.findAll({ where: { userId } });
+  const events = Event.findAll({
+    where: { userId },
+    order: [
+      ['remainingDate', 'ASC'],
+      ['eventDate', 'ASC'],
+    ],
+  });
   return events;
 };
+
 module.exports.removeEvent = async (data, userId) => {
   Event.destroy({
     where: { id: data, userId },

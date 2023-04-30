@@ -1,10 +1,8 @@
-import { useSelector } from 'react-redux';
 import EventItem from '../EventItem/EventItem';
 
-const EventsList = () => {
-  const { data: events } = useSelector((state) => state.eventStore);
+const EventsList = ({ events }) => {
   return (
-    <div className="">
+    <div>
       {events?.map((event) => (
         <EventItem key={event.id} event={event} />
       ))}

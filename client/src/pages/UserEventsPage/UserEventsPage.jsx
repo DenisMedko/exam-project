@@ -3,18 +3,19 @@ import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import CONSTANTS from '../../constants';
 import Events from '../../components/Events/Events';
+import styles from './UserEventsPage.module.sass';
 
 const UserEventsPage = ({ history }) => {
-  const { role, id: userId } = useSelector(
-    (state) => state.userStore.data || {}
-  );
+  const { role } = useSelector((state) => state.userStore.data || {});
   if (role && role !== CONSTANTS.CUSTOMER) {
     history.replace('/');
   }
   return (
     <>
       <Header />
-      <Events />
+      <div className={styles.container}>
+        <Events />
+      </div>
       <Footer />
     </>
   );
