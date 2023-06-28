@@ -13,7 +13,7 @@ const Events = () => {
         <h2>{title}</h2>
         <span>{text}</span>
       </div>
-      <div className={styles.eventsContainer}>
+      <div className={styles.mainContainer}>
         <InputForm />
         <EventsList events={events} />
       </div>

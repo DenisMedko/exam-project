@@ -81,12 +81,16 @@ const Header = ({ history }) => {
   const renderLoginButtons = () => {
     return (
       <>
-        <Link to="/login">
-          <span className={styles.btn}>LOGIN</span>
-        </Link>
-        <Link to="/registration">
-          <span className={styles.btn}>SIGN UP</span>
-        </Link>
+        <div className={styles.userButton}>
+          <Link to="/login">
+            <span className={styles.btn}>LOGIN</span>
+          </Link>
+        </div>
+        <div className={styles.userButton}>
+          <Link to="/registration">
+            <span className={styles.btn}>SIGN UP</span>
+          </Link>
+        </div>
       </>
     );
   };
