@@ -97,6 +97,10 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         type: DataTypes.INTEGER,
       },
+      domainType: {
+        allowNull: true,
+        type: DataTypes.STRING,
+      },
     },
     {
       sequelize,
