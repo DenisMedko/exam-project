@@ -15,6 +15,7 @@ import Schemes from '../../utils/validators/validationSchems';
 import OptionalSelects from '../OptionalSelects/OptionalSelects';
 import CONSTANTS from '../../constants';
 import ButtonGroup from '../ButtonGroup/ButtonGroup';
+import { filterArrayByField } from '../../utils/functions';
 
 const variableOptions = {
   [CONSTANTS.CONTESTS.nameContest.type]: {
@@ -56,9 +57,8 @@ const ContestForm = ({ contestType, defaultData, handleSubmit, formRef }) => {
   const { isFetching, error } = dataForContest;
 
   const buttons = variableOptions[contestType].buttons;
-  const initialBtnValue =
-    buttons?.filter((btn) => btn.selected)[0]?.value ?? null;
-
+  const initialBtnValue = filterArrayByField(buttons, 'selected', true)[0]
+    ?.value;
   const renderForm = () => {
     return (
       <div className={styles.formContainer}>
@@ -71,7 +71,7 @@ const ContestForm = ({ contestType, defaultData, handleSubmit, formRef }) => {
             file: '',
             ...variableOptions[contestType],
             ...defaultData,
-            selectedButton: initialBtnValue,
+            domainType: initialBtnValue,
           }}
           onSubmit={handleSubmit}
           validationSchema={Schemes.ContestSchem}
@@ -141,7 +141,7 @@ const ContestForm = ({ contestType, defaultData, handleSubmit, formRef }) => {
               dataForContest={dataForContest}
             />
             {buttons && (
-              <Field name="selectedButton">
+              <Field name="domainType">
                 {({ field, form }) => {
                   const handleBtnSelect = (btnValue) => {
                     form.setFieldValue(field.name, btnValue);

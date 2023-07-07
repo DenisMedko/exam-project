@@ -1,13 +1,14 @@
 import classNames from 'classnames';
 import styles from './ButtonGroup.module.sass';
 import { useState } from 'react';
+import { filterArrayByField } from '../../utils/functions';
 
 const ButtonGroup = ({ buttons, initialBtnValue, handleBtnSelect }) => {
   const [selectedButtonValue, setSelectedButtonValue] =
     useState(initialBtnValue);
   const setSelected = (e) => {
-    const btnValue =
-      buttons?.filter((btn) => btn.value === e.target.value)[0]?.value ?? null;
+    const btnValue = filterArrayByField(buttons, 'value', e.target.value)[0]
+      ?.value;
     setSelectedButtonValue(btnValue);
     handleBtnSelect(btnValue);
   };

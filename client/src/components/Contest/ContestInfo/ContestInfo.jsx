@@ -4,6 +4,7 @@ import CONSTANTS from '../../../constants';
 import LogoContestSpecialInfo from './LogoContestSpecialInfo';
 import NameContestSpecialInfo from './NameContestSpecialInfo';
 import TaglineContestSpecialInfo from './TaglineContestSpecialInfo';
+import { filterArrayByField } from '../../../utils/functions';
 
 const ContestInfo = (props) => {
   const { changeEditContest, userId, contestData, role, goChat } = props;
@@ -21,7 +22,15 @@ const ContestInfo = (props) => {
     fileName,
     User,
     status,
+    domainType,
   } = contestData;
+
+  let domainTypeTitle;
+  if (contestType === CONSTANTS.CONTESTS.nameContest.type) {
+    const domainTypes = CONSTANTS.CONTESTS.nameContest.formButtons;
+    domainTypeTitle = filterArrayByField(domainTypes, 'value', domainType)[0]
+      ?.title;
+  }
   return (
     <div className={styles.mainContestInfoContainer}>
       <div className={styles.infoContainer}>
@@ -91,6 +100,12 @@ const ContestInfo = (props) => {
             >
               {originalFileName}
             </a>
+          </div>
+        )}
+        {domainType && domainTypeTitle && (
+          <div className={styles.dataContainer}>
+            <span className={styles.label}>Type of domain</span>
+            <span className={styles.data}>{domainTypeTitle}</span>
           </div>
         )}
       </div>
