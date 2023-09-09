@@ -36,7 +36,9 @@ const Header = ({ history }) => {
             <span>{link.title}</span>
           </Link>
         )}
-        {link.showCounter && <EventRemainder />}
+        {userData?.role === CONSTANTS.CUSTOMER && link.showCounter && (
+          <EventRemainder />
+        )}
       </li>
     ));
   };
@@ -72,9 +74,11 @@ const Header = ({ history }) => {
             alt="email"
           />
         </div>
-        <div className={styles.userMenuItem}>
-          <EventRemainder />
-        </div>
+        {userData?.role === CONSTANTS.CUSTOMER && (
+          <div className={styles.userMenuItem}>
+            <EventRemainder />
+          </div>
+        )}
       </>
     );
   };

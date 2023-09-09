@@ -34,7 +34,7 @@ const EventRemainder = () => {
     <>
       <Link className={styles.remainder} to={CONSTANTS.EVENT_PAGE_LINK}>
         <span>Events:</span>
-        <span className={styles.counter}>{eventsToRemain?.length || ''}</span>
+        <span className={styles.counter}>{eventsToRemain?.length || 0}</span>
       </Link>
     </>
   );
