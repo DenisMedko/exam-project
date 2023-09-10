@@ -1,0 +1,5 @@
+npx sequelize model:generate --name Catalog --attributes userId:integer,catalogName:string,chats:array,oldChats:array
+
+npx sequelize model:generate --name Conversation --attributes participants:array,blackList:array,favoriteList:array,oldId:string
+
+npx sequelize model:generate --name Message --attributes sender:integer,conversation:integer,body:string,oldConversationId:string
