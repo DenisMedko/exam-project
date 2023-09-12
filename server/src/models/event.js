@@ -11,7 +11,6 @@ module.exports = (sequelize, DataTypes) => {
       Event.belongsTo(User, {
         foreignKey: 'userId',
         sourceKey: 'id',
-        as: 'powers',
       });
     }
   }
@@ -29,6 +28,10 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notNull: true,
           notEmpty: true,
+        },
+        references: {
+          model: 'Users',
+          key: 'id',
         },
       },
       title: {

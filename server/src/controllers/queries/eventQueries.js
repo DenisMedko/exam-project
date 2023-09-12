@@ -9,14 +9,16 @@ module.exports.createEvent = async (data, userId) => {
   return user.createEvent(data);
 };
 module.exports.getEvents = async (userId) => {
-  const events = Event.findAll({
-    where: { userId },
+  const user = await User.findByPk(userId);
+  if (!user) {
+    throw new NotFound('User not found');
+  }
+  return user.getEvents({
     order: [
       ['remainingDate', 'ASC'],
       ['eventDate', 'ASC'],
     ],
   });
-  return events;
 };
 
 module.exports.removeEvent = async (data, userId) => {
