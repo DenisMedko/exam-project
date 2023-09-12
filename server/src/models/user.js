@@ -15,7 +15,15 @@ module.exports = (sequelize, DataTypes) => {
     async comparePassword(password) {
       return bcrypt.compare(password, this.password);
     }
-    static associate({ Offer, Contest, Rating, RefreshToken, Event }) {
+    static associate({
+      Offer,
+      Contest,
+      Rating,
+      RefreshToken,
+      Event,
+      Message,
+      Catalog,
+    }) {
       // define association here
       User.hasMany(Offer, {
         foreignKey: 'userId',
@@ -34,6 +42,14 @@ module.exports = (sequelize, DataTypes) => {
         targetKey: 'id',
       });
       User.hasMany(Event, {
+        foreignKey: 'userId',
+        targetKey: 'id',
+      });
+      User.hasMany(Message, {
+        foreignKey: 'sender',
+        targetKey: 'id',
+      });
+      User.hasMany(Catalog, {
         foreignKey: 'userId',
         targetKey: 'id',
       });

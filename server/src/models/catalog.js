@@ -7,14 +7,34 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate(models) {
-      // define association here
+    static associate({ User }) {
+      Catalog.belongsTo(User, { foreignKey: 'userId', sourceKey: 'id' });
     }
   }
   Catalog.init(
     {
-      userId: DataTypes.INTEGER,
-      catalogName: DataTypes.STRING,
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER,
+      },
+      userId: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+        references: {
+          model: 'Users',
+          key: 'id',
+        },
+      },
+      catalogName: {
+        allowNull: false,
+        validate: {
+          notNull: true,
+          notEmpty: true,
+        },
+        type: DataTypes.STRING,
+      },
       chats: DataTypes.ARRAY(DataTypes.STRING),
       oldChats: DataTypes.ARRAY(DataTypes.STRING),
     },
