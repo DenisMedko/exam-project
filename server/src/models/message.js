@@ -11,13 +11,13 @@ module.exports = (sequelize, DataTypes) => {
       Message.belongsTo(User, { foreignKey: 'sender', sourceKey: 'id' });
       Message.belongsTo(Conversation, {
         foreignKey: 'conversation',
-        sourceKey: 'id',
+        sourceKey: '_id',
       });
     }
   }
   Message.init(
     {
-      id: {
+      _id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
@@ -36,11 +36,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         references: {
           model: 'Conversations',
-          key: 'id',
+          key: '_id',
         },
       },
       body: DataTypes.STRING,
-      oldConversationId: DataTypes.STRING,
     },
     {
       sequelize,

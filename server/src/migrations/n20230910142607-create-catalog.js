@@ -22,10 +22,7 @@ module.exports = {
         type: Sequelize.STRING,
       },
       chats: {
-        type: Sequelize.ARRAY(Sequelize.STRING),
-      },
-      oldChats: {
-        type: Sequelize.ARRAY(Sequelize.STRING),
+        type: Sequelize.ARRAY(Sequelize.INTEGER),
       },
       createdAt: {
         allowNull: false,

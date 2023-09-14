@@ -10,13 +10,13 @@ module.exports = (sequelize, DataTypes) => {
     static associate({ Message }) {
       Conversation.hasMany(Message, {
         foreignKey: 'conversation',
-        targetKey: 'id',
+        targetKey: '_id',
       });
     }
   }
   Conversation.init(
     {
-      id: {
+      _id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
@@ -25,7 +25,6 @@ module.exports = (sequelize, DataTypes) => {
       participants: DataTypes.ARRAY(DataTypes.INTEGER),
       blackList: DataTypes.ARRAY(DataTypes.INTEGER),
       favoriteList: DataTypes.ARRAY(DataTypes.INTEGER),
-      oldId: DataTypes.STRING,
     },
     {
       sequelize,

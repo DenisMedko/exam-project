@@ -17,9 +17,6 @@ module.exports = {
       favoriteList: {
         type: Sequelize.ARRAY(Sequelize.INTEGER),
       },
-      oldId: {
-        type: Sequelize.STRING,
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

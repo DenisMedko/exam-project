@@ -31,9 +31,6 @@ module.exports = {
       body: {
         type: Sequelize.STRING,
       },
-      oldConversationId: {
-        type: Sequelize.STRING,
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

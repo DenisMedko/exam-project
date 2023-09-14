@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Catalog.init(
     {
-      id: {
+      _id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
@@ -35,8 +35,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         type: DataTypes.STRING,
       },
-      chats: DataTypes.ARRAY(DataTypes.STRING),
-      oldChats: DataTypes.ARRAY(DataTypes.STRING),
+      chats: DataTypes.ARRAY(DataTypes.INTEGER),
     },
     {
       sequelize,
