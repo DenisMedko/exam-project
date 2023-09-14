@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Catalog.init(
     {
-      id: {
+      _id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
