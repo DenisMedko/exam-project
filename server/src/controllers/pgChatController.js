@@ -136,8 +136,10 @@ module.exports.getPreview = async (req, res, next) => {
       attributes: ['id', 'firstName', 'lastName', 'displayName', 'avatar'],
     });
     conversations.forEach((conversation) => {
+      console.log(conversation);
       senders.forEach((sender) => {
         if (conversation.participants.includes(sender.dataValues.id)) {
+          conversation.setDataValue('text', conversation.Messages[0].body);
           conversation.setDataValue(
             'blackList',
             conversation.blackList.map((element) => !!element)
