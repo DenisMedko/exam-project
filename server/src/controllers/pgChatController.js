@@ -185,7 +185,7 @@ module.exports.blackList = async (req, res, next) => {
     )[0];
     controller.getChatController().emitChangeBlockStatus(interlocutorId, chat);
   } catch (err) {
-    res.send(err);
+    next(err);
   }
 };
 
