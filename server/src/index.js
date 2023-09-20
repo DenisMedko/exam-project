@@ -10,6 +10,9 @@ const handlerError = require('./handlerError/handler');
 const tokenErrorHandler = require('./handlerError/tokenHandler');
 const multerErrorHandler = require('./handlerError/multerHandler');
 const { FILES_PATH } = require('./constants');
+const { errorLogBackup } = require('./errors/errorLogger/errorLogger');
+const CONSTANTS = require('./constants');
+const cron = require('node-cron');
 
 const PORT = process.env.PORT || 5000;
 const app = express();
@@ -23,6 +26,7 @@ app.use(multerErrorHandler);
 app.use(handlerError);
 
 const server = http.createServer(app);
+cron.schedule(CONSTANTS.LOG_BACKUP_CRON_SCHEDULE, errorLogBackup);
 server.listen(PORT, () =>
   console.log(`Example app listening on port ${PORT}!`)
 );
