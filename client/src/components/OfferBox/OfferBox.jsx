@@ -87,6 +87,14 @@ const OfferBox = ({ offer, needButtons, setOfferStatus, contestType }) => {
 
   const offerStatus = () => {
     const { status } = offer;
+    if (status === CONSTANTS.OFFER_STATUS_MODERATOR_PENDING) {
+      return (
+        <i className={classNames('fas fa-question', styles.moderatorPending)} />
+      );
+    }
+    if (status === CONSTANTS.OFFER_STATUS_MODERATOR_REJECTED) {
+      return <i className={classNames('fas fa-question', styles.reject)} />;
+    }
     if (status === CONSTANTS.OFFER_STATUS_REJECTED) {
       return (
         <i

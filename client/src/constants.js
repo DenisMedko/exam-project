@@ -12,6 +12,7 @@ const serverPort = process.env.REACT_APP_SERVER_PORT || 5000;
 export default {
   CUSTOMER: 'customer',
   CREATOR: 'creator',
+  MODERATOR: 'moderator',
   CONTEST_STATUSES: [
     { id: 1, name: 'active', title: 'Active Contests' },
     { id: 2, name: 'finished', title: 'Completed contests' },
@@ -22,9 +23,11 @@ export default {
   CONTEST_STATUS_FINISHED: 'finished',
   CONTEST_STATUS_PENDING: 'pending',
   CONTESTS: contestFormMocks,
+  OFFER_STATUS_MODERATOR_PENDING: 'moderator_pending',
+  OFFER_STATUS_MODERATOR_REJECTED: 'moderator_rejected',
   OFFER_STATUS_REJECTED: 'rejected',
-  OFFER_STATUS_WON: 'won',
   OFFER_STATUS_PENDING: 'pending',
+  OFFER_STATUS_WON: 'won',
   STATIC_IMAGES_PATH: '/staticImages/',
   ANONYM_IMAGE_PATH: '/staticImages/anonym.png',
   BASE_URL: `http://${serverIP}:${serverPort}/`,
