@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as chatActionCreators from '../../store/slices/chatSlice';
 import * as contestByIdActionCreators from '../../store/slices/contestByIdSlice';
@@ -25,6 +25,9 @@ const OfferBox = ({ offer, needButtons, setOfferStatus, contestType }) => {
     { ...contestByIdActionCreators, ...chatActionCreators },
     useDispatch()
   );
+
+  const [isVisible, setIsVisible] = useState(true);
+
   const findConversationInfo = () => {
     const participants = [userId, offer.User.id];
     participants.sort(
@@ -50,7 +53,10 @@ const OfferBox = ({ offer, needButtons, setOfferStatus, contestType }) => {
       buttons: [
         {
           label: 'Yes',
-          onClick: () => setOfferStatus(offer.User.id, offer.id, 'resolve'),
+          onClick: () => {
+            setOfferStatus(offer.User.id, offer.id, 'resolve');
+            role === CONSTANTS.MODERATOR && setIsVisible(false);
+          },
         },
         {
           label: 'No',
@@ -66,7 +72,10 @@ const OfferBox = ({ offer, needButtons, setOfferStatus, contestType }) => {
       buttons: [
         {
           label: 'Yes',
-          onClick: () => setOfferStatus(offer.User.id, offer.id, 'reject'),
+          onClick: () => {
+            setOfferStatus(offer.User.id, offer.id, 'reject');
+            role === CONSTANTS.MODERATOR && setIsVisible(false);
+          },
         },
         {
           label: 'No',
@@ -121,108 +130,110 @@ const OfferBox = ({ offer, needButtons, setOfferStatus, contestType }) => {
 
   const { firstName, lastName, email, rating } = offer.User;
   return (
-    <div className={styles.offerContainer}>
-      {offerStatus()}
-      <div className={styles.mainInfoContainer}>
-        <div className={styles.userInfo}>
-          <div className={styles.creativeInfoContainer}>
-            <img
-              src={
-                offer.User?.avatar === 'anon.png'
-                  ? CONSTANTS.ANONYM_IMAGE_PATH
-                  : `${CONSTANTS.publicURL}${offer.User?.avatar}`
-              }
-              alt="user"
-            />
-            <div className={styles.nameAndEmail}>
-              <span>{`${firstName} ${lastName}`}</span>
-              <span>{email}</span>
+    isVisible && (
+      <div className={styles.offerContainer}>
+        {offerStatus()}
+        <div className={styles.mainInfoContainer}>
+          <div className={styles.userInfo}>
+            <div className={styles.creativeInfoContainer}>
+              <img
+                src={
+                  offer.User?.avatar === 'anon.png'
+                    ? CONSTANTS.ANONYM_IMAGE_PATH
+                    : `${CONSTANTS.publicURL}${offer.User?.avatar}`
+                }
+                alt="user"
+              />
+              <div className={styles.nameAndEmail}>
+                <span>{`${firstName} ${lastName}`}</span>
+                <span>{email}</span>
+              </div>
+            </div>
+            <div className={styles.creativeRating}>
+              <span className={styles.userScoreLabel}>Creative Rating </span>
+              <Rating
+                initialRating={rating}
+                fractions={2}
+                fullSymbol={
+                  <img
+                    src={`${CONSTANTS.STATIC_IMAGES_PATH}star.png`}
+                    alt="star"
+                  />
+                }
+                placeholderSymbol={
+                  <img
+                    src={`${CONSTANTS.STATIC_IMAGES_PATH}star.png`}
+                    alt="star"
+                  />
+                }
+                emptySymbol={
+                  <img
+                    src={`${CONSTANTS.STATIC_IMAGES_PATH}star-outline.png`}
+                    alt="star-outline"
+                  />
+                }
+                readonly
+              />
             </div>
           </div>
-          <div className={styles.creativeRating}>
-            <span className={styles.userScoreLabel}>Creative Rating </span>
-            <Rating
-              initialRating={rating}
-              fractions={2}
-              fullSymbol={
-                <img
-                  src={`${CONSTANTS.STATIC_IMAGES_PATH}star.png`}
-                  alt="star"
-                />
-              }
-              placeholderSymbol={
-                <img
-                  src={`${CONSTANTS.STATIC_IMAGES_PATH}star.png`}
-                  alt="star"
-                />
-              }
-              emptySymbol={
-                <img
-                  src={`${CONSTANTS.STATIC_IMAGES_PATH}star-outline.png`}
-                  alt="star-outline"
-                />
-              }
-              readonly
-            />
+          <div className={styles.responseConainer}>
+            {contestType === CONSTANTS.LOGO_CONTEST ? (
+              <img
+                onClick={() =>
+                  changeShowImage({
+                    imagePath: offer.fileName,
+                    isShowOnFull: true,
+                  })
+                }
+                className={styles.responseLogo}
+                src={`${CONSTANTS.publicURL}${offer.fileName}`}
+                alt="logo"
+              />
+            ) : (
+              <span className={styles.response}>{offer.text}</span>
+            )}
+            {offer.User.id !== userId && (
+              <Rating
+                fractions={2}
+                fullSymbol={
+                  <img
+                    src={`${CONSTANTS.STATIC_IMAGES_PATH}star.png`}
+                    alt="star"
+                  />
+                }
+                placeholderSymbol={
+                  <img
+                    src={`${CONSTANTS.STATIC_IMAGES_PATH}star.png`}
+                    alt="star"
+                  />
+                }
+                emptySymbol={
+                  <img
+                    src={`${CONSTANTS.STATIC_IMAGES_PATH}star-outline.png`}
+                    alt="star"
+                  />
+                }
+                onClick={changeMark}
+                placeholderRating={offer.mark}
+              />
+            )}
           </div>
-        </div>
-        <div className={styles.responseConainer}>
-          {contestType === CONSTANTS.LOGO_CONTEST ? (
-            <img
-              onClick={() =>
-                changeShowImage({
-                  imagePath: offer.fileName,
-                  isShowOnFull: true,
-                })
-              }
-              className={styles.responseLogo}
-              src={`${CONSTANTS.publicURL}${offer.fileName}`}
-              alt="logo"
-            />
-          ) : (
-            <span className={styles.response}>{offer.text}</span>
-          )}
-          {offer.User.id !== userId && (
-            <Rating
-              fractions={2}
-              fullSymbol={
-                <img
-                  src={`${CONSTANTS.STATIC_IMAGES_PATH}star.png`}
-                  alt="star"
-                />
-              }
-              placeholderSymbol={
-                <img
-                  src={`${CONSTANTS.STATIC_IMAGES_PATH}star.png`}
-                  alt="star"
-                />
-              }
-              emptySymbol={
-                <img
-                  src={`${CONSTANTS.STATIC_IMAGES_PATH}star-outline.png`}
-                  alt="star"
-                />
-              }
-              onClick={changeMark}
-              placeholderRating={offer.mark}
-            />
+          {role !== CONSTANTS.CREATOR && (
+            <i onClick={goChat} className="fas fa-comments" />
           )}
         </div>
-        {role !== CONSTANTS.CREATOR && (
-          <i onClick={goChat} className="fas fa-comments" />
+        {needButtons(offer.status) && (
+          <div className={styles.btnsContainer}>
+            <div onClick={resolveOffer} className={styles.resolveBtn}>
+              Resolve
+            </div>
+            <div onClick={rejectOffer} className={styles.rejectBtn}>
+              Reject
+            </div>
+          </div>
         )}
       </div>
-      {needButtons(offer.status) && (
-        <div className={styles.btnsContainer}>
-          <div onClick={resolveOffer} className={styles.resolveBtn}>
-            Resolve
-          </div>
-          <div onClick={rejectOffer} className={styles.rejectBtn}>
-            Reject
-          </div>
-        </div>
-      )}
-    </div>
+    )
   );
 };
 
