@@ -61,6 +61,12 @@ router.post(
 );
 
 router.post(
+  '/setOfferStatusModerator',
+  basicMiddlewares.onlyForModerator,
+  contestController.setOfferStatusModerator
+);
+
+router.post(
   '/changeMark',
   basicMiddlewares.onlyForCustomer,
   userController.changeMark
@@ -113,6 +119,12 @@ router.delete(
   '/removeEvent',
   basicMiddlewares.onlyForCustomer,
   userController.removeEvent
+);
+
+router.post(
+  '/getModeratorOffers',
+  basicMiddlewares.onlyForModerator,
+  contestController.getModeratorOffers
 );
 
 module.exports = router;
