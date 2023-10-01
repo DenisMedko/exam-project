@@ -12,6 +12,7 @@ const contestQueries = require('./queries/contestQueries');
 const userQueries = require('./queries/userQueries');
 const controller = require('../socketInit');
 const UtilFunctions = require('../utils/functions');
+const { sendMailHandler } = require('../services/mailService');
 const CONSTANTS = require('../constants');
 
 module.exports.dataForContest = async (req, res, next) => {
@@ -165,6 +166,13 @@ const rejectOfferModerator = async (offerId, creatorId, contestId) => {
       'Moderation of yours offers was rejected',
       contestId
     );
+  const { firstName, email } = await User.findByPk(creatorId);
+  const message = {
+    to: email,
+    subject: `Offer ${offerId} rejected by moderator`,
+    text: `Dear ${firstName}, your offer (id = ${offerId}) of contest (id = ${contestId}) was rejected by moderator.`,
+  };
+  email && sendMailHandler(message);
   return rejectedOffer;
 };
 
@@ -180,6 +188,13 @@ const resolveOfferModerator = async (offerId, creatorId, contestId) => {
       'Moderation of yours offers was resolved',
       contestId
     );
+  const { firstName, email } = await User.findByPk(creatorId);
+  const message = {
+    to: email,
+    subject: `Offer ${offerId} resolved by moderator`,
+    text: `Dear ${firstName}, your offer (id = ${offerId}) of contest (id = ${contestId}) was resolved by moderator.`,
+  };
+  email && sendMailHandler(message);
   return resolveOffer;
 };
 

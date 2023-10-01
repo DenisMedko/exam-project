@@ -54,4 +54,13 @@ module.exports = {
   LOG_FILE_NAME: 'log.txt',
   LOG_BACKUP_CRON_SCHEDULE: '59 59 23 * * *',
   LOG_BACKUP_FILES_PATH: path.resolve(__dirname, './', 'log/backup'),
+  EMAIL_SMTP_AUTH_SETTINGS: {
+    host: 'smtp.ukr.net',
+    auth: {
+      user: process.env.EMAIL_SMTP_USER,
+      pass: process.env.EMAIL_SMTP_PASS,
+    },
+    secure: true,
+    port: 2525,
+  },
 };
