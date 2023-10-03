@@ -1,3 +1,4 @@
+const { errorLogger } = require('../errors/errorLogger/errorLogger');
 module.exports = (err, req, res, next) => {
   if (
     err.message ===
@@ -8,9 +9,8 @@ module.exports = (err, req, res, next) => {
     err.message = 'Not Enough money';
     err.code = 406;
   }
-  if (!err.message || !err.code) {
-    res.status(500).send('Server Error');
-  } else {
-    res.status(err.code).send(err.message);
-  }
+  err.code = err.code ? err.code : 500;
+  err.message = err.message ? err.message : 'Server Error';
+  res.status(err.code).send(err.message);
+  errorLogger(err, Date.now());
 };

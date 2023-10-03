@@ -46,4 +46,8 @@ module.exports = {
   BANK_MIN_BALANCE: 0,
   //CHAT_CONTROLLER: 'chatController',
   CHAT_CONTROLLER: 'pgChatController',
+  LOG_FILES_PATH: path.resolve(__dirname, './', 'log'),
+  LOG_FILE_NAME: 'log.txt',
+  LOG_BACKUP_CRON_SCHEDULE: '59 59 23 * * *',
+  LOG_BACKUP_FILES_PATH: path.resolve(__dirname, './', 'log/backup'),
 };
