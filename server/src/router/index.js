@@ -1,9 +1,10 @@
+const CONSTANTS = require('../constants');
 const express = require('express');
 const basicMiddlewares = require('../middlewares/basicMiddlewares');
 const userController = require('../controllers/userController');
 const contestController = require('../controllers/contestController');
 const validators = require('../middlewares/validators');
-const chatController = require('../controllers/chatController');
+const chatController = require(`../controllers/${CONSTANTS.CHAT_CONTROLLER}`);
 const upload = require('../utils/fileUpload');
 const authRouter = require('./authRouter');
 const { checkAccessToken } = require('../middlewares/tokenMiddlewares');
