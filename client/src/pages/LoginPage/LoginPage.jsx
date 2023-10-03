@@ -11,12 +11,12 @@ const LoginPage = props => (
   <div className={styles.mainContainer}>
     <div className={styles.loginContainer}>
       <div className={styles.headerSignUpPage}>
-        <Logo src={`${CONSTANTS.STATIC_IMAGES_PATH}logo.png`} alt='logo' />
-        <div className={styles.linkLoginContainer}>
-          <Link to='/registration' style={{ textDecoration: 'none' }}>
+        <Logo src={`${CONSTANTS.STATIC_IMAGES_PATH}logo.png`} alt='logo' /> 
+        <Link to='/registration' style={{ textDecoration: 'none' }}> 
+          <div className={styles.linkLoginContainer}> 
             <span>Signup</span>
-          </Link>
-        </div>
+          </div>
+        </Link>  
       </div>
       <div className={styles.loginFormContainer}>
         <LoginForm history={props.history} />
