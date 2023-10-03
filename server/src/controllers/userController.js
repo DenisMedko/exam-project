@@ -14,6 +14,7 @@ const controller = require('../socketInit');
 const userQueries = require('./queries/userQueries');
 const bankQueries = require('./queries/bankQueries');
 const ratingQueries = require('./queries/ratingQueries');
+const eventQueries = require('./queries/eventQueries');
 const NotEnoughMoney = require('../errors/NotEnoughMoney');
 
 function getQuery(offerId, userId, mark, isFirst, transaction) {
@@ -220,6 +221,37 @@ module.exports.cashout = async (req, res, next) => {
     res.send({ balance: updatedUser.balance });
   } catch (err) {
     transaction.rollback();
+    next(err);
+  }
+};
+
+module.exports.addEvent = async (req, res, next) => {
+  try {
+    const { userId } = req.tokenData;
+    const newEvent = await eventQueries.createEvent(req.body, userId);
+    res.status(201).send({ data: newEvent });
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.getEvents = async (req, res, next) => {
+  try {
+    const { userId } = req.tokenData;
+    const events = await eventQueries.getEvents(userId);
+    res.status(200).send({ data: events });
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.removeEvent = async (req, res, next) => {
+  try {
+    const { userId } = req.tokenData;
+    const eventId = req.headers.eventid;
+    const deletedId = await eventQueries.removeEvent(eventId, userId);
+    res.status(200).send({ data: deletedId });
+  } catch (err) {
     next(err);
   }
 };

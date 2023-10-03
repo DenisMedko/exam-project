@@ -6,6 +6,29 @@ const contestFormMocks = {
       { name: 'nameStyle', header: 'Style name' },
     ],
     formInputs: [],
+    formButtons: [
+      {
+        id: 1,
+        title: 'The Domain should exactly match the name',
+        value: 'domainMatchOnly',
+        selected: false,
+        isDomainRequired: true,
+      },
+      {
+        id: 2,
+        title: 'But minor variations are allowed (Recommended)',
+        value: 'domainMinorAllowed',
+        selected: true,
+        isDomainRequired: true,
+      },
+      {
+        id: 3,
+        title: 'I am only looking for a name, not a Domain',
+        value: 'noDomain',
+        selected: false,
+        isDomainRequired: false,
+      },
+    ],
   },
   logoContest: {
     type: 'logo',

@@ -2,21 +2,25 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import * as userSliceActionCreator from '../../store/slices/userSlice';
+import * as eventSliceActionCreator from '../../store/slices/eventSlice';
 import { bindActionCreators } from '@reduxjs/toolkit';
 import styles from './Header.module.sass';
 import CONSTANTS from '../../constants';
+import EventRemainder from '../Events/EventRemainder/EventRemainder';
 
 const Header = ({ history }) => {
   const { data: userData, isFetching } = useSelector(
     (state) => state.userStore
   );
-  const { clearUserStore } = bindActionCreators(
-    { ...userSliceActionCreator },
+  const { clearUserStore, clearEventStore } = bindActionCreators(
+    { ...userSliceActionCreator, ...eventSliceActionCreator },
     useDispatch()
   );
+
   const logOut = () => {
     localStorage.clear();
     clearUserStore();
+    clearEventStore();
     history.replace('/login');
   };
 
@@ -27,9 +31,12 @@ const Header = ({ history }) => {
   const renderLinksList = () => {
     return CONSTANTS.HEADER_ITEMS.userLinks.map((link) => (
       <li key={link.id}>
-        <Link to={link.path}>
-          <span>{link.title}</span>
-        </Link>
+        {!link.showCounter && (
+          <Link to={link.path}>
+            <span>{link.title}</span>
+          </Link>
+        )}
+        {link.showCounter && <EventRemainder />}
       </li>
     ));
   };
@@ -58,23 +65,32 @@ const Header = ({ history }) => {
             </li>
           </ul>
         </div>
-        <img
-          src={`${CONSTANTS.STATIC_IMAGES_PATH}email.png`}
-          className={styles.emailIcon}
-          alt="email"
-        />
+        <div className={styles.userMenuItem}>
+          <img
+            src={`${CONSTANTS.STATIC_IMAGES_PATH}email.png`}
+            className={styles.emailIcon}
+            alt="email"
+          />
+        </div>
+        <div className={styles.userMenuItem}>
+          <EventRemainder />
+        </div>
       </>
     );
   };
   const renderLoginButtons = () => {
     return (
       <>
-        <Link to="/login">
-          <span className={styles.btn}>LOGIN</span>
-        </Link>
-        <Link to="/registration">
-          <span className={styles.btn}>SIGN UP</span>
-        </Link>
+        <div className={styles.userButton}>
+          <Link to="/login">
+            <span className={styles.btn}>LOGIN</span>
+          </Link>
+        </div>
+        <div className={styles.userButton}>
+          <Link to="/registration">
+            <span className={styles.btn}>SIGN UP</span>
+          </Link>
+        </div>
       </>
     );
   };

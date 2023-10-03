@@ -9,6 +9,7 @@ import contestByIdReducer from './slices/contestByIdSlice';
 import contestUpdationReducer from './slices/contestUpdationSlice';
 import chatReducer from './slices/chatSlice';
 import userProfileReducer from './slices/userProfileSlice';
+import eventReducer from './slices/eventSlice';
 
 const rootReducer = {
   userStore: userReducer,
@@ -22,6 +23,7 @@ const rootReducer = {
   contestUpdationStore: contestUpdationReducer,
   chatStore: chatReducer,
   userProfile: userProfileReducer,
+  eventStore: eventReducer,
 };
 
 export default rootReducer;

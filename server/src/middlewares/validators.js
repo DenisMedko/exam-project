@@ -22,19 +22,28 @@ module.exports.validateLogin = async (req, res, next) => {
 
 module.exports.validateContestCreation = (req, res, next) => {
   const promiseArray = [];
-  req.body.contests.forEach(el => {
+  req.body.contests.forEach((el) => {
     promiseArray.push(schems.contestSchem.isValid(el));
   });
   return Promise.all(promiseArray)
-    .then(results => {
-      results.forEach(result => {
+    .then((results) => {
+      results.forEach((result) => {
         if (!result) {
           return next(new BadRequestError());
         }
       });
       next();
     })
-    .catch(err => {
+    .catch((err) => {
       next(err);
     });
+};
+
+module.exports.validateEvent = async (req, res, next) => {
+  const validationResult = await schems.EventSchem.isValid(req.body);
+  if (validationResult) {
+    next();
+  } else {
+    return next(new BadRequestError('Invalid data for event'));
+  }
 };

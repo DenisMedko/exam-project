@@ -155,10 +155,25 @@ a
         margin-left: 20px
       @media(max-width: 320px)
         margin-left: 0
+      .userButton
+        display: flex
+        justify-content: center
+        align-items: center
+        height: 100%
 
-      .emailIcon
-        padding: 0 15px
+      .userButton + .userButton
         border-left: 1px solid #ebebeb
+
+      .userMenuItem
+        display: flex
+        justify-content: center
+        align-items: center
+        border-left: 1px solid #ebebeb
+        padding: 0 15px
+        height: 100%
+        .emailIcon
+          width: 16px
+          height: 16px
 
       .userInfo
         display: flex
@@ -219,7 +234,6 @@ a
         color: #718888
         font-weight: 400
         font-size: 14px
-        border-right: 1px solid #ebebeb
 
     .numberContainer
       text-decoration: none

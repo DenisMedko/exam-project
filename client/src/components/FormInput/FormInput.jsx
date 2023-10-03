@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 const FormInput = ({ classes, label, name, ...rest }) => (
   <Field name={name}>
-    {props => {
+    {(props) => {
       const {
         field,
         meta: { touched, error },
@@ -18,11 +18,11 @@ const FormInput = ({ classes, label, name, ...rest }) => (
         <div className={classes.container}>
           <ErrorMessage
             name={name}
-            component='span'
+            component="span"
             className={classes.warning}
           />
           <input
-            type='text'
+            type="text"
             {...field}
             placeholder={label}
             className={inputClassName}

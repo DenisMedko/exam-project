@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Form, Formik } from 'formik';
+import { Form, Formik, Field } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import * as dataForContestActionCreator from '../../store/slices/dataForContestSlice';
 import { bindActionCreators } from '@reduxjs/toolkit';
@@ -14,6 +14,8 @@ import TryAgain from '../TryAgain/TryAgain';
 import Schemes from '../../utils/validators/validationSchems';
 import OptionalSelects from '../OptionalSelects/OptionalSelects';
 import CONSTANTS from '../../constants';
+import ButtonGroup from '../ButtonGroup/ButtonGroup';
+import { filterArrayByField } from '../../utils/functions';
 
 const variableOptions = {
   [CONSTANTS.CONTESTS.nameContest.type]: {
@@ -23,6 +25,7 @@ const variableOptions = {
       characteristic1: 'nameStyle',
       characteristic2: 'typeOfName',
     },
+    buttons: CONSTANTS.CONTESTS.nameContest.formButtons,
   },
   [CONSTANTS.CONTESTS.logoContest.type]: {
     nameVenture: '',
@@ -53,6 +56,9 @@ const ContestForm = ({ contestType, defaultData, handleSubmit, formRef }) => {
 
   const { isFetching, error } = dataForContest;
 
+  const buttons = variableOptions[contestType].buttons;
+  const initialBtnValue = filterArrayByField(buttons, 'selected', true)[0]
+    ?.value;
   const renderForm = () => {
     return (
       <div className={styles.formContainer}>
@@ -65,6 +71,7 @@ const ContestForm = ({ contestType, defaultData, handleSubmit, formRef }) => {
             file: '',
             ...variableOptions[contestType],
             ...defaultData,
+            domainType: initialBtnValue,
           }}
           onSubmit={handleSubmit}
           validationSchema={Schemes.ContestSchem}
@@ -133,6 +140,22 @@ const ContestForm = ({ contestType, defaultData, handleSubmit, formRef }) => {
               contestType={contestType}
               dataForContest={dataForContest}
             />
+            {buttons && (
+              <Field name="domainType">
+                {({ field, form }) => {
+                  const handleBtnSelect = (btnValue) => {
+                    form.setFieldValue(field.name, btnValue);
+                  };
+                  return (
+                    <ButtonGroup
+                      buttons={buttons}
+                      initialBtnValue={initialBtnValue}
+                      handleBtnSelect={handleBtnSelect}
+                    />
+                  );
+                }}
+              </Field>
+            )}
             <FieldFileInput
               name="file"
               classes={{
