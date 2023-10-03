@@ -2,6 +2,7 @@
 const { Model } = require('sequelize');
 const bcrypt = require('bcrypt');
 const { SALT_ROUNDS } = require('../constants');
+const { USER_ROLES } = require('../constants');
 
 const hashPassword = async (user, options) => {
   if (user.changed('password')) {
@@ -90,7 +91,7 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: 'anon.png',
       },
       role: {
-        type: DataTypes.ENUM('customer', 'creator'),
+        type: DataTypes.ENUM(USER_ROLES),
         allowNull: false,
       },
       balance: {

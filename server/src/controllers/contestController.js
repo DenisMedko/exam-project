@@ -12,6 +12,7 @@ const contestQueries = require('./queries/contestQueries');
 const userQueries = require('./queries/userQueries');
 const controller = require('../socketInit');
 const UtilFunctions = require('../utils/functions');
+const { sendMailHandler } = require('../services/mailService');
 const CONSTANTS = require('../constants');
 
 module.exports.dataForContest = async (req, res, next) => {
@@ -64,6 +65,15 @@ module.exports.getContestById = async (req, res, next) => {
           where:
             req.tokenData.role === CONSTANTS.CREATOR
               ? { userId: req.tokenData.userId }
+              : req.tokenData.role === CONSTANTS.CUSTOMER
+              ? {
+                  status: {
+                    [Sequelize.Op.notIn]: [
+                      CONSTANTS.OFFER_STATUS_MODERATOR_PENDING,
+                      CONSTANTS.OFFER_STATUS_MODERATOR_REJECTED,
+                    ],
+                  },
+                }
               : {},
           attributes: { exclude: ['userId', 'contestId'] },
           include: [
@@ -142,6 +152,50 @@ module.exports.setNewOffer = async (req, res, next) => {
   } catch (e) {
     return next(new ServerError());
   }
+};
+
+const rejectOfferModerator = async (offerId, creatorId, contestId) => {
+  const rejectedOffer = await contestQueries.updateOffer(
+    { status: CONSTANTS.OFFER_STATUS_MODERATOR_REJECTED },
+    { id: offerId }
+  );
+  controller
+    .getNotificationController()
+    .emitChangeOfferStatus(
+      creatorId,
+      'Moderation of yours offers was rejected',
+      contestId
+    );
+  const { firstName, email } = await User.findByPk(creatorId);
+  const message = {
+    to: email,
+    subject: `Offer ${offerId} rejected by moderator`,
+    text: `Dear ${firstName}, your offer (id = ${offerId}) of contest (id = ${contestId}) was rejected by moderator.`,
+  };
+  email && sendMailHandler(message);
+  return rejectedOffer;
+};
+
+const resolveOfferModerator = async (offerId, creatorId, contestId) => {
+  const resolveOffer = await contestQueries.updateOffer(
+    { status: CONSTANTS.OFFER_STATUS_PENDING },
+    { id: offerId }
+  );
+  controller
+    .getNotificationController()
+    .emitChangeOfferStatus(
+      creatorId,
+      'Moderation of yours offers was resolved',
+      contestId
+    );
+  const { firstName, email } = await User.findByPk(creatorId);
+  const message = {
+    to: email,
+    subject: `Offer ${offerId} resolved by moderator`,
+    text: `Dear ${firstName}, your offer (id = ${offerId}) of contest (id = ${contestId}) was resolved by moderator.`,
+  };
+  email && sendMailHandler(message);
+  return resolveOffer;
 };
 
 const rejectOffer = async (offerId, creatorId, contestId) => {
@@ -255,6 +309,31 @@ module.exports.setOfferStatus = async (req, res, next) => {
     }
   }
 };
+module.exports.setOfferStatusModerator = async (req, res, next) => {
+  if (req.body.command === 'reject') {
+    try {
+      const offer = await rejectOfferModerator(
+        req.body.offerId,
+        req.body.creatorId,
+        req.body.contestId
+      );
+      res.send(offer);
+    } catch (err) {
+      next(err);
+    }
+  } else if (req.body.command === 'resolve') {
+    try {
+      const offer = await resolveOfferModerator(
+        req.body.offerId,
+        req.body.creatorId,
+        req.body.contestId
+      );
+      res.send(offer);
+    } catch (err) {
+      next(err);
+    }
+  }
+};
 
 module.exports.getCustomersContests = async (req, res, next) => {
   try {
@@ -271,6 +350,14 @@ module.exports.getCustomersContests = async (req, res, next) => {
         {
           model: Offer,
           required: false,
+          where: {
+            status: {
+              [Sequelize.Op.notIn]: [
+                CONSTANTS.OFFER_STATUS_MODERATOR_PENDING,
+                CONSTANTS.OFFER_STATUS_MODERATOR_REJECTED,
+              ],
+            },
+          },
           attributes: ['id'],
         },
       ],
@@ -305,6 +392,36 @@ module.exports.getContests = async (req, res, next) => {
       ],
     });
     res.send({ contests: rows, count });
+  } catch (err) {
+    next(new ServerError(err));
+  }
+};
+
+module.exports.getModeratorOffers = async (req, res, next) => {
+  try {
+    const { count, rows } = await Offer.findAndCountAll({
+      where: {
+        status: req.body.status,
+      },
+      order: [['id', 'DESC']],
+      limit: req.body.limit,
+      offset: req.body.offset ? req.body.offset : 0,
+      include: [
+        {
+          model: User,
+          required: true,
+          attributes: {
+            exclude: ['password', 'role', 'balance', 'accessToken'],
+          },
+        },
+        {
+          model: Contest,
+          required: true,
+          attributes: ['id', 'orderId', 'priority', 'contestType'],
+        },
+      ],
+    });
+    res.send({ offers: rows, count });
   } catch (err) {
     next(new ServerError(err));
   }

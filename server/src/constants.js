@@ -23,6 +23,8 @@ module.exports = {
   SQUADHELP_BANK_EXPIRY,
   CUSTOMER: 'customer',
   CREATOR: 'creator',
+  MODERATOR: 'moderator',
+  USER_ROLES: ['customer', 'creator', 'moderator'],
   CREATOR_ENTRIES: 'creator_entries',
   CONTEST_STATUS_ACTIVE: 'active',
   CONTEST_STATUS_FINISHED: 'finished',
@@ -31,6 +33,8 @@ module.exports = {
   NAME_CONTEST: 'name',
   LOGO_CONTEST: 'logo',
   TAGLINE_CONTEST: 'tagline',
+  OFFER_STATUS_MODERATOR_PENDING: 'moderator_pending',
+  OFFER_STATUS_MODERATOR_REJECTED: 'moderator_rejected',
   OFFER_STATUS_PENDING: 'pending',
   OFFER_STATUS_REJECTED: 'rejected',
   OFFER_STATUS_WON: 'won',
@@ -50,4 +54,13 @@ module.exports = {
   LOG_FILE_NAME: 'log.txt',
   LOG_BACKUP_CRON_SCHEDULE: '59 59 23 * * *',
   LOG_BACKUP_FILES_PATH: path.resolve(__dirname, './', 'log/backup'),
+  EMAIL_SMTP_AUTH_SETTINGS: {
+    host: 'smtp.ukr.net',
+    auth: {
+      user: process.env.EMAIL_SMTP_USER,
+      pass: process.env.EMAIL_SMTP_PASS,
+    },
+    secure: true,
+    port: 2525,
+  },
 };

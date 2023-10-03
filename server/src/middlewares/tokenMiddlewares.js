@@ -7,6 +7,9 @@ module.exports.checkAccessToken = async (req, res, next) => {
     const {
       headers: { authorization },
     } = req;
+    if (!authorization) {
+      return next(new Error('Authorization error'));
+    }
 
     const [tokenType, accessToken] = authorization.split(' ');
 

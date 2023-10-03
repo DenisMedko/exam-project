@@ -6,6 +6,8 @@ export const getUser = () => http.post('getUser');
 export const updateContest = (data) => http.post('updateContest', data);
 export const setNewOffer = (data) => http.post('setNewOffer', data);
 export const setOfferStatus = (data) => http.post('setOfferStatus', data);
+export const setOfferStatusModerator = (data) =>
+  http.post('setOfferStatusModerator', data);
 export const downloadContestFile = (data) =>
   http.get(`downloadFile/${data.fileName}`);
 export const payMent = (data) => http.post('pay', data.formData);
@@ -71,3 +73,14 @@ export const removeEvent = (data) =>
       eventId: data,
     },
   });
+
+export const getModeratorOffers = (data) =>
+  http.post(
+    'getModeratorOffers',
+    { status: data.offerStatus, limit: data.limit, offset: data.offset }
+    /* {
+      headers: {
+        status: data.offerStatus,
+      },
+    } */
+  );
