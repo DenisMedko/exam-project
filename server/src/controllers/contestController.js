@@ -20,11 +20,9 @@ module.exports.dataForContest = async (req, res, next) => {
     const {
       body: { characteristic1, characteristic2 },
     } = req;
-    console.log(req.body, characteristic1, characteristic2);
     const types = [characteristic1, characteristic2, 'industry'].filter(
       Boolean
     );
-
     const characteristics = await Select.findAll({
       where: {
         type: {
@@ -43,7 +41,6 @@ module.exports.dataForContest = async (req, res, next) => {
     });
     res.send(response);
   } catch (err) {
-    console.log(err);
     next(new ServerError('cannot get contest preferences'));
   }
 };
@@ -96,7 +93,6 @@ module.exports.getContestById = async (req, res, next) => {
     });
     res.send(contestInfo);
   } catch (e) {
-    console.log(e)
     next(new ServerError(JSON.stringify(e)));
   }
 };
@@ -260,67 +256,56 @@ module.exports.setOfferStatus = async (req, res, next) => {
   }
 };
 
-module.exports.getCustomersContests = (req, res, next) => {
-  Contest.findAll({
-    where: { status: req.headers.status, userId: req.tokenData.userId },
-    limit: req.body.limit,
-    offset: req.body.offset ? req.body.offset : 0,
-    order: [['id', 'DESC']],
-    include: [
-      {
-        model: Offer,
-        required: false,
-        attributes: ['id'],
+module.exports.getCustomersContests = async (req, res, next) => {
+  try {
+    const { count, rows } = await Contest.findAndCountAll({
+      distinct: true,
+      where: {
+        status: req.headers.status,
+        userId: req.tokenData.userId,
       },
-    ],
-  })
-    .then((contests) => {
-      contests.forEach(
-        (contest) =>
-          (contest.dataValues.count = contest.dataValues.Offers.length)
-      );
-      let haveMore = true;
-      if (contests.length === 0) {
-        haveMore = false;
-      }
-      res.send({ contests, haveMore });
-    })
-    .catch((err) => next(new ServerError(err)));
+      limit: req.body.limit,
+      offset: req.body.offset ? req.body.offset : 0,
+      order: [['id', 'DESC']],
+      include: [
+        {
+          model: Offer,
+          required: false,
+          attributes: ['id'],
+        },
+      ],
+    });
+    res.send({ contests: rows, count });
+  } catch (err) {
+    next(new ServerError(err));
+  }
 };
 
-module.exports.getContests = (req, res, next) => {
+module.exports.getContests = async (req, res, next) => {
   const predicates = UtilFunctions.createWhereForAllContests(
     req.body.typeIndex,
     req.body.contestId,
     req.body.industry,
     req.body.awardSort
   );
-  Contest.findAll({
-    where: predicates.where,
-    order: predicates.order,
-    limit: req.body.limit,
-    offset: req.body.offset ? req.body.offset : 0,
-    include: [
-      {
-        model: Offer,
-        required: req.body.ownEntries,
-        where: req.body.ownEntries ? { userId: req.tokenData.userId } : {},
-        attributes: ['id'],
-      },
-    ],
-  })
-    .then((contests) => {
-      contests.forEach(
-        (contest) =>
-          (contest.dataValues.count = contest.dataValues.Offers.length)
-      );
-      let haveMore = true;
-      if (contests.length === 0) {
-        haveMore = false;
-      }
-      res.send({ contests, haveMore });
-    })
-    .catch((err) => {
-      next(new ServerError());
+  try {
+    const { count, rows } = await Contest.findAndCountAll({
+      distinct: true,
+      where: predicates.where,
+      order: predicates.order,
+      limit: req.body.limit,
+      offset: req.body.offset ? req.body.offset : 0,
+      include: [
+        {
+          model: Offer,
+          required: req.body.ownEntries,
+          where: req.body.ownEntries ? { userId: req.tokenData.userId } : {},
+          attributes: ['id'],
+        },
+      ],
     });
+    res.send({ contests: rows, count });
+  } catch (err) {
+    next(new ServerError(err));
+  }
 };

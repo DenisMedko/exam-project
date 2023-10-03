@@ -27,12 +27,13 @@
     display: flex
     flex-direction: row
     align-items: center
-    justify-content: flex-start
-    padding: 0 15px
-    margin-bottom: 25px
-    margin-top: 20px
+    justify-content: space-around
+    margin: 20px auto
+    width: 100%
 
     .payButton
+      flex: 1
+      margin: 5px
       font-size: 20px
       padding: 8px 50px
       cursor: pointer
@@ -46,6 +47,9 @@
         padding: 8px 30px
 
     .backButton
+      flex: 1
+      margin: 0 10px
+      cursor: pointer
       background-color: #ababac
       font-size: 20px
       padding: 8px 50px
@@ -54,7 +58,6 @@
       border: 1px solid transparent
       border-radius: 4px
       color: white
-      margin-left: 10px
       @media(max-width: 480px)
         padding: 8px 30px
 
@@ -174,5 +177,3 @@
         border: 1px solid #ccc
         transition: all 0.2s
         -webkit-font-smoothing: antialiased
-
-

@@ -1,15 +1,26 @@
+import contestFormMocks from './utils/mocks/contestFormMocks';
+import footerMocks from './utils/mocks/footerMocks';
+import headerMocks from './utils/mocks/headerMocks';
+import homePageMocks from './utils/mocks/homePageMocks';
+import registrationPageMocks from './utils/mocks/registrationPageMocks';
+import startContestPageMocks from './utils/mocks/startContestPageMocks';
+
 const env = process.env.REACT_APP_NODE_ENV || 'development';
 const serverIP = process.env.REACT_APP_SERVER_IP || 'localhost';
 const serverPort = process.env.REACT_APP_SERVER_PORT || 5000;
 export default {
   CUSTOMER: 'customer',
   CREATOR: 'creator',
+  CONTEST_STATUSES: [
+    { id: 1, name: 'active', title: 'Active Contests' },
+    { id: 2, name: 'finished', title: 'Completed contests' },
+    { id: 3, name: 'pending', title: 'Inactive contests' },
+  ],
+  CONTEST_DISPLAY_LIMIT: 5,
   CONTEST_STATUS_ACTIVE: 'active',
   CONTEST_STATUS_FINISHED: 'finished',
   CONTEST_STATUS_PENDING: 'pending',
-  NAME_CONTEST: 'name',
-  LOGO_CONTEST: 'logo',
-  TAGLINE_CONTEST: 'tagline',
+  CONTESTS: contestFormMocks,
   OFFER_STATUS_REJECTED: 'rejected',
   OFFER_STATUS_WON: 'won',
   OFFER_STATUS_PENDING: 'pending',
@@ -34,51 +45,10 @@ export default {
     REGISTER: 'REGISTER',
     LOGIN: 'LOGIN',
   },
-  HEADER_ANIMATION_TEXT: [
-    'a Company',
-    'a Brand',
-    'a Website',
-    'a Service',
-    'a Book',
-    'a Business',
-    'an App',
-    'a Product',
-    'a Startup',
-  ],
-  FooterItems: [
-    {
-      title: 'SQUADHELP',
-      items: ['About', 'Contact', 'How It Works?', 'Testimonials', 'Our Work'],
-    },
-    {
-      title: 'RESOURCES',
-      items: [
-        'How It Works',
-        'Become a Creative',
-        'Business Name Generator',
-        'Discussion Forum',
-        'Blog',
-        'Download eBook',
-        'Pricing',
-        'Help & FAQs',
-      ],
-    },
-    {
-      title: 'OUR SERVICES',
-      items: [
-        'Naming',
-        'Logo Design',
-        'Taglines',
-        'Premium Names For Sale',
-        'Creative Owned Names For Sale',
-        'Audience Testing',
-        'Trademark Research & Filling',
-        'Managed Agency Service',
-      ],
-    },
-    {
-      title: 'LEGAL',
-      items: ['Terms of Service', 'Privacy Policy', 'Cookie Policy'],
-    },
-  ],
+  HEADER_ANIMATION_TEXT: headerMocks.animationText,
+  HEADER_ITEMS: headerMocks,
+  FOOTER_ITEMS: footerMocks,
+  HOME_PAGE_ITEMS: homePageMocks,
+  REGISTRATION_PAGE_ITEMS: registrationPageMocks,
+  START_CONTEST_PAGE_ITEMS: startContestPageMocks,
 };

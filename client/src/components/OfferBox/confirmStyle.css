@@ -5,4 +5,24 @@
 
 .react-confirm-alert-body {
   width: auto;
+  text-align: center;
+  line-height: 1.5;
+  color: #556da5;
+  font-size: 16px;
+  font-weight: 600;
+}
+.react-confirm-alert-body>h1 {
+  text-transform: uppercase;
+}
+
+.react-confirm-alert-button-group {
+  justify-content: space-around;
+}
+
+.react-confirm-alert-button-group>button {
+  background: rgba(138, 202, 107, 1);
+}
+
+.react-confirm-alert-button-group>button+button {
+  background: rgba(205, 92, 92, 1);
 }

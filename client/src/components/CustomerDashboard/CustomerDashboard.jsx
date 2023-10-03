@@ -1,143 +1,112 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { withRouter } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { bindActionCreators } from '@reduxjs/toolkit';
+import * as contestsActionCreators from '../../store/slices/contestsSlice';
 import classNames from 'classnames';
-import {
-  getContests,
-  clearContestsList,
-  setNewCustomerFilter,
-} from '../../store/slices/contestsSlice';
 import CONSTANTS from '../../constants';
 import ContestsContainer from '../ContestsContainer/ContestsContainer';
 import ContestBox from '../ContestBox/ContestBox';
 import styles from './CustomerDashboard.module.sass';
 import TryAgain from '../TryAgain/TryAgain';
 
-class CustomerDashboard extends React.Component {
-  loadMore = startFrom => {
-    this.props.getContests({
-      limit: 8,
-      offset: startFrom,
-      contestStatus: this.props.customerFilter,
-    });
+const CustomerDashboard = ({ history }) => {
+  const { isFetching, error, contests, customerFilter, count } = useSelector(
+    (state) => state.contestsList
+  );
+
+  const dispatch = useDispatch();
+  const {
+    getContests,
+    clearContestsList,
+    setNewCustomerFilter: newFilter,
+  } = bindActionCreators({ ...contestsActionCreators }, dispatch);
+
+  const [prevCustomerFilter, setPrevCustomerFilter] = useState(customerFilter);
+
+  const setNewOptions = (startFrom = 0) => {
+    return {
+      requestData: {
+        offset: startFrom,
+        limit: CONSTANTS.CONTEST_DISPLAY_LIMIT,
+        contestStatus: customerFilter,
+      },
+      role: CONSTANTS.CUSTOMER,
+    };
+  };
+  useEffect(() => {
+    getContests(setNewOptions());
+    return () => clearContestsList();
+  }, [prevCustomerFilter]);
+
+  const loadMore = (startFrom) => {
+    getContests(setNewOptions(startFrom));
   };
 
-  componentDidMount () {
-    this.getContests();
-  }
-
-  getContests = () => {
-    this.props.getContests({
-      limit: 8,
-      contestStatus: this.props.customerFilter,
-    });
+  const goToExtended = (contest_id) => {
+    history.push(`/contest/${contest_id}`);
   };
 
-  componentDidUpdate (prevProps, prevState, snapshot) {
-    if (this.props.customerFilter !== prevProps.customerFilter) {
-      this.getContests();
-    }
-  }
-
-  goToExtended = contest_id => {
-    this.props.history.push(`/contest/${contest_id}`);
-  };
-
-  setContestList = () => {
+  const setContestList = () => {
     const array = [];
-    const { contests } = this.props;
     for (let i = 0; i < contests.length; i++) {
       array.push(
         <ContestBox
           data={contests[i]}
           key={contests[i].id}
-          goToExtended={this.goToExtended}
+          count={contests[i].Offers.length}
+          goToExtended={goToExtended}
         />
       );
     }
     return array;
   };
 
-  componentWillUnmount () {
-    this.props.clearContestsList();
-  }
-
-  tryToGetContest = () => {
-    this.props.clearContestsList();
-    this.getContests();
+  const tryToGetContest = () => {
+    clearContestsList();
+    getContests(setNewOptions());
   };
 
-  render () {
-    const { error, haveMore } = this.props;
-    const { customerFilter } = this.props;
-    return (
-      <div className={styles.mainContainer}>
-        <div className={styles.filterContainer}>
-          <div
-            onClick={() =>
-              this.props.newFilter(CONSTANTS.CONTEST_STATUS_ACTIVE)
-            }
-            className={classNames({
-              [styles.activeFilter]:
-                CONSTANTS.CONTEST_STATUS_ACTIVE === customerFilter,
-              [styles.filter]:
-                CONSTANTS.CONTEST_STATUS_ACTIVE !== customerFilter,
-            })}
-          >
-            Active Contests
-          </div>
-          <div
-            onClick={() =>
-              this.props.newFilter(CONSTANTS.CONTEST_STATUS_FINISHED)
-            }
-            className={classNames({
-              [styles.activeFilter]:
-                CONSTANTS.CONTEST_STATUS_FINISHED === customerFilter,
-              [styles.filter]:
-                CONSTANTS.CONTEST_STATUS_FINISHED !== customerFilter,
-            })}
-          >
-            Completed contests
-          </div>
-          <div
-            onClick={() =>
-              this.props.newFilter(CONSTANTS.CONTEST_STATUS_PENDING)
-            }
-            className={classNames({
-              [styles.activeFilter]:
-                CONSTANTS.CONTEST_STATUS_PENDING === customerFilter,
-              [styles.filter]:
-                CONSTANTS.CONTEST_STATUS_PENDING !== customerFilter,
-            })}
-          >
-            Inactive contests
-          </div>
-        </div>
-        <div className={styles.contestsContainer}>
-          {error ? (
-            <TryAgain getData={this.tryToGetContest()} />
-          ) : (
-            <ContestsContainer
-              isFetching={this.props.isFetching}
-              loadMore={this.loadMore}
-              history={this.props.history}
-              haveMore={haveMore}
-            >
-              {this.setContestList()}
-            </ContestsContainer>
-          )}
-        </div>
+  const renderFilterContainer = () => {
+    return CONSTANTS.CONTEST_STATUSES.map((status) => (
+      <div
+        key={status.id}
+        onClick={
+          status.name !== customerFilter
+            ? () => {
+                newFilter(status.name);
+                setPrevCustomerFilter(status.name);
+              }
+            : () => {}
+        }
+        className={classNames({
+          [styles.activeFilter]: status.name === customerFilter,
+          [styles.filter]: status.name !== customerFilter,
+        })}
+      >
+        {status.title}
       </div>
-    );
-  }
-}
+    ));
+  };
 
-const mapStateToProps = state => state.contestsList;
+  return (
+    <div className={styles.mainContainer}>
+      <div className={styles.filterContainer}>{renderFilterContainer()}</div>
+      <div className={styles.contestsContainer}>
+        {error && <TryAgain getData={tryToGetContest()} />}
+        {!error && (
+          <ContestsContainer
+            isFetching={isFetching}
+            loadMore={loadMore}
+            history={history}
+            count={count}
+          >
+            {setContestList()}
+          </ContestsContainer>
+        )}
+      </div>
+    </div>
+  );
+};
 
-const mapDispatchToProps = dispatch => ({
-  getContests: data =>
-    dispatch(getContests({ requestData: data, role: CONSTANTS.CUSTOMER })),
-  clearContestsList: () => dispatch(clearContestsList()),
-  newFilter: filter => dispatch(setNewCustomerFilter(filter)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(CustomerDashboard);
+export default withRouter(CustomerDashboard);

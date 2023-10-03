@@ -1,8 +1,10 @@
 import React from 'react';
 import classNames from 'classnames';
 import { useField } from 'formik';
+import CONSTANTS from '../../../constants';
 
 const ImageUpload = (props) => {
+  const { avatar } = props;
   const [{ value, ...restField }, meta, helpers] = useField(props.name);
   const { uploadContainer, inputContainer, imgStyle } = props.classes;
   const onChange = (e) => {
@@ -31,11 +33,16 @@ const ImageUpload = (props) => {
           accept=".jpg, .png, .jpeg"
           onChange={onChange}
         />
-        <label htmlFor="fileInput">Chose file</label>
+        <label htmlFor="fileInput">Choose file</label>
       </div>
       <img
         id="imagePreview"
-        className={classNames({ [imgStyle]: !!value })}
+        className={classNames({ [imgStyle]: !!avatar })}
+        src={
+          avatar === 'anon.png'
+            ? CONSTANTS.ANONYM_IMAGE_PATH
+            : `${CONSTANTS.publicURL}${avatar}`
+        }
         alt="user"
       />
     </div>

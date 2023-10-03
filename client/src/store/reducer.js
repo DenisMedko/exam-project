@@ -1,4 +1,3 @@
-import { combineReducers } from 'redux';
 import authReducer from './slices/authSlice';
 import userReducer from './slices/userSlice';
 import dataForContestReducer from './slices/dataForContestSlice';
@@ -11,7 +10,7 @@ import contestUpdationReducer from './slices/contestUpdationSlice';
 import chatReducer from './slices/chatSlice';
 import userProfileReducer from './slices/userProfileSlice';
 
-const rootReducer = combineReducers({
+const rootReducer = {
   userStore: userReducer,
   auth: authReducer,
   dataForContest: dataForContestReducer,
@@ -23,6 +22,6 @@ const rootReducer = combineReducers({
   contestUpdationStore: contestUpdationReducer,
   chatStore: chatReducer,
   userProfile: userProfileReducer,
-});
+};
 
 export default rootReducer;

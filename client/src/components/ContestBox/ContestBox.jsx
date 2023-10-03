@@ -3,7 +3,7 @@ import moment from 'moment';
 import styles from './ContestBox.module.sass';
 import CONSTANTS from '../../constants';
 
-const ContestBox = props => {
+const ContestBox = (props) => {
   const getTimeStr = () => {
     const diff = moment.duration(moment().diff(moment(props.data.createdAt)));
     let str = '';
@@ -15,15 +15,17 @@ const ContestBox = props => {
 
   const getPreferenceContest = () => {
     const { data } = props;
-    if (data.contestType === CONSTANTS.NAME_CONTEST) return data.typeOfName;
-    if (data.contestType === CONSTANTS.LOGO_CONTEST) return data.brandStyle;
+    if (data.contestType === CONSTANTS.CONTESTS.nameContest.type)
+      return data.typeOfName;
+    if (data.contestType === CONSTANTS.CONTESTS.logoContest.type)
+      return data.brandStyle;
     return data.typeOfTagline;
   };
 
-  const ucFirstLetter = string =>
+  const ucFirstLetter = (string) =>
     string.charAt(0).toUpperCase() + string.slice(1);
 
-  const { id, title, contestType, prize, count, goToExtended } = props.data;
+  const { id, title, contestType, prize, goToExtended } = props.data;
   return (
     <div
       className={styles.contestBoxContainer}
@@ -50,7 +52,7 @@ const ContestBox = props => {
             <div>
               <img
                 src={`${CONSTANTS.STATIC_IMAGES_PATH}smallCheck.png`}
-                alt='check'
+                alt="check"
               />
             </div>
             <span>Guaranteed prize</span>
@@ -58,7 +60,7 @@ const ContestBox = props => {
           <div className={styles.prize}>
             <img
               src={`${CONSTANTS.STATIC_IMAGES_PATH}diamond.png`}
-              alt='diamond'
+              alt="diamond"
             />
             <span>{`$${prize}`}</span>
           </div>
@@ -69,9 +71,9 @@ const ContestBox = props => {
           <div className={styles.entriesCounter}>
             <img
               src={`${CONSTANTS.STATIC_IMAGES_PATH}entrieImage.png`}
-              alt='logo'
+              alt="logo"
             />
-            <span>{count}</span>
+            <span>{props.count}</span>
           </div>
           <span>Entries</span>
         </div>

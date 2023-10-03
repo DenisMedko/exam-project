@@ -1,15 +1,22 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import isEmpty from 'lodash/isEmpty';
-import { pay, clearPaymentStore } from '../../store/slices/paymentSlice';
+import { bindActionCreators } from '@reduxjs/toolkit';
+import * as paymentActionCreators from '../../store/slices/paymentSlice';
 import PayForm from '../../components/PayForm/PayForm';
 import styles from './Payment.module.sass';
 import CONSTANTS from '../../constants';
 import Error from '../../components/Error/Error';
 
-const Payment = (props) => {
-  const pay = (values) => {
-    const { contests } = props.contestCreationStore;
+const Payment = ({ history }) => {
+  const { error } = useSelector((state) => state.payment);
+  const { contests } = useSelector((state) => state.contestCreationStore);
+  const { pay, clearPaymentStore } = bindActionCreators(
+    { ...paymentActionCreators },
+    useDispatch()
+  );
+  const wrapPay = (values) => {
     const contestArray = [];
     Object.keys(contests).forEach((key) =>
       contestArray.push({ ...contests[key] })
@@ -25,31 +32,30 @@ const Payment = (props) => {
     data.append('cvc', cvc);
     data.append('contests', JSON.stringify(contestArray));
     data.append('price', '100');
-    props.pay({
+    pay({
       data: {
         formData: data,
       },
-      history: props.history,
+      history: history,
     });
   };
 
   const goBack = () => {
-    props.history.goBack();
+    history.goBack();
   };
 
-  const { contests } = props.contestCreationStore;
-  const { error } = props.payment;
-  const { clearPaymentStore } = props;
   if (isEmpty(contests)) {
-    props.history.replace('startContest');
+    history.replace('startContest');
   }
   return (
     <div>
       <div className={styles.header}>
-        <img
-          src={`${CONSTANTS.STATIC_IMAGES_PATH}blue-logo.png`}
-          alt="blue-logo"
-        />
+        <Link to="/">
+          <img
+            src={`${CONSTANTS.STATIC_IMAGES_PATH}blue-logo.png`}
+            alt="blue-logo"
+          />
+        </Link>
       </div>
       <div className={styles.mainContainer}>
         <div className={styles.paymentContainer}>
@@ -61,7 +67,7 @@ const Payment = (props) => {
               clearError={clearPaymentStore}
             />
           )}
-          <PayForm sendRequest={pay} back={goBack} isPayForOrder />
+          <PayForm sendRequest={wrapPay} back={goBack} isPayForOrder />
         </div>
         <div className={styles.orderInfoContainer}>
           <span className={styles.orderHeader}>Order Summary</span>
@@ -80,14 +86,4 @@ const Payment = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  payment: state.payment,
-  contestCreationStore: state.contestCreationStore,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  pay: ({ data, history }) => dispatch(pay({ data, history })),
-  clearPaymentStore: () => dispatch(clearPaymentStore()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Payment);
+export default Payment;
