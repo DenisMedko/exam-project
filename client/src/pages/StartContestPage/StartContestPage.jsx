@@ -10,11 +10,12 @@ import ProgressBar from '../../components/ProgressBar/ProgressBar';
 import Header from '../../components/Header/Header';
 
 const StartContestPage = ({ history }) => {
-  const { role } = useSelector((state) => state.userStore.data);
-  const choseBundle = bindActionCreators(updateBundle, useDispatch());
+  const { role } = useSelector((state) => state.userStore.data || {});
   if (role !== CONSTANTS.CUSTOMER) {
     history.replace('/');
   }
+  const choseBundle = bindActionCreators(updateBundle, useDispatch());
+
   const setBundle = (bundleStr) => {
     const array = bundleStr.toLowerCase().split('+');
     const bundleList = {};

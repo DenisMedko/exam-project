@@ -3,6 +3,7 @@ import LoginPage from '../pages/LoginPage/LoginPage';
 import RegistrationPage from '../pages/RegistrationPage/RegistrationPage';
 import Payment from '../pages/Payment/Payment';
 import Dashboard from '../pages/Dashboard/Dashboard';
+import HowItWorksPage from '../pages/HowItWorksPage/HowItWorksPage';
 import PrivateHoc from '../components/PrivateHoc/PrivateHoc';
 import NotFound from '../components/NotFound/NotFound';
 import Home from '../pages/Home/Home';
@@ -30,6 +31,7 @@ const MainRouter = () => {
       <Route exact path="/dashboard" component={PrivateHoc(Dashboard)} />
       <Route exact path="/contest/:id" component={PrivateHoc(ContestPage)} />
       <Route exact path="/account" component={PrivateHoc(UserProfile)} />
+      <Route exact path="/how-it-works" component={HowItWorksPage} />
       <Route component={NotFound} />
     </Switch>
   );

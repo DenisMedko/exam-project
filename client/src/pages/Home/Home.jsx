@@ -8,6 +8,7 @@ import styles from './Home.module.sass';
 import carouselConstants from '../../carouselConstants';
 import Spinner from '../../components/Spinner/Spinner';
 import HeadlineText from './HeadlineText.jsx';
+import AdvertisementContainer from '../../components/AdvertisementContainer/AdvertisementContainer';
 
 const Home = () => {
   const { isFetching, data } = useSelector((state) => state.userStore);
@@ -75,54 +76,7 @@ const Home = () => {
                 </div>
               </div>
             </div>
-            <div className={styles.greyContainer}>
-              <div className={styles.adv}>
-                <div className={styles.images}>
-                  <img
-                    src={`${CONSTANTS.STATIC_IMAGES_PATH}sponsors/Forbes-inactive.png`}
-                    alt="forbes"
-                  />
-                  <img
-                    src={`${CONSTANTS.STATIC_IMAGES_PATH}sponsors/Forbes-active.png`}
-                    alt="forbes"
-                  />
-                </div>
-                <div className={styles.images}>
-                  <img
-                    src={`${CONSTANTS.STATIC_IMAGES_PATH}sponsors/the_next_web_inactive.png`}
-                    alt="web"
-                  />
-                  <img
-                    src={`${CONSTANTS.STATIC_IMAGES_PATH}sponsors/the_next_web_active.png`}
-                    alt="web"
-                  />
-                </div>
-                <div className={styles.images}>
-                  <img
-                    src={`${CONSTANTS.STATIC_IMAGES_PATH}sponsors/mashable-inactive.png`}
-                    alt="mashable"
-                  />
-                  <img
-                    src={`${CONSTANTS.STATIC_IMAGES_PATH}sponsors/mashable-active.png`}
-                    alt="mashable"
-                  />
-                </div>
-              </div>
-              <div className={styles.stats}>
-                <div>
-                  <p>{CONSTANTS.HOME_PAGE_ITEMS.creatives.count}</p>
-                  <span>{CONSTANTS.HOME_PAGE_ITEMS.creatives.title}</span>
-                </div>
-                <div>
-                  <p>{CONSTANTS.HOME_PAGE_ITEMS.customers.count}</p>
-                  <span>{CONSTANTS.HOME_PAGE_ITEMS.customers.title}</span>
-                </div>
-                <div>
-                  <p>{CONSTANTS.HOME_PAGE_ITEMS.industries.count}</p>
-                  <span>{CONSTANTS.HOME_PAGE_ITEMS.industries.title}</span>
-                </div>
-              </div>
-            </div>
+            <AdvertisementContainer />
             <h2>{CONSTANTS.HOME_PAGE_ITEMS.contestSteps.title}</h2>
             {CONSTANTS.HOME_PAGE_ITEMS.contestSteps.contestStepsItems.map(
               (step) => (

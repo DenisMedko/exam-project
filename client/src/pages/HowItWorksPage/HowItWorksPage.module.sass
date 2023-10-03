@@ -1,0 +1,92 @@
+.content
+    font-family: Poppins, Helvetica, Arial, sans-serif
+    font-size: 1rem
+    font-weight: 400
+    line-height: 1.5
+    color: #1e2022
+    text-align: left
+
+.container
+    display: flex
+    flex-direction: column
+    justify-content: center
+    padding: 2rem 15px 2rem 15px
+    margin: 0 auto
+
+    @media (min-width: 576px)
+        max-width: 540px
+    @media (min-width: 768px)
+        max-width: 720px
+    @media (min-width: 992px)
+        max-width: 960px
+    @media (min-width: 1200px)
+        max-width: 1200px
+    @media (min-width: 1536px)
+        max-width: 1280px
+.btn
+    display: inline-block
+    text-align: center
+    vertical-align: middle
+    user-select: none
+    border: 1px solid transparent
+    transition: all 0.2s ease-in-out
+    font-weight: 500
+    padding: 0.75rem 1rem
+    font-size: 1rem
+    line-height: 1.5
+    width: fit-content
+    border-radius: 0.3125rem
+
+.btnPrimary
+    color: #fff
+    background-color: #377dff
+    border-color: #377dff
+
+.btnSoftPrimary
+    color: #377dff
+    background: rgba(55,125,255,.1)
+    border-color: transparent
+
+.btnPill
+    border-radius: 6.1875rem
+
+.btnWide
+    min-width: 9.6875rem
+
+.btnXs
+    font-size: .6875rem
+    font-weight: 400
+    padding: 0.4375rem 0.9375rem
+
+.btnWhite
+    background-color: #fff
+    color: #1e2022
+
+.transition3dHover
+    &:hover
+        box-shadow: 0 4px 11px rgba(55,125,255,.35)
+        transform: translateY(-3px)
+        transition: all 0.2s ease-in-out
+
+hr
+    width: 100%
+    border-top: 1px solid #e7eaf3
+.col
+    display: flex
+    justify-content: center
+    width: 100%
+
+.colText
+    display: flex
+    flex: 60
+    flex-direction: column
+    padding-left: 15px
+    padding-right: 15px
+    @media (max-width: 768px)
+        flex-direction: column
+
+.colFigure
+    display: flex
+    flex: 40
+    @media (max-width: 768px)
+        display: none
