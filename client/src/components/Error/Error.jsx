@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Error.module.sass';
 
-const Error = props => {
+const Error = (props) => {
   const getMessage = () => {
     const { status, data } = props;
     switch (status) {
@@ -12,8 +12,10 @@ const Error = props => {
       case 409:
         return data;
       case 403:
-        return 'Bank decline transaction';
+        return data;
       case 406:
+        return data;
+      case 417:
         return data;
       default:
         return 'Server Error';
@@ -24,7 +26,7 @@ const Error = props => {
   return (
     <div className={styles.errorContainer}>
       <span>{getMessage()}</span>
-      <i className='far fa-times-circle' onClick={() => clearError()} />
+      <i className="far fa-times-circle" onClick={() => clearError()} />
     </div>
   );
 };

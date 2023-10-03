@@ -22,12 +22,13 @@ const UserProfile = () => {
     );
 
   const pay = (values) => {
-    const { number, expiry, cvc, sum } = values;
+    const { number, expiry, cvc, sum, name } = values;
     cashOut({
       number,
       expiry,
       cvc,
       sum,
+      name,
     });
   };
 
