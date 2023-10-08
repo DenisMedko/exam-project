@@ -1,8 +1,5 @@
 .idea/
+.vscode/
 node_modules/
 uploadFiles/
 src/log
-<<<<<<< HEAD
-=======
-
->>>>>>> f8c3c8d (errorLog backup)

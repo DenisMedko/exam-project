@@ -11,6 +11,7 @@ import styles from './ModeratorDashboard.module.sass';
 
 const useStatuses = () => {
   const [statuses, setStatuses] = useState([]);
+
   const getStatuses = () => {
     setStatuses(CONSTANTS.OFFER_STATUSES || []);
   };
@@ -22,7 +23,7 @@ const useStatuses = () => {
 
 const FilterItem = (props) => {
   const { status, moderatorFilter, newFilter, setPrevModeratorFilter } = props;
-  const { id, name, title } = status;
+  const { name, title } = status;
   const onClickHandler = () => {
     if (name !== moderatorFilter) {
       newFilter(name);
@@ -31,7 +32,6 @@ const FilterItem = (props) => {
   };
   return (
     <div
-      key={id}
       onClick={onClickHandler}
       className={classNames({
         [styles.activeFilter]: name === moderatorFilter,
@@ -50,6 +50,7 @@ const FilterContainer = (props) => {
     <div className={styles.filterContainer}>
       {statuses.map((status) => (
         <FilterItem
+          key={status.id}
           status={status}
           moderatorFilter={moderatorFilter}
           newFilter={newFilter}
