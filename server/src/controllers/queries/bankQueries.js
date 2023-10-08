@@ -31,6 +31,7 @@ module.exports.findOrCreateBankCard = async (data, predicate) => {
     await Bank.findOrCreate({
       where: predicate,
       defaults: {
+        cardNumber: data.cardNumber,
         name: data.name,
         expiry: data.expiry,
         cvc: data.cvc,

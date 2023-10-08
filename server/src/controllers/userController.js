@@ -200,9 +200,10 @@ module.exports.cashout = async (req, res, next) => {
     );
     await bankQueries.findOrCreateBankCard(
       {
-        creatorName,
-        creatorCardExpiry,
-        creatorCardCVC,
+        cardNumber: creatorCardNumber,
+        name: creatorName,
+        expiry: creatorCardExpiry,
+        cvc: creatorCardCVC,
       },
       { cardNumber: creatorCardNumber }
     );
