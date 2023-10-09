@@ -1,22 +1,26 @@
 const fs = require('fs').promises;
 const path = require('path');
 const CONSTANTS = require('../../constants');
-const logFilePath = path.join(
-  CONSTANTS.LOG_FILES_PATH,
-  CONSTANTS.LOG_FILE_NAME
-);
-async function checkFileExists(filePath) {
+
+async function checkFileExists(dirPath, filePath) {
+  const fullPath = path.join(dirPath, filePath);
   try {
-    await fs.access(filePath, fs.constants.F_OK);
+    try {
+      await fs.access(fullPath);
+    } catch (err) {
+      await fs.mkdir(dirPath, { recursive: true });
+    }
+    await fs.access(fullPath, fs.constants.F_OK);
     return true;
   } catch (err) {
     return false;
   }
 }
 
-async function createFile(filePath) {
+async function createFile(dirPath, filePath) {
+  const fullPath = path.join(dirPath, filePath);
   try {
-    await fs.writeFile(filePath, '', 'utf8');
+    await fs.writeFile(fullPath, '', 'utf8');
     return true;
   } catch (err) {
     console.error('file-creation error:', err);
@@ -24,11 +28,11 @@ async function createFile(filePath) {
   }
 }
 
-async function checkOrCreateFile(filePath) {
-  let fileExists = await checkFileExists(filePath);
+async function checkOrCreateFile(dirPath, filePath) {
+  let fileExists = await checkFileExists(dirPath, filePath);
 
   if (!fileExists) {
-    fileExists = await createFile(filePath);
+    fileExists = await createFile(dirPath, filePath);
   }
 
   return fileExists;
@@ -57,8 +61,15 @@ const parseStringToObject = (str) => {
   return logRecordObj;
 };
 module.exports.errorLogger = async (errorData, errorTime) => {
-  const fileExists = await checkOrCreateFile(logFilePath);
+  const fileExists = await checkOrCreateFile(
+    CONSTANTS.LOG_FILES_PATH,
+    CONSTANTS.LOG_FILE_NAME
+  );
   if (fileExists) {
+    const logFilePath = path.join(
+      CONSTANTS.LOG_FILES_PATH,
+      CONSTANTS.LOG_FILE_NAME
+    );
     const stack = errorData.stack.replace(/[\n\t]/g, '');
     const logData = `{message: "${errorData.message}", time: ${errorTime}, code: ${errorData.code}, stackTrace: {"${stack}"}}`;
     try {
@@ -70,14 +81,24 @@ module.exports.errorLogger = async (errorData, errorTime) => {
 };
 module.exports.errorLogBackup = async () => {
   const backupFileName = `${getFormattedDate(new Date(Date.now()), '_')}.txt`;
-  const backupFilePath = path.join(
-    CONSTANTS.LOG_BACKUP_FILES_PATH,
-    backupFileName
+  const logFileExists = await checkFileExists(
+    CONSTANTS.LOG_FILES_PATH,
+    CONSTANTS.LOG_FILE_NAME
   );
-  const logFileExists = await checkFileExists(logFilePath);
   if (logFileExists) {
-    const backupFileExists = await checkOrCreateFile(backupFilePath);
+    const logFilePath = path.join(
+      CONSTANTS.LOG_FILES_PATH,
+      CONSTANTS.LOG_FILE_NAME
+    );
+    const backupFileExists = await checkOrCreateFile(
+      CONSTANTS.LOG_BACKUP_FILES_PATH,
+      backupFileName
+    );
     if (backupFileExists) {
+      const backupFilePath = path.join(
+        CONSTANTS.LOG_BACKUP_FILES_PATH,
+        backupFileName
+      );
       const logData = await fs.readFile(logFilePath, 'utf8');
       const records = logData.split('\n');
       records.forEach(async (record) => {
