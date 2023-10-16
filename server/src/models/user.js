@@ -25,7 +25,6 @@ module.exports = (sequelize, DataTypes) => {
       Message,
       Catalog,
     }) {
-      // define association here
       User.hasMany(Offer, {
         foreignKey: 'userId',
         targetKey: 'id',

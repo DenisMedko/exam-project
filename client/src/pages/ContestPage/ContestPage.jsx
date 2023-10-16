@@ -137,7 +137,6 @@ const ContestPage = ({ match }) => {
 
   return (
     <div>
-      {/* <Chat/> */}
       {isShowOnFull && (
         <LightBox
           mainSrc={`${CONSTANTS.publicURL}${imagePath}`}

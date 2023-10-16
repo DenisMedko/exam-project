@@ -48,7 +48,6 @@ module.exports = {
   NEW_MESSAGE: 'newMessage',
   CHANGE_BLOCK_STATUS: 'CHANGE_BLOCK_STATUS',
   BANK_MIN_BALANCE: 0,
-  //CHAT_CONTROLLER: 'chatController',
   CHAT_CONTROLLER: 'pgChatController',
   LOG_FILES_PATH: path.resolve(__dirname, './', 'log'),
   LOG_FILE_NAME: 'log.txt',

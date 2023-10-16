@@ -75,12 +75,8 @@ export const removeEvent = (data) =>
   });
 
 export const getModeratorOffers = (data) =>
-  http.post(
-    'getModeratorOffers',
-    { status: data.offerStatus, limit: data.limit, offset: data.offset }
-    /* {
-      headers: {
-        status: data.offerStatus,
-      },
-    } */
-  );
+  http.post('getModeratorOffers', {
+    status: data.offerStatus,
+    limit: data.limit,
+    offset: data.offset,
+  });

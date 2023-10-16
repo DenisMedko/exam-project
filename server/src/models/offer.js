@@ -3,13 +3,7 @@ const { Model } = require('sequelize');
 const { OFFER_STATUS_MODERATOR_PENDING } = require('../constants');
 module.exports = (sequelize, DataTypes) => {
   class Offer extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate({ User, Contest, Rating }) {
-      // define association here
       Offer.belongsTo(User, { foreignKey: 'userId', sourceKey: 'id' });
       Offer.belongsTo(Contest, { foreignKey: 'contestId', sourceKey: 'id' });
       Offer.hasOne(Rating, { foreignKey: 'offerId', targetKey: 'id' });

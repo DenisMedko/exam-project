@@ -87,7 +87,6 @@ module.exports = {
       transaction.commit();
     } catch (err) {
       transaction.rollback();
-      console.error('data transfer error:', err);
       throw new Error(`data transfer error: ${err}`);
     }
   },
