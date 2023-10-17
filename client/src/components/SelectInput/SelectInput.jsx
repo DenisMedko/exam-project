@@ -36,7 +36,7 @@ const SelectInput = ({
     if (!initialValue && optionsArray) {
       setFieldValue(field.name, valueArray ? valueArray[0] : optionsArray[0]);
     }
-  }, []);
+  }, [initialValue, optionsArray, setFieldValue, field.name, valueArray]);
 
   return (
     <div className={classes.inputContainer}>
@@ -56,7 +56,7 @@ const SelectInputWrapper = ({
   ...rest
 }) => (
   <Field {...rest}>
-    {fieldProps => (
+    {(fieldProps) => (
       <>
         <SelectInput
           {...fieldProps}
@@ -67,7 +67,7 @@ const SelectInputWrapper = ({
         />
         <ErrorMessage
           name={fieldProps.field.name}
-          component='span'
+          component="span"
           className={classes.warning}
         />
       </>

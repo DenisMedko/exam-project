@@ -28,10 +28,8 @@ const FAQTopicsSection = ({ content }) => {
       </ul>
       <div className={styles.topics}>
         {content.map((topic, i) => (
-          <div id={topic.url} className={styles.topic}>
-            <h3 className={styles.topicTitle} key={topic.id}>
-              {topic.title}
-            </h3>
+          <div key={topic.id} id={topic.url} className={styles.topic}>
+            <h3 className={styles.topicTitle}>{topic.title}</h3>
             {renderTopics(topic)}
             {content.length - 1 !== i && <hr />}
           </div>

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 import isEqual from 'lodash/isEqual';
@@ -48,17 +48,17 @@ const ContestPage = ({ match }) => {
     useDispatch()
   );
 
+  const getData = useCallback(() => {
+    const { params } = match;
+    getContestById({ contestId: params.id });
+  }, [match, getContestById]);
+
   useEffect(() => {
     getData();
     return () => {
       changeEditContest(false);
     };
-  }, []);
-
-  const getData = () => {
-    const { params } = match;
-    getContestById({ contestId: params.id });
-  };
+  }, [getData, changeEditContest]);
 
   const setOffersList = () => {
     const array = [];

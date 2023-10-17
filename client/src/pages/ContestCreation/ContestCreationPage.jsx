@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from '@reduxjs/toolkit';
 import * as contestCreationActionCreators from '../../store/slices/contestCreationSlice';
+import * as dataForContestActionCreator from '../../store/slices/dataForContestSlice';
 import styles from './ContestCreationPage.module.sass';
 import NextButton from '../../components/NextButton/NextButton';
 import ContestForm from '../../components/ContestForm/ContestForm';
@@ -14,10 +15,11 @@ const ContestCreationPage = ({ contestType, history, title }) => {
   const contests = useSelector((state) => state.contestCreationStore.contests);
   const bundle = useSelector((state) => state.bundleStore.bundle);
 
-  const { saveContestToStore: saveContest } = bindActionCreators(
-    { ...contestCreationActionCreators },
-    useDispatch()
-  );
+  const { saveContestToStore: saveContest, getDataForContest: getData } =
+    bindActionCreators(
+      { ...contestCreationActionCreators, ...dataForContestActionCreator },
+      useDispatch()
+    );
 
   const formRef = useRef();
   const contestData = contests[contestType]
@@ -61,6 +63,7 @@ const ContestCreationPage = ({ contestType, history, title }) => {
             handleSubmit={handleSubmit}
             formRef={formRef}
             defaultData={contestData}
+            getData={getData}
           />
         </div>
       </div>

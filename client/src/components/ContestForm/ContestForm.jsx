@@ -1,8 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Form, Formik, Field } from 'formik';
-import { useDispatch, useSelector } from 'react-redux';
-import * as dataForContestActionCreator from '../../store/slices/dataForContestSlice';
-import { bindActionCreators } from '@reduxjs/toolkit';
+import { useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styles from './ContestForm.module.sass';
 import Spinner from '../Spinner/Spinner';
@@ -39,20 +37,17 @@ const variableOptions = {
   },
 };
 
-const ContestForm = ({ contestType, defaultData, handleSubmit, formRef }) => {
+const ContestForm = (props) => {
+  const { contestType, getData, defaultData, handleSubmit, formRef } = props;
   const { isEditContest } = useSelector((state) => state.contestByIdStore);
   const dataForContest = useSelector((state) => state.dataForContest);
-  const { getDataForContest: getData } = bindActionCreators(
-    { ...dataForContestActionCreator },
-    useDispatch()
-  );
-  useEffect(() => {
-    getPreference();
-  }, []);
-  const getPreference = () => {
+  const getPreference = useCallback(() => {
     const options = variableOptions[contestType].characteristics;
     getData(options);
-  };
+  }, [contestType, getData]);
+  useEffect(() => {
+    getPreference();
+  }, [getPreference]);
 
   const { isFetching, error } = dataForContest;
 

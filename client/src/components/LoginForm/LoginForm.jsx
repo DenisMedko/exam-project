@@ -19,7 +19,7 @@ const LoginForm = ({ history, submitting }) => {
     return () => {
       authClear();
     };
-  }, []);
+  }, [authClear]);
 
   const clicked = (values) => {
     loginRequest({

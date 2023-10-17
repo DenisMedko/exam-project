@@ -3,10 +3,9 @@ import classNames from 'classnames';
 import { useField } from 'formik';
 import CONSTANTS from '../../../constants';
 
-const ImageUpload = (props) => {
-  const { avatar } = props;
-  const [{ value, ...restField }, meta, helpers] = useField(props.name);
-  const { uploadContainer, inputContainer, imgStyle } = props.classes;
+const ImageUpload = ({ avatar, name, classes }) => {
+  const [{ value, ...restField }, helpers] = useField(name);
+  const { uploadContainer, inputContainer, imgStyle } = classes;
   const onChange = (e) => {
     const node = window.document.getElementById('imagePreview');
     const file = e.target.files[0];

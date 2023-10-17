@@ -1,21 +1,15 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { bindActionCreators } from '@reduxjs/toolkit';
-import { useDispatch, useSelector } from 'react-redux';
-import * as eventSliceActionCreator from '../../../store/slices/eventSlice';
+import { useSelector } from 'react-redux';
 import CONSTANTS from '../../../constants';
 import { filterArrayByField } from '../../../utils/functions';
 import styles from './EventRemainder.module.sass';
 
-const EventRemainder = () => {
+const EventRemainder = ({ getEvents }) => {
   const { data: events } = useSelector((state) => state.eventStore);
-  const { getEvents } = bindActionCreators(
-    { ...eventSliceActionCreator },
-    useDispatch()
-  );
   useEffect(() => {
     getEvents();
-  }, []);
+  }, [getEvents]);
   useEffect(() => {
     const timeout = setInterval(() => {
       getEvents();

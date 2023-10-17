@@ -9,7 +9,7 @@ import howItWorksPageMocks from './utils/mocks/howItWorksPageMocks';
 const env = process.env.REACT_APP_NODE_ENV || 'development';
 const serverIP = process.env.REACT_APP_SERVER_IP || 'localhost';
 const serverPort = process.env.REACT_APP_SERVER_PORT || 5000;
-export default {
+const constants = {
   CUSTOMER: 'customer',
   CREATOR: 'creator',
   MODERATOR: 'moderator',
@@ -68,3 +68,5 @@ export default {
   EVENT_COUNTER_INTERVAL: 600 * 1000,
   TIME_ZONE: 'Europe/Kiev',
 };
+
+export default constants;

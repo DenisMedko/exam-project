@@ -12,7 +12,7 @@ const Header = ({ history }) => {
   const { data: userData, isFetching } = useSelector(
     (state) => state.userStore
   );
-  const { clearUserStore, clearEventStore } = bindActionCreators(
+  const { clearUserStore, clearEventStore, getEvents } = bindActionCreators(
     { ...userSliceActionCreator, ...eventSliceActionCreator },
     useDispatch()
   );
@@ -37,7 +37,7 @@ const Header = ({ history }) => {
           </Link>
         )}
         {userData?.role === CONSTANTS.CUSTOMER && link.showCounter && (
-          <EventRemainder />
+          <EventRemainder getEvents={getEvents} />
         )}
       </li>
     ));
@@ -76,7 +76,7 @@ const Header = ({ history }) => {
         </div>
         {userData?.role === CONSTANTS.CUSTOMER && (
           <div className={styles.userMenuItem}>
-            <EventRemainder />
+            <EventRemainder getEvents={getEvents} />
           </div>
         )}
       </>

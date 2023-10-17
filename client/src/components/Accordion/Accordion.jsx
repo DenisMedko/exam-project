@@ -15,7 +15,7 @@ const Accordion = (props) => {
         className={styles.faqBtn}
       >
         {header}
-        <button className={styles.arrowBtn}>
+        <div className={styles.arrowBtn}>
           <img
             className={classNames({
               [styles.arrowPicRotate]: isActive,
@@ -24,7 +24,7 @@ const Accordion = (props) => {
             src={`${CONSTANTS.STATIC_IMAGES_PATH}arrow.svg`}
             alt="arrow"
           />
-        </button>
+        </div>
       </button>
       {isActive && (
         <div
