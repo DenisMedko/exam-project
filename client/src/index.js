@@ -6,11 +6,10 @@ import './index.css';
 import * as serviceWorker from './serviceWorker';
 import store from './store';
 import App from './App';
-import browserHistory from './browserHistory';
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router history={browserHistory}>
+    <Router>
       <App />
     </Router>
   </Provider>,
