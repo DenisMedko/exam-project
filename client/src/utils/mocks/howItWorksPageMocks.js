@@ -187,5 +187,38 @@ const howItWorksPageMocks = {
     picStart: 'howItWorksImages/cta-img-start.svg',
     picEnd: 'howItWorksImages/cta-img-end.svg',
   },
+  stats: [
+    {
+      id: 1,
+      pic: 'howItWorksImages/stars.svg',
+      alt: 'stars',
+      html: '<span>4.9 out of 5 stars</span> from 25,000+ customers.',
+    },
+    {
+      id: 2,
+      pic: 'howItWorksImages/brandingCommunity.webp',
+      alt: 'branding community',
+      html: 'Our branding community stands <span>200,000+</span> strong.',
+    },
+    {
+      id: 3,
+      pic: 'howItWorksImages/sharing-files.svg',
+      alt: 'sharing files',
+      html: `<span>140+ Industries</span> supported across more than <span> 85 countries</span>
+      <br /> – and counting.`,
+    },
+  ],
+  pricing: [
+    {
+      id: 1,
+      title: 'Pay a Fraction of cost vs hiring an agency',
+      html: 'For as low as $199, our naming contests and marketplace allow you to get an amazing brand quickly and affordably.',
+    },
+    {
+      id: 2,
+      title: 'Satisfaction Guarantee',
+      html: 'Of course! We have policies in place to ensure that you are satisfied with your experience. <a href="#" >Learn more</a>',
+    },
+  ],
 };
 export default howItWorksPageMocks;

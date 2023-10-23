@@ -4,13 +4,16 @@ import ServicesSection from './ServicesSection/ServicesSection';
 import FeaturesSection from './FeaturesSection/FeaturesSection';
 import FAQTopicsSection from './FAQTopicsSection/FAQTopicsSection';
 import CTASection from './CTASection/CTASection';
+import StatsSection from './StatsSection/StatsSection';
+import PricingSection from './PricingSection/PricingSection';
 import Footer from '../../components/Footer/Footer';
 import styles from './HowItWorksPage.module.sass';
 import howItWorksPageMocks from '../../utils/mocks/howItWorksPageMocks';
 import AdvertisementContainer from '../../components/AdvertisementContainer/AdvertisementContainer';
 
 const HowItWorksPage = () => {
-  const { hero, services, features, topics, cta } = howItWorksPageMocks;
+  const { hero, services, features, topics, cta, stats, pricing } =
+    howItWorksPageMocks;
   return (
     <>
       <Header />
@@ -32,6 +35,12 @@ const HowItWorksPage = () => {
         </section>
         <section>
           <CTASection content={cta} />
+        </section>
+        <section>
+          <StatsSection content={stats} />
+        </section>
+        <section>
+          <PricingSection content={pricing} />
         </section>
         <AdvertisementContainer />
       </main>

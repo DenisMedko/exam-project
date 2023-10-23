@@ -5,6 +5,7 @@ const AdvertisementContainer = () => {
   return (
     <div className={styles.greyContainer}>
       <div className={styles.adv}>
+        <h3>Featured In</h3>
         <div className={styles.images}>
           <img
             src={`${CONSTANTS.STATIC_IMAGES_PATH}sponsors/Forbes-inactive.png`}

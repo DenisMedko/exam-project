@@ -1,0 +1,31 @@
+.container
+    display: flex
+    justify-content: space-between
+    align-items: center
+    margin: auto 160px
+    padding: 64px 16px
+    @media (max-width: 768px)
+        flex-direction: column
+
+.item
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    padding: 0 48px
+    p
+        text-align: center
+        line-height: 1.7
+    span
+        font-weight: 600
+        color: #1e2022
+
+.statsImg
+    width: 72px
+    height: 72px
+    margin: 16px
+
+.verticalLine
+    height: 4rem
+    border-left: 1px solid rgba(30,32,34,.2)
+    transform: rotate(15deg)
