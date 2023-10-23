@@ -65,7 +65,7 @@ const constants = {
   START_CONTEST_PAGE_ITEMS: startContestPageMocks,
   HOW_IT_WORKS_PAGE_ITEMS: howItWorksPageMocks,
   EVENT_PAGE_LINK: '/events',
-  EVENT_COUNTER_INTERVAL: 600 * 1000,
+  EVENT_COUNTER_INTERVAL: 1000,
   TIME_ZONE: 'Europe/Kiev',
 };
 

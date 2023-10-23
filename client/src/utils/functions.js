@@ -31,6 +31,23 @@ export const getTimeDiffStr = (data) => {
   return str;
 };
 
+export const getTimeDiffStrRevers = (data) => {
+  const diff = moment.duration(moment(data).diff(moment()));
+  let str = '';
+  if (diff._data.years > 0) str += `${diff._data.years}y `;
+  if (diff._data.months > 0) str += `${diff._data.months}m `;
+  if (diff._data.days > 0) str += `${diff._data.days}d `;
+  if (diff._data.hours > 0) str += `${diff._data.hours}h `;
+  if (diff._data.minutes > 0) str += `${diff._data.minutes}min `;
+  if (diff._data.seconds > 0) str += `${diff._data.seconds}s`;
+  if (str.length === 0) str = `Now it's time to do!`;
+  return str;
+};
+export const getTimeDiffMilliseconds = (data) => {
+  const diff = moment.duration(moment(data).diff(moment()));
+  const timeLeft = diff._milliseconds;
+  return timeLeft;
+};
 export const dateInLocalTimezone = (data) =>
   moment
     .tz(data, 'YYYY-MM-DD HH:mm:ssZ', CONSTANTS.TIME_ZONE)

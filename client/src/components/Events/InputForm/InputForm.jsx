@@ -1,11 +1,11 @@
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
-import * as yup from 'yup';
 import * as eventActionCreators from '../../../store/slices/eventSlice';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import classNames from 'classnames';
 import styles from './InputForm.module.sass';
 import FormInput from '../../FormInput/FormInput';
+import Schems from '../../../utils/validators/validationSchems';
 import DateView from 'react-datepicker';
 import './react-datepicker.css';
 
@@ -16,17 +16,6 @@ const InputForm = () => {
     remainingDate: null,
     isDone: false,
   };
-  const EVENT_ITEM_SCHEMA = yup.object({
-    title: yup.string().required('You must enter the event name'),
-    eventDate: yup
-      .date()
-      .min(new Date(), 'Event date is less than current date')
-      .required('You must enter the date'),
-    remainingDate: yup
-      .date()
-      .max(yup.ref('eventDate'), 'Remaining date is greater than event date')
-      .required('You must enter the remaining date'),
-  });
 
   const { addEvent } = bindActionCreators(
     { ...eventActionCreators },
@@ -74,7 +63,7 @@ const InputForm = () => {
                   dateFormat="dd-MM-yyyy HH:mm"
                   timeFormat="HH:mm"
                   showTimeSelect
-                  timeIntervals={15}
+                  timeIntervals={1}
                   showIcon={false}
                   placeholderText="dd-MM-yyyy HH:mm"
                   minDate={new Date()}
@@ -96,7 +85,7 @@ const InputForm = () => {
       <Formik
         initialValues={initialState}
         onSubmit={handleSubmit}
-        validationSchema={EVENT_ITEM_SCHEMA}
+        validationSchema={Schems.EventSchema}
       >
         <Form className={styles.form}>
           <div className={styles.formControl}>

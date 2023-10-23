@@ -213,6 +213,17 @@ const scheme = {
       )
       .required('required'),
   }),
+  EventSchema: yup.object({
+    title: yup.string().required('You must enter the event name'),
+    eventDate: yup
+      .date()
+      .min(new Date(), 'Event date is less than current date')
+      .required('You must enter the date'),
+    remainingDate: yup
+      .date()
+      .max(yup.ref('eventDate'), 'Remaining date is greater than event date')
+      .required('You must enter the remaining date'),
+  }),
 };
 
 export default scheme;
