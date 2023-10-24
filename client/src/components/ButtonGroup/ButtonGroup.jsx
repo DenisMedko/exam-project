@@ -1,6 +1,6 @@
-import classNames from 'classnames';
 import styles from './ButtonGroup.module.sass';
 import { useState } from 'react';
+import Button from './Button/Button';
 import { filterArrayByField } from '../../utils/functions';
 
 const ButtonGroup = ({ buttons, initialBtnValue, handleBtnSelect }) => {
@@ -15,27 +15,12 @@ const ButtonGroup = ({ buttons, initialBtnValue, handleBtnSelect }) => {
   return (
     <div className={styles.buttonGroup}>
       {buttons.map((button) => (
-        <div
+        <Button
           key={button.id}
-          className={classNames(styles.btn, {
-            [styles.selectedBtn]: button.value === selectedButtonValue,
-          })}
-        >
-          <label>
-            <div className={styles.isDomainRequired}>
-              {button.isDomainRequired ? 'Yes' : 'No'}
-            </div>
-            <input
-              className={styles.radioBtn}
-              type="radio"
-              name="selectedButton"
-              value={button.value}
-              checked={selectedButtonValue === button.value}
-              onChange={setSelected}
-            />
-            {button.title}
-          </label>
-        </div>
+          button={button}
+          selectedButtonValue={selectedButtonValue}
+          setSelected={setSelected}
+        />
       ))}
     </div>
   );
