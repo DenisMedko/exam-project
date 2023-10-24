@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import styles from './OffersContainer.module.sass';
 import OfferBox from '../OfferBox/OfferBox';
 import CONSTANTS from '../../constants';
@@ -15,22 +15,19 @@ const OffersContainer = (props) => {
   } = props;
   const offset = offers.length;
 
-  const getData = useCallback(
-    (startFrom = offset || 0) => {
-      getOffers({
-        requestData: {
-          offset: startFrom,
-          limit: CONSTANTS.OFFERS_DISPLAY_LIMIT,
-          offerStatus: moderatorFilter,
-        },
-        role: CONSTANTS.MODERATOR,
-      });
-    },
-    [getOffers, moderatorFilter, offset]
-  );
+  const setNewOptions = (startFrom = 0) => {
+    return {
+      requestData: {
+        offset: startFrom,
+        limit: CONSTANTS.OFFERS_DISPLAY_LIMIT,
+        offerStatus: moderatorFilter,
+      },
+      role: CONSTANTS.MODERATOR,
+    };
+  };
 
   useEffect(() => {
-    getData();
+    getOffers(setNewOptions(offset));
     return () => {
       clearOffersList();
     };
@@ -41,15 +38,16 @@ const OffersContainer = (props) => {
   };
 
   useEffect(() => {
-    const scrollHandler = () => {
-      count > offset &&
-        window.innerHeight + document.documentElement.scrollTop ===
-          document.documentElement.offsetHeight &&
-        getData();
-    };
     count > offset && window.addEventListener('scroll', scrollHandler);
     return () => window.removeEventListener('scroll', scrollHandler);
-  }, [offset, count, getData]);
+  }, [offset]);
+
+  const scrollHandler = () => {
+    count > offset &&
+      window.innerHeight + document.documentElement.scrollTop ===
+        document.documentElement.offsetHeight &&
+      getOffers(setNewOptions(offset));
+  };
 
   const wrapSetOfferStatus = (contest) => (creatorId, offerId, command) => {
     const { id, orderId, priority } = contest;

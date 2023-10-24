@@ -7,13 +7,14 @@ const ContestsContainer = (props) => {
   const offset = children.length;
 
   useEffect(() => {
-    const scrollHandler = () => {
-      window.innerHeight + document.documentElement.scrollTop ===
-        document.documentElement.offsetHeight && loadMore(offset);
-    };
-    count > offset && window.addEventListener('scroll', scrollHandler);
+    count > children.length && window.addEventListener('scroll', scrollHandler);
     return () => window.removeEventListener('scroll', scrollHandler);
-  }, [offset, count, loadMore]);
+  }, [offset]);
+
+  const scrollHandler = () => {
+    window.innerHeight + document.documentElement.scrollTop ===
+      document.documentElement.offsetHeight && loadMore(offset);
+  };
 
   return (
     <div>

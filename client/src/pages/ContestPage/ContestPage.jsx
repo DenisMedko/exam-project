@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 import isEqual from 'lodash/isEqual';
@@ -48,17 +48,17 @@ const ContestPage = ({ match }) => {
     useDispatch()
   );
 
-  const getData = useCallback(() => {
-    const { params } = match;
-    getContestById({ contestId: params.id });
-  }, [match, getContestById]);
-
   useEffect(() => {
     getData();
     return () => {
       changeEditContest(false);
     };
-  }, [getData, changeEditContest]);
+  }, []);
+
+  const getData = () => {
+    const { params } = match;
+    getContestById({ contestId: params.id });
+  };
 
   const setOffersList = () => {
     const array = [];
@@ -137,6 +137,7 @@ const ContestPage = ({ match }) => {
 
   return (
     <div>
+      {/* <Chat/> */}
       {isShowOnFull && (
         <LightBox
           mainSrc={`${CONSTANTS.publicURL}${imagePath}`}

@@ -2,7 +2,6 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import * as userSliceActionCreator from '../../store/slices/userSlice';
-import * as eventSliceActionCreator from '../../store/slices/eventSlice';
 import { bindActionCreators } from '@reduxjs/toolkit';
 import styles from './Header.module.sass';
 import CONSTANTS from '../../constants';
@@ -12,15 +11,14 @@ const Header = ({ history }) => {
   const { data: userData, isFetching } = useSelector(
     (state) => state.userStore
   );
-  const { clearUserStore, clearEventStore, getEvents } = bindActionCreators(
-    { ...userSliceActionCreator, ...eventSliceActionCreator },
+  const { clearUserStore } = bindActionCreators(
+    { ...userSliceActionCreator },
     useDispatch()
   );
 
   const logOut = () => {
     localStorage.clear();
     clearUserStore();
-    clearEventStore();
     history.replace('/login');
   };
 
@@ -37,7 +35,7 @@ const Header = ({ history }) => {
           </Link>
         )}
         {userData?.role === CONSTANTS.CUSTOMER && link.showCounter && (
-          <EventRemainder getEvents={getEvents} />
+          <EventRemainder />
         )}
       </li>
     ));
@@ -76,7 +74,7 @@ const Header = ({ history }) => {
         </div>
         {userData?.role === CONSTANTS.CUSTOMER && (
           <div className={styles.userMenuItem}>
-            <EventRemainder getEvents={getEvents} />
+            <EventRemainder />
           </div>
         )}
       </>

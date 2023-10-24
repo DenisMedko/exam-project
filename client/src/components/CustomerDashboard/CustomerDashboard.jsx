@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from '@reduxjs/toolkit';
@@ -15,35 +15,32 @@ const CustomerDashboard = ({ history }) => {
     (state) => state.contestsList
   );
 
+  const dispatch = useDispatch();
   const {
     getContests,
     clearContestsList,
     setNewCustomerFilter: newFilter,
-  } = bindActionCreators({ ...contestsActionCreators }, useDispatch());
+  } = bindActionCreators({ ...contestsActionCreators }, dispatch);
 
-  const [prevCustomerFilter, setPrevCustomerFilter] = useState(null);
+  const [prevCustomerFilter, setPrevCustomerFilter] = useState(customerFilter);
 
-  const getData = useCallback(
-    (startFrom = 0) => {
-      getContests({
-        requestData: {
-          offset: startFrom,
-          limit: CONSTANTS.CONTEST_DISPLAY_LIMIT,
-          contestStatus: customerFilter,
-        },
-        role: CONSTANTS.CUSTOMER,
-      });
-    },
-    [customerFilter, getContests]
-  );
-
+  const setNewOptions = (startFrom = 0) => {
+    return {
+      requestData: {
+        offset: startFrom,
+        limit: CONSTANTS.CONTEST_DISPLAY_LIMIT,
+        contestStatus: customerFilter,
+      },
+      role: CONSTANTS.CUSTOMER,
+    };
+  };
   useEffect(() => {
-    getData();
+    getContests(setNewOptions());
     return () => clearContestsList();
   }, [prevCustomerFilter]);
 
   const loadMore = (startFrom) => {
-    getData(startFrom);
+    getContests(setNewOptions(startFrom));
   };
 
   const goToExtended = (contest_id) => {
@@ -67,7 +64,7 @@ const CustomerDashboard = ({ history }) => {
 
   const tryToGetContest = () => {
     clearContestsList();
-    getData();
+    getContests(setNewOptions());
   };
 
   const renderFilterContainer = () => {
@@ -78,7 +75,7 @@ const CustomerDashboard = ({ history }) => {
           status.name !== customerFilter
             ? () => {
                 newFilter(status.name);
-                setPrevCustomerFilter(customerFilter);
+                setPrevCustomerFilter(status.name);
               }
             : () => {}
         }

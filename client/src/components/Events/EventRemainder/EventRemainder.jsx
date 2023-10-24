@@ -1,15 +1,22 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import * as eventSliceActionCreator from '../../../store/slices/eventSlice';
+import { bindActionCreators } from '@reduxjs/toolkit';
 import { Link } from 'react-router-dom';
 import CONSTANTS from '../../../constants';
 import { filterArrayByField } from '../../../utils/functions';
 import styles from './EventRemainder.module.sass';
 
-const EventRemainder = ({ getEvents }) => {
+const EventRemainder = () => {
+  const { getEvents } = bindActionCreators(
+    { ...eventSliceActionCreator },
+    useDispatch()
+  );
+
   const { data: events } = useSelector((state) => state.eventStore);
   useEffect(() => {
     getEvents();
-  }, [getEvents]);
+  }, []);
 
   const countEvents = useCallback(
     (dateNow) =>
