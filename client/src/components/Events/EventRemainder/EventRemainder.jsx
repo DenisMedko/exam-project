@@ -13,7 +13,7 @@ const EventRemainder = ({ getEvents }) => {
 
   const countEvents = useCallback(
     (dateNow) =>
-      filterArrayByField(events, 'remainingDate', dateNow, 'lte').length,
+      filterArrayByField(events, 'remainingDate', dateNow, 'lte')?.length || 0,
     [events]
   );
 
