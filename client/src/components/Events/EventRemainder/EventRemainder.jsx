@@ -23,12 +23,12 @@ const EventRemainder = () => {
       filterArrayByField(events, 'remainingDate', dateNow, 'lte')?.length || 0,
     [events]
   );
-
   const [eventCounter, setEventCounter] = useState(
     countEvents(new Date().toISOString())
   );
 
   useEffect(() => {
+    setEventCounter(countEvents(new Date().toISOString()));
     const intervalId = setInterval(() => {
       setEventCounter(countEvents(new Date().toISOString()));
     }, CONSTANTS.EVENT_COUNTER_INTERVAL);
